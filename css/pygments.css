@@ -1,0 +1,38 @@
+.sourcetable .hll { background-color: #ffffcc }
+.sourcetable  { background: #ffffff; }
+.sourcetable .c { color: #008000 } /* Comment */
+.sourcetable .err { border: 1px solid #FF0000 } /* Error */
+.sourcetable .k { color: #0000ff } /* Keyword */
+.sourcetable .ch { color: #008000 } /* Comment.Hashbang */
+.sourcetable .cm { color: #008000 } /* Comment.Multiline */
+.sourcetable .cp { color: #0000ff } /* Comment.Preproc */
+.sourcetable .cpf { color: #008000 } /* Comment.PreprocFile */
+.sourcetable .c1 { color: #008000 } /* Comment.Single */
+.sourcetable .cs { color: #008000 } /* Comment.Special */
+.sourcetable .ge { font-style: italic } /* Generic.Emph */
+.sourcetable .gh { font-weight: bold } /* Generic.Heading */
+.sourcetable .gp { font-weight: bold } /* Generic.Prompt */
+.sourcetable .gs { font-weight: bold } /* Generic.Strong */
+.sourcetable .gu { font-weight: bold } /* Generic.Subheading */
+.sourcetable .kc { color: #0000ff } /* Keyword.Constant */
+.sourcetable .kd { color: #0000ff } /* Keyword.Declaration */
+.sourcetable .kn { color: #0000ff } /* Keyword.Namespace */
+.sourcetable .kp { color: #0000ff } /* Keyword.Pseudo */
+.sourcetable .kr { color: #0000ff } /* Keyword.Reserved */
+.sourcetable .kt { color: #2b91af } /* Keyword.Type */
+.sourcetable .s { color: #a31515 } /* Literal.String */
+.sourcetable .nc { color: #2b91af } /* Name.Class */
+.sourcetable .ow { color: #0000ff } /* Operator.Word */
+.sourcetable .sa { color: #a31515 } /* Literal.String.Affix */
+.sourcetable .sb { color: #a31515 } /* Literal.String.Backtick */
+.sourcetable .sc { color: #a31515 } /* Literal.String.Char */
+.sourcetable .dl { color: #a31515 } /* Literal.String.Delimiter */
+.sourcetable .sd { color: #a31515 } /* Literal.String.Doc */
+.sourcetable .s2 { color: #a31515 } /* Literal.String.Double */
+.sourcetable .se { color: #a31515 } /* Literal.String.Escape */
+.sourcetable .sh { color: #a31515 } /* Literal.String.Heredoc */
+.sourcetable .si { color: #a31515 } /* Literal.String.Interpol */
+.sourcetable .sx { color: #a31515 } /* Literal.String.Other */
+.sourcetable .sr { color: #a31515 } /* Literal.String.Regex */
+.sourcetable .s1 { color: #a31515 } /* Literal.String.Single */
+.sourcetable .ss { color: #a31515 } /* Literal.String.Symbol */

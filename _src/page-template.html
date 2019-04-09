@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    @;{ The at-exp reader for a template treats this as a comment.
+        Also, notice the use template variables like @title,
+        @description etc. }
+    <meta charset="utf-8">
+    <title>@|title|</title>
+    <meta name="description" content="@|description|">
+    <meta name="author"      content="@|author|">
+    <meta name="keywords"    content="@|keywords|">
+    <meta name="viewport"    content="width=device-width, initial-scale=1.0">
+    <link rel="icon"      href="@|uri-prefix|/favicon.ico">
+    <link rel="canonical" href="@|full-uri|">
+    @(when rel-next @list{<link rel="next" href="@|rel-next|">})
+    @(when rel-prev @list{<link rel="prev" href="@|rel-prev|">})
+    <!-- CSS -->
+    <link rel="stylesheet" type="text/css" href="@|uri-prefix|/css/monochrome.css">
+    <link rel="stylesheet" type="text/css" href="@|uri-prefix|/css/pygments.css">
+    <link rel="stylesheet" type="text/css" href="@|uri-prefix|/css/scribble.css">
+    <link rel="stylesheet" type="text/css" href="@|uri-prefix|/css/custom.css">
+    <!-- Feeds -->
+    <link rel="alternate" type="application/atom+xml"
+          href="@|atom-feed-uri|" title="Atom Feed">
+    <link rel="alternate" type="application/rss+xml"
+          href="@|rss-feed-uri|" title="RSS Feed">
+    <!-- JS -->
+    @google-universal-analytics["UA-xxxxx"]
+  </head>
+  <body>
+
+    <!-- Header -->
+      
+    <header id="header" class="parent justify-spaceBetween">
+      <div class="inner w100 relative">
+        <span class="f-left">  
+          <a href="/">
+            <h1>
+              <span>the</span>lost<span>packet</span>
+            </h1>
+          </a>
+        </span>
+      </div>
+    </header>
+
+    <div id="container">
+        <main>
+            @|contents|
+        </main>
+        <footer>
+            <hr />
+            <p>@twitter-follow-button["pykello" "Follow Hadi Moshayedi"]</p>
+          </footer>
+    </div>
+  </body>
+</html>

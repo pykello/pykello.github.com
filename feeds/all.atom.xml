@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?> 
+<feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
+ <title type="text">The Lost Packet: The Lost Packet</title>
+ <link rel="self" href="https://pykello.github.com//feeds/all.atom.xml" />
+ <link href="https://pykello.github.com//index.html" />
+ <id>urn:https-pykello-github-com:-index-html</id>
+ <updated>2019-03-20T07:00:00Z</updated>
+ <entry>
+  <title type="text">PostgreSQL Internals: TRUNCATE, Part 1</title>
+  <link rel="alternate" href="https://pykello.github.com//2019/03/postgresql-internals-truncate-part-1.html?utm_source=all&amp;utm_medium=Atom" />
+  <id>urn:https-pykello-github-com:-2019-03-postgresql-internals-truncate-part-1-html</id>
+  <published>2019-03-20T07:00:00Z</published>
+  <updated>2019-03-20T07:00:00Z</updated>
+  <author>
+   <name>Hadi Moshayedi</name></author>
+  <content type="html">
+&lt;p&gt;You can use TRUNCATE in postgres to delete all of the rows in a table. The main advantage of it compared to using DELETE is performance. For example, using DELETE to delete all rows in a table with 1 million rows takes about 2.3 seconds, but truncating the same table would take about 10ms.&lt;/p&gt;
+
+&lt;p&gt;But how does postgres implement TRUNCATE that it is so fast?&lt;/p&gt;&lt;a href="https://pykello.github.com//2019/03/postgresql-internals-truncate-part-1.html?utm_source=all&amp;amp;utm_medium=Atom"&gt;&lt;em&gt;More&amp;hellip;&lt;/em&gt;&lt;/a&gt;</content></entry>
+ <entry>
+  <title type="text">cstore_fdw and 'Files are Hard'</title>
+  <link rel="alternate" href="https://pykello.github.com//2015/12/cstore-fdw-and-files-are-hard.html?utm_source=all&amp;utm_medium=Atom" />
+  <id>urn:https-pykello-github-com:-2015-12-cstore-fdw-and-files-are-hard-html</id>
+  <published>2015-12-15T08:00:00Z</published>
+  <updated>2015-12-15T08:00:00Z</updated>
+  <author>
+   <name>Hadi Moshayedi</name></author>
+  <content type="html">
+&lt;p&gt;I recently came accross the "&lt;a href="http://danluu.com/file-consistency/"&gt;Files are hard&lt;/a&gt;" article, and it made me wonder how reliable is cstore_fdw&amp;rsquo;s design and implementation. &lt;a href="https://github.com/citusdata/cstore_fdw/"&gt;cstore_fdw&lt;/a&gt; is a columnar store for PostgreSQL that I designed and developed in my previous job at Citus Data.&lt;/p&gt;
+
+&lt;p&gt;I am writing this post so my decisions for cstore_fdw&amp;rsquo;s design get reviewed by more people, and I get some feedback and improve the design.&lt;/p&gt;&lt;a href="https://pykello.github.com//2015/12/cstore-fdw-and-files-are-hard.html?utm_source=all&amp;amp;utm_medium=Atom"&gt;&lt;em&gt;More&amp;hellip;&lt;/em&gt;&lt;/a&gt;</content></entry>
+ <entry>
+  <title type="text">Haskell Skyline</title>
+  <link rel="alternate" href="https://pykello.github.com//2015/12/haskell-skyline.html?utm_source=all&amp;utm_medium=Atom" />
+  <id>urn:https-pykello-github-com:-2015-12-haskell-skyline-html</id>
+  <published>2015-12-12T08:00:00Z</published>
+  <updated>2015-12-12T08:00:00Z</updated>
+  <author>
+   <name>Hadi Moshayedi</name></author>
+  <content type="html">
+&lt;p&gt;Recently I started learning Haskell by studying the &lt;a href="https://www.edx.org/course/introduction-functional-programming-delftx-fp101x-0"&gt;Intro to FP Programming&lt;/a&gt; course on Edx. Since then, I try to model different problems using Haskell.&lt;/p&gt;
+
+&lt;p&gt;One of these problems is the Skyline problem, which goes like this:&lt;/p&gt;
+
+&lt;blockquote&gt;
+ &lt;p&gt;You are given a set of rectangular buildings in a city, and you should return the skyline view of the city. Input is a sequence of tuples &lt;code&gt;(x_{left}, height,
+x_{right})&lt;/code&gt;, each describing a building. The output is a sequence of pairs &lt;code&gt;(x, height)&lt;/code&gt; meaning that the height of skyline changed to &lt;code&gt;height&lt;/code&gt; at the given x coordinate.&lt;/p&gt;&lt;/blockquote&gt;&lt;a href="https://pykello.github.com//2015/12/haskell-skyline.html?utm_source=all&amp;amp;utm_medium=Atom"&gt;&lt;em&gt;More&amp;hellip;&lt;/em&gt;&lt;/a&gt;</content></entry></feed>

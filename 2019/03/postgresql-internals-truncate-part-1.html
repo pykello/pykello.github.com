@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+
+    <meta charset="utf-8">
+    <title>PostgreSQL Internals: TRUNCATE, Part 1</title>
+    <meta name="description" content="You can use TRUNCATE in postgres to delete all of the rows in a table. The main advantage of it compared to using DELETE is performance. For example, using DELETE to delete all rows in a table with 1 million rows takes about 2.3 seconds, but truncating th...">
+    <meta name="author"      content="Hadi Moshayedi">
+    <meta name="keywords"    content="postgres, internals">
+    <meta name="viewport"    content="width=device-width, initial-scale=1.0">
+    <link rel="icon"      href="/favicon.ico">
+    <link rel="canonical" href="https://pykello.github.com//2019/03/postgresql-internals-truncate-part-1.html">
+    <link rel="next" href="/2015/12/cstore-fdw-and-files-are-hard.html">
+
+    <!-- CSS -->
+    <link rel="stylesheet" type="text/css" href="/css/monochrome.css">
+    <link rel="stylesheet" type="text/css" href="/css/pygments.css">
+    <link rel="stylesheet" type="text/css" href="/css/scribble.css">
+    <link rel="stylesheet" type="text/css" href="/css/custom.css">
+    <!-- Feeds -->
+    <link rel="alternate" type="application/atom+xml"
+          href="/feeds/all.atom.xml" title="Atom Feed">
+    <link rel="alternate" type="application/rss+xml"
+          href="/feeds/all.rss.xml" title="RSS Feed">
+    <!-- JS -->
+    <script type="text/javascript">
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+      ga('create', 'UA-xxxxx', 'auto');
+      ga('send', 'pageview');
+    </script>
+  </head>
+  <body>
+
+    <!-- Header -->
+
+    <header id="header" class="parent justify-spaceBetween">
+      <div class="inner w100 relative">
+        <span class="f-left">
+          <a href="/">
+            <h1>
+              <span>the</span>lost<span>packet</span>
+            </h1>
+          </a>
+        </span>
+      </div>
+    </header>
+
+    <div id="container">
+        <main>
+            <article>
+  <header>
+    <h1>PostgreSQL Internals: TRUNCATE, Part 1</h1>
+    <p class='date-and-tags'>
+<time datetime="2019-03-20" pubdate="true">2019-03-20</time> :: <span class="tags"><a href="/tags/postgres.html">postgres</a>, <a href="/tags/internals.html">internals</a></span></p>
+    <p class='authors'>By: <span class="authors">Hadi Moshayedi</span></p>
+  </header>
+
+<p>You can use TRUNCATE in postgres to delete all of the rows in a table. The main advantage of it compared to using DELETE is performance. For example, using DELETE to delete all rows in a table with 1 million rows takes about 2.3 seconds, but truncating the same table would take about 10ms.</p>
+
+<p>But how does postgres implement TRUNCATE that it is so fast?</p>
+<!-- more-->
+
+<h2 id="what-happens-when-you-delete">What happens when you DELETE?</h2>
+
+<p>Each transaction in postgres has a unique transaction id. Postgres for each row keeps the identifiers of earliest transaction (xmin) and the latest transaction (xmax) that can see the row. This helps postgres with concurrency control, but what is relevant to our topic is that when you do a DELETE, postgres iterates over all rows in the table and marks their xmax as the identifier of the current transaction. The row is still physically there, but it won’t be visible to future transactions.</p>
+
+<p>Later, in a process called vacuuming, postgres physically deletes the rows from the disk. To learn more about MVCC and vacuuming in postgres, checkout <a href="https://www.percona.com/blog/2018/08/06/basic-understanding-bloat-vacuum-postgresql-mvcc/">this blogpost</a>.</p>
+
+<h2 id="where-does-postgres-store-table-data">Where does postgres store table data?</h2>
+
+<p>You can get the location of the physical file for a relation using <a href="https://www.postgresql.org/docs/11/functions-admin.html#FUNCTIONS-ADMIN-DBLOCATION">pg_relation_filepath(relname)</a>. For example,</p>
+
+<div class="brush: sql">
+ <table class="sourcetable">
+  <tbody>
+   <tr>
+    <td class="linenos">
+     <div class="linenodiv">
+      <pre>1
+2
+3
+4
+5</pre></div></td>
+    <td class="code">
+     <div class="source">
+      <pre><span></span><span class="n">postgres</span><span class="o">=#</span> <span class="k">SELECT</span> <span class="n">pg_relation_filepath</span><span class="p">(</span><span class="s1">&#39;a&#39;</span><span class="p">);</span>
+ <span class="n">pg_relation_filepath</span>
+<span class="c1">----------------------</span>
+ <span class="n">base</span><span class="o">/</span><span class="mi">12368</span><span class="o">/</span><span class="mi">16384</span>
+<span class="p">(</span><span class="mi">1</span> <span class="k">row</span><span class="p">)</span>
+</pre></div>
+</td></tr></tbody></table>
+</div>
+
+<p>In the output above, 12368 is the database oid, which you can also get from the catalog table <a href="https://www.postgresql.org/docs/11/catalog-pg-database.html">pg_database</a>. 16384 is the relation’s file node number. Every postgres table has an entry in the catalog table <a href="https://www.postgresql.org/docs/11/catalog-pg-class.html">pg_class</a>. pg_class has a column named relfilenode, which is the name of the physical file used to store the table data. You can also use pg_relation_filenode(relname) to get this value.</p>
+
+<p>So postgres stores the table data in $PGDATA/base/DATABASE_OID/RELFILENODE.</p>
+
+<p>(There are some more details on the postgres file layout which are not very relevant to our discussion here. See “<a href="https://www.postgresql.org/docs/11/storage-file-layout.html">Database File Layout</a>” for details).</p>
+
+<h2 id="what-happens-when-you-truncate">What happens when you TRUNCATE?</h2>
+
+<p>As we saw, the physical file used for storing table data is determined by its file node number. The way TRUNCATE works is to assign a new file node number to the relation, and schedule the previous physical file for deletion on transaction commit!</p>
+
+<p>As you can see, using DELETE to delete all table data requires a full table scan and setting xmax of all of the rows. But TRUNCATE is as simple as updating a row in pg_class and unlinking a physical file, which is a much faster operation.</p>
+
+<p>This can be verified by checking the result of pg_relation_filenode(relname) before and after doing TRUNCATE:</p>
+
+<div class="brush: sql">
+ <table class="sourcetable">
+  <tbody>
+   <tr>
+    <td class="linenos">
+     <div class="linenodiv">
+      <pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14</pre></div></td>
+    <td class="code">
+     <div class="source">
+      <pre><span></span><span class="n">postgres</span><span class="o">=#</span> <span class="k">select</span> <span class="n">pg_relation_filenode</span><span class="p">(</span><span class="s1">&#39;a&#39;</span><span class="p">);</span>
+ <span class="n">pg_relation_filenode</span>
+<span class="c1">----------------------</span>
+                <span class="mi">16384</span>
+<span class="p">(</span><span class="mi">1</span> <span class="k">row</span><span class="p">)</span>
+
+<span class="n">postgres</span><span class="o">=#</span> <span class="k">TRUNCATE</span> <span class="n">a</span><span class="p">;</span>
+<span class="k">TRUNCATE</span> <span class="k">TABLE</span>
+
+<span class="n">postgres</span><span class="o">=#</span> <span class="k">select</span> <span class="n">pg_relation_filenode</span><span class="p">(</span><span class="s1">&#39;a&#39;</span><span class="p">);</span>
+ <span class="n">pg_relation_filenode</span>
+<span class="c1">----------------------</span>
+                <span class="mi">16387</span>
+<span class="p">(</span><span class="mi">1</span> <span class="k">row</span><span class="p">)</span>
+</pre></div>
+</td></tr></tbody></table>
+</div>
+
+<h2 id="in-the-code">In the Code</h2>
+
+<p>Entry point for TRUNCATE is <a href="https://github.com/postgres/postgres/blob/REL_11_STABLE/src/backend/commands/tablecmds.c#L1312">ExecuteTruncate()</a> in src/backend/commands/tablecmds.c. This function opens each relation to be truncated using an AccessExclusiveLock, does some checks, and then calls <a href="https://github.com/postgres/postgres/blob/REL_11_STABLE/src/backend/commands/tablecmds.c#L1417">ExecuteTruncateGuts()</a>.</p>
+
+<p>We’ll look at what the checks are and why postgres is acquiring an AccessExclusiveLock in future parts. For now, let’s continue with ExecuteTruncateGuts(). The part in ExecuteTruncateGuts() that we are most interested is <a href="https://github.com/postgres/postgres/blob/REL_11_STABLE/src/backend/commands/tablecmds.c#L1609">where it creates the new relation file node</a>:</p>
+
+<div class="brush: c">
+ <table class="sourcetable">
+  <tbody>
+   <tr>
+    <td class="linenos">
+     <div class="linenodiv">
+      <pre>1
+2
+3
+4
+5
+6
+7
+8
+9</pre></div></td>
+    <td class="code">
+     <div class="source">
+      <pre><span></span><span class="cm">/*</span>
+<span class="cm"> * Need the full transaction-safe pushups.</span>
+<span class="cm"> *</span>
+<span class="cm"> * Create a new empty storage file for the relation, and assign it</span>
+<span class="cm"> * as the relfilenode value. The old storage file is scheduled for</span>
+<span class="cm"> * deletion at commit.</span>
+<span class="cm"> */</span>
+<span class="n">RelationSetNewRelfilenode</span><span class="p">(</span><span class="n">rel</span><span class="p">,</span> <span class="n">rel</span><span class="o">-&gt;</span><span class="n">rd_rel</span><span class="o">-&gt;</span><span class="n">relpersistence</span><span class="p">,</span>
+                            <span class="n">RecentXmin</span><span class="p">,</span> <span class="n">minmulti</span><span class="p">);</span>
+</pre></div>
+</td></tr></tbody></table>
+</div>
+
+<p><a href="https://github.com/postgres/postgres/blob/REL_11_STABLE/src/backend/utils/cache/relcache.c#L3311">RelationSetNewRelfilenode()</a> allocates a new relation file node, schedules the relation for deletion at commit, and updates the pg_class row with the new file node (Well, unless it is a mapped relation, but let’s overlook that for now).</p>
+
+<p>The deletion of storage at commit is done by calling <a href="https://github.com/postgres/postgres/blob/REL_11_STABLE/src/backend/catalog/storage.c#L139">RelationDropStorage()</a>. Postgres keeps a linked list of relation file nodes to be deleted at transaction finish (i.e. in a commit or an abort) in the <a href="https://github.com/postgres/postgres/blob/REL_11_STABLE/src/backend/catalog/storage.c#L63">pendingDeletes</a> link list:</p>
+
+<div class="brush: c">
+ <table class="sourcetable">
+  <tbody>
+   <tr>
+    <td class="linenos">
+     <div class="linenodiv">
+      <pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10</pre></div></td>
+    <td class="code">
+     <div class="source">
+      <pre><span></span><span class="k">typedef</span> <span class="k">struct</span> <span class="n">PendingRelDelete</span>
+<span class="p">{</span>
+	<span class="n">RelFileNode</span> <span class="n">relnode</span><span class="p">;</span>          <span class="cm">/* relation that may need to be deleted */</span>
+	<span class="n">BackendId</span> <span class="n">backend</span><span class="p">;</span>            <span class="cm">/* InvalidBackendId if not a temp rel */</span>
+	<span class="kt">bool</span> <span class="n">atCommit</span><span class="p">;</span>                <span class="cm">/* T=delete at commit; F=delete at abort */</span>
+	<span class="kt">int</span> <span class="n">nestLevel</span><span class="p">;</span>                <span class="cm">/* xact nesting level of request */</span>
+	<span class="k">struct</span> <span class="n">PendingRelDelete</span> <span class="o">*</span><span class="n">next</span><span class="p">;</span><span class="cm">/* linked-list link */</span>
+<span class="p">}</span> <span class="n">PendingRelDelete</span><span class="p">;</span>
+
+<span class="k">static</span> <span class="n">PendingRelDelete</span> <span class="o">*</span><span class="n">pendingDeletes</span> <span class="o">=</span> <span class="nb">NULL</span><span class="p">;</span> <span class="cm">/* head of linked list */</span>
+</pre></div>
+</td></tr></tbody></table>
+</div>
+
+<p>RelationDropStorage() just adds an entry to this linked list. Later, when transaction is aborted or committed, <a href="https://github.com/postgres/postgres/blob/REL_11_STABLE/src/backend/catalog/storage.c#L293">smgrDoPendingDeletes()</a> is called which goes over pendingDeletes and applies the changes.</p>
+  <footer>
+    <script type="text/javascript">
+      !function(d,s,id){
+          var js,fjs=d.getElementsByTagName(s)[0];
+          if(!d.getElementById(id)){
+              js=d.createElement(s);
+              js.id=id;
+              js.src="//platform.twitter.com/widgets.js";
+              fjs.parentNode.insertBefore(js,fjs);
+          }
+      }(document,"script","twitter-wjs");
+    </script>
+    <a href="https://twitter.com/share"
+       class="twitter-share-button"
+       data-url="https://pykello.github.com//2019/03/postgresql-internals-truncate-part-1.html"
+       data-dnt="true">
+      "Tweet"</a>
+    <div id="disqus_thread"></div>
+    <script type="text/javascript">
+      var disqus_config = function () {
+        this.page.identifier = undefined;
+        this.page.url = undefined;
+        this.page.title = undefined;
+        this.page.category_id = undefined;
+      };
+      var disqus_shortname = 'shortname';
+      (function() {
+          var dsq = document.createElement('script');
+          dsq.type = 'text/javascript';
+          dsq.async = true;
+          dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+          (document.head || document.body).appendChild(dsq);
+      })();
+    </script>
+  </footer>
+</article>
+        </main>
+        <footer>
+            <hr />
+            <p><a href="https://twitter.com/pykello"
+                  class="twitter-follow-button"
+                  data-show-count="false"
+                  data-lang="en">
+                 "Follow Hadi Moshayedi"
+               </a>
+               <script type="text/javascript">
+                 !function(d,s,id){
+                     var js,fjs=d.getElementsByTagName(s)[0];
+                     if(!d.getElementById(id)){
+                         js=d.createElement(s);
+                         js.id=id;
+                         js.src="//platform.twitter.com/widgets.js";
+                         fjs.parentNode.insertBefore(js,fjs);
+                     }
+                 }(document,"script","twitter-wjs");
+               </script></p>
+          </footer>
+    </div>
+  </body>
+</html>
