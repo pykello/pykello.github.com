@@ -1,4 +1,4 @@
-https://pykello.github.com//2015/12/cstore-fdw-and-files-are-hard.html
-https://pykello.github.com//2019/03/postgresql-internals-truncate-part-1.html
-https://pykello.github.com//2015/12/haskell-skyline.html
-https://pykello.github.com//About.html
+https://pykello.github.com/2015/12/cstore-fdw-and-files-are-hard.html
+https://pykello.github.com/2019/03/postgresql-internals-truncate-part-1.html
+https://pykello.github.com/2015/12/haskell-skyline.html
+https://pykello.github.com/About.html
