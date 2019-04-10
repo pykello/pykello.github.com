@@ -6,8 +6,7 @@
   (-> any)
   (current-scheme/host "https://pykello.github.com")
   (current-title "The Lost Packet")
-  (current-author "Hadi Moshayedi")
-  (current-output-dir "out"))
+  (current-author "Hadi Moshayedi"))
 
 ;; Called once per post and non-post page, on the contents.
 (define/contract (enhance-body xs)
