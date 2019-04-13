@@ -12,14 +12,10 @@
          (match (parse_pgtree (tokenize s))
            ["null" '(b () "parse failed")]
            [(cons obj _)
-              (string->xexpr 
-                (string-append 
-                  "<div class='pgtree'>"
-                  (render_pgtree obj #t) 
-                  "</div>"
-                ) 
-              )
-            ])]
+              (list 'div '((class "pgtree")) (render_pgtree obj #t))
+           ]
+         )
+      ]
       [(list* (? symbol? tag) (? list? attributes) elements)
          (list* tag attributes (highlight-pgtree elements))]
       [x x])
@@ -124,48 +120,44 @@
 )
 
 (define (render_pgtree_obj label kvlist isroot)
-  (let ([checked (if isroot "checked='true'" "")]
+  (let ([checked (if isroot '(checked "true") '(notchecked "true"))]
         [id (string-append "chk-" (~v (random 0 1000000000)))])
-    (string-append
-       "<ul><li><input " checked " type='checkbox' id='" id
-       "' />"
-       (xexpr->string
-          (list 'label (list (list 'for id)) label))
-       "<ul class='obj-contents'>"
-       (render_pgtree_kvlist kvlist)
-       "</ul>"
-       "<div class='obj-placeholder'>&nbsp;&nbsp;&nbsp;&nbsp;...</div>"
-       "</li><li>&nbsp;&nbsp;}</li></ul>")))
+      (list 'ul '()
+        (list 'li '()
+          (list 'input (list checked (list 'id id) '(type "checkbox")))
+          (list 'label (list (list 'for id)) label)
+          (list* 'ul '((class "obj-contents")) (render_pgtree_kvlist kvlist))
+          (list 'div '((class "obj-placeholder")) "..."))
+        '(li '() "}")
+      )
+  )
+)
 
 (define (render_pgtree_kvlist kvlist)
-  (string-join (map render_pgtree_kv kvlist)))
+  (map render_pgtree_kv kvlist))
 
 (define (render_pgtree_kv kv)
-  (xexpr->string
     (list 'li '()
        (list 'b '() (car kv) " ")
-       (string->xexpr (render_pgtree (cdr kv) #f)))))
+       (render_pgtree (cdr kv) #f)))
  
 (define (render_pgtree_arr items)
    (let* ([cnt (length items)]
-          [checked (if (< cnt 2) "checked='true'" "")]
+          [checked (if (< cnt 2) '(checked "true") '(notchecked "true"))]
           [id (string-append "chk-" (~v (random 0 1000000000)))])
-     (string-append
-        "<ul><li><input " checked " type='checkbox' id='" id "' />"
-        (xexpr->string
-          (list 'label (list (list 'for id)) "("))
-        "<ul class='obj-contents'>"
-        (string-join (map render_pgtree_arr_item items))
-        "</ul>"
-        (xexpr->string
-          (list 'div '((class "obj-placeholder")) "    (" (~v cnt) " items)"))
-        "</li><li>&nbsp;&nbsp;)</li></ul>")))
+       (list 'ul '()
+         (list 'li '()
+           (list 'input (list checked (list 'id id) '(type "checkbox")))
+           (list 'label (list (list 'for id)) "(")
+           (list* 'ul '((class "obj-contents")) (map render_pgtree_arr_item items))
+           (list 'div '((class "obj-placeholder")) "(" (~v cnt) " items)"))
+         '(li '() "}")
+       )
+   )
+)
 
 (define (render_pgtree_arr_item item)
-  (xexpr->string
-    (list 'li '()
-      (string->xexpr (render_pgtree item #f)))))
+  (list 'li '() (render_pgtree item #f)))
 
 (define (render_pgtree_value tokens)
-  (xexpr->string
-    (list 'span '() (string-join tokens " "))))
+  (list 'span '() (string-join tokens " ")))
