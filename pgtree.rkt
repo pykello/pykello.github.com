@@ -125,10 +125,13 @@
 
 (define (render_pgtree_obj label kvlist isroot)
   (let ([checked (if isroot "checked='true'" "")]
-        [id (~v (random 0 1000000000))])
+        [id (string-append "chk-" (~v (random 0 1000000000)))])
     (string-append
-       "<ul><li><input " checked " type='checkbox' id='chk-" id
-       "' /><label for='chk-" id "'>" label "</label><ul class='obj-contents'>"
+       "<ul><li><input " checked " type='checkbox' id='" id
+       "' />"
+       (xexpr->string
+          (list 'label (list (list 'for id)) label))
+       "<ul class='obj-contents'>"
        (render_pgtree_kvlist kvlist)
        "</ul>"
        "<div class='obj-placeholder'>&nbsp;&nbsp;&nbsp;&nbsp;...</div>"
@@ -138,31 +141,31 @@
   (string-join (map render_pgtree_kv kvlist)))
 
 (define (render_pgtree_kv kv)
-  (string-append
-     "<li>"
-     "<b>" (car kv) "</b> "
-     (render_pgtree (cdr kv) #f)
-     "</li>"))
-
+  (xexpr->string
+    (list 'li '()
+       (list 'b '() (car kv) " ")
+       (string->xexpr (render_pgtree (cdr kv) #f)))))
+ 
 (define (render_pgtree_arr items)
    (let* ([cnt (length items)]
           [checked (if (< cnt 2) "checked='true'" "")]
-          [id (~v (random 0 1000000000))])
+          [id (string-append "chk-" (~v (random 0 1000000000)))])
      (string-append
-        "<ul><li><input " checked " type='checkbox' id='chk-" id "' />"
-        "<label for='chk-" id "'>(</label><ul class='obj-contents'>"
+        "<ul><li><input " checked " type='checkbox' id='" id "' />"
+        (xexpr->string
+          (list 'label (list (list 'for id)) "("))
+        "<ul class='obj-contents'>"
         (string-join (map render_pgtree_arr_item items))
         "</ul>"
-        "<div class='obj-placeholder'>&nbsp;&nbsp;&nbsp;&nbsp;(" (~v cnt) " items)</div>"
+        (xexpr->string
+          (list 'div '((class "obj-placeholder")) "    (" (~v cnt) " items)"))
         "</li><li>&nbsp;&nbsp;)</li></ul>")))
 
 (define (render_pgtree_arr_item item)
-  (string-append
-     "<li>"
-     (render_pgtree item #f)
-     "</li>"))
+  (xexpr->string
+    (list 'li '()
+      (string->xexpr (render_pgtree item #f)))))
 
 (define (render_pgtree_value tokens)
-  (string-replace 
-    (string-replace (string-join tokens " ") "<" "&lt;")
-    ">" "&gt;"))
+  (xexpr->string
+    (list 'span '() (string-join tokens " "))))
