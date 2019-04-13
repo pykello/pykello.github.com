@@ -459,3 +459,46 @@ p.date-and-tags, p.authors {
 h2 a {
   color: #262626;
 }
+
+.pgtree li {
+  list-style: none;
+}
+
+.pgtree ul {
+  margin-bottom: 0;
+}
+
+.pgtree {
+  font-family: 'Courier New', Courier, monospace;
+}
+
+.pgtree input[type=checkbox] {
+  position: absolute;
+  top: -9999px;
+  left: -9999px;
+  display: none;
+}
+
+.pgtree label {
+  cursor: pointer;
+}
+
+.pgtree input[type=checkbox]:checked ~ ul {
+  display: block;
+}
+
+.pgtree input[type=checkbox]:checked ~ .obj-placeholder {
+  display: none;
+}
+
+.pgtree .obj-contents {
+  display: none;
+}
+
+.pgtree input[type='checkbox']:checked + label::before{
+  content: "▼ "
+}
+
+.pgtree input[type='checkbox']:not(:checked) + label::before{
+  content: "▶ "
+}

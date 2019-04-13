@@ -1,5 +1,7 @@
 #lang frog/config
 
+(require "pgtree.rkt")
+
 ;; Called early when Frog launches. Use this to set parameters defined
 ;; in frog/params.
 (define/contract (init)
@@ -13,6 +15,7 @@
   (-> (listof xexpr/c) (listof xexpr/c))
   ;; Here we pass the xexprs through a series of functions.
   (~> xs
+      (highlight-pgtree)
       (syntax-highlight #:python-executable "python"
                         #:line-numbers? #t
                         #:css-class "source")
