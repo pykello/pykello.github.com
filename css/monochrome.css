@@ -502,3 +502,7 @@ h2 a {
 .pgtree input[type='checkbox']:not(:checked) + label::before{
   content: "▶ "
 }
+
+.pgtree .obj-placeholder {
+  padding-left: 20pt;
+}
