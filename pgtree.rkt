@@ -23,11 +23,9 @@
 )
 
 (define (tokenize s)
-  (let* ([s1 (string-replace s "(" " ( ")]
-         [s2 (string-replace s1 ")" " ) ")]
-         [s3 (string-replace s2 "{" " { ")]
-         [s4 (string-replace s3 "}" " } ")])
-    (string-split s4)))
+  ;; pad any of "{ } ( )" with spaces, then split
+  (let ([s1 (regexp-replace*  #rx"([{()}])" s " \\1 ")])
+    (string-split s1)))
 
 
 ;; parse_pgtree returns (result, unprocesed)
