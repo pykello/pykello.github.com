@@ -1,6 +1,9 @@
-    Title: Citus Internals: COPY
+    Title: Citus Notes: COPY, Part 1
     Date: 2019-06-20T00:00:00
     Tags: postgres, citus, internals
+
+(These are some notes I took while studying Citus code, so it is probably more detail oriented
+than higher picture oriented).
 
 Citus overrides the utility hook with [`multi_ProcessUtility`](https://github.com/citusdata/citus/blob/6741ffd716593f09b22a01dab70f64d7c62922cd/src/backend/distributed/commands/utility_hook.c#L97). This function calls
 [`ProcessCopyStmt()`](https://github.com/citusdata/citus/blob/6741ffd716593f09b22a01dab70f64d7c62922cd/src/backend/distributed/commands/multi_copy.c#L2556) for COPY statements,
