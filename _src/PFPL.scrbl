@@ -43,3 +43,40 @@ Expr @${e}  ::=    | @${x}                    | @${x}            | variable
 
 }
 
+@bold{5.2. Structural Dynamics}
+
+The judgment @${e \, \mathrm{val}}, which states @${e} is a value, is inductively defined as:
+
+@autoalign{
+@${\dfrac{.}{num[n] \, \mathrm{val}}}                                    | (5.3a)
+@${\dfrac{.}{str[s] \, \mathrm{val}}}                                    | (5.3b)
+}
+
+The transition judgment @${e \longmapsto e'} between states is inductively defined
+by the following rules:
+
+@autoalign{
+@${\dfrac{n_1 + n_2 = n}{plus(num[n_1]; num[n_2]) \longmapsto num[n]}}             | (5.4a)
+
+@${\dfrac{e \longmapsto e'_1}{plus(e_1; e_2) \longmapsto plus(e'_1; e_2)}}         | (5.4b)
+
+@${\dfrac{e_1 \, \mathrm{val} \quad e_2 \longmapsto e'_2}{plus(e_1; e_2) \longmapsto plus(e_1; e'_2)}} | (5.4c)
+
+@${\dfrac{s_1 \, \char`^ \, s_3 = s \, \mathrm{str}}{cat(str[s_1]; str[s_2) \longmapsto str[s]])}}         | (5.4d)
+
+@${\dfrac{e \longmapsto e'_1}{cat(e_1; e_2) \longmapsto cat(e'_1; e_2)}}         | (5.4e)
+
+@${\dfrac{e_1 \, \mathrm{val} \quad e_2 \longmapsto e'_2}{cat(e_1; e_2) \longmapsto cat(e_1; e'_2)}} | (5.4f)
+
+@${\left[\dfrac{e_1 \longmapsto e'_1}{let(e_1; x.e_2) \longmapsto let(e'_1;x.e_2)}\right]}   | (5.4g)
+
+@${\dfrac{[e_1 \, \mathrm{val}]}{let(e_1; x.e_2) \longmapsto [e_1/x]e_2}}         | (5.4h)
+}
+
+Rules (5.4a), (5.4d), and (5.4h) are @italic{instruction transitions}, because they
+correspond to the primitive steps of evaluation. The remaining rules are
+@italic{search transitions} that determine the order of execution of instructions.
+
+The bracketed rule (5.4g) and bracketed premise on rule (5.4h) are included for a
+@italic{by-value} interpretation of let and omitted for a @italic{by-name}
+interpretation.
