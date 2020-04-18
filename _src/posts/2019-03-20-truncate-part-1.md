@@ -1,4 +1,4 @@
-    Title: PostgreSQL Internals: TRUNCATE, Part 1
+    Title: PostgreSQL Internals: TRUNCATE
     Date: 2019-03-20T00:00:00
     Tags: postgres, internals
 

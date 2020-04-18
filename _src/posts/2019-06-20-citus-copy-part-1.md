@@ -1,4 +1,4 @@
-    Title: Citus Notes: COPY, Part 1
+    Title: Citus Notes: COPY
     Date: 2019-06-20T00:00:00
     Tags: postgres, citus, internals
 
