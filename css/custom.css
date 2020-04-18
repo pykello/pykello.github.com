@@ -24,3 +24,16 @@ article img {
   max-width: 100%;
   height: auto;
 }
+
+.STable {
+    width: 70%;
+    margin-left: 15%;
+}
+
+.STable p {
+    margin-top: 10px;
+}
+
+.STable td {
+    vertical-align: top;
+}

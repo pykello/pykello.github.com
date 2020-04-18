@@ -393,7 +393,7 @@ blockquote {
 
 img {
   max-width: 100%;
-  display: block;
+  /*display: block;*/
   margin: 0 auto;
   margin-bottom: 24px;
   -webkit-border-radius: 4px;
