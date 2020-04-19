@@ -18,7 +18,7 @@
                    | abstract-syntax          | concrete-syntax  | meaning
 Typ @${\tau}  ::=  | num                      | num              | numbers
                    | str                      | str              | strings
-Expr @${e}  ::=    | @${x}                    | @${x}            | variable
+Exp @${e}  ::=    | @${x}                    | @${x}            | variable
                    | num[@${n}]               | @${n}            | numeral
                    | str[@${s}]               | "@${s}"          | literal
                    | plus(@${e_1} ; @${e_2})  | @${e_1} + @${e_2} | addition
@@ -121,3 +121,13 @@ Expression "error" which forcibly induces an error, with the following static an
 
 @bold{Theorem 6.5} (Progress With Error). If @${e : \tau}, then either @${e \, \mathrm{err}},
 or @${e \, \mathrm{val}}, or there exists @${e'} such that @${e \longmapsto e'}.
+
+@h2{Language ED}
+
+Adds first-order functions to Language E:
+
+@autoalign{
+                   | abstract-syntax                 | concrete-syntax  | meaning
+Exp @${e}         ::=  | @${\mathrm{apply} \, {f}(e)}                     | @${f(e)}             | application
+                   | @${\mathrm{fun}\{\tau_1;\tau_2\}(x_1.e_2;f.e)} | @${\mathrm{fun} \, f(x_1 : \tau_1): \tau_2 = e_2 \, \mathrm{in} \, e}  | definition
+}
