@@ -1,14 +1,16 @@
-#lang scribble/manual
+#lang scribble/base
+@(require scribble/core
+          scribble/manual)
+
 @require[@for-label[scribble-math
-                    racket/base
-                    scribble/core]
+                    racket/base]
          @for-syntax[racket/base
                      syntax/parse]
          "../common.rkt"]
 
-@title{PFPL Languages}
+@title{Practical Foundations of Programming Languages}
 
-@bold{Language E}
+@h2{Language E}
 
 @bold{4.1. Syntax}
 
@@ -80,3 +82,42 @@ correspond to the primitive steps of evaluation. The remaining rules are
 The bracketed rule (5.4g) and bracketed premise on rule (5.4h) are included for a
 @italic{by-value} interpretation of let and omitted for a @italic{by-name}
 interpretation.
+
+@h2{Type Safety}
+
+@bold{Theorem 6.1} (Type Safety). 
+
+@itemlist[#:style 'ordered
+ @item{
+     (Preservation)
+     If @${e : \tau} and @${e \longmapsto e'}, then @${e' : \tau}.
+ }
+ @item{
+     (Progress)
+     If @${e : \tau}, then either @${e \, \mathrm{val}} or there exists @${e'} such that @${e \longmapsto e'}.
+ }]
+
+@bold{Error Judgment for Language E}
+
+@autoalign{
+
+@${\dfrac{e_1 \, \mathrm{val}}{div(e_1; num[0]) \, \mathrm{err}}}     | (6.1a)
+
+@${\dfrac{e_1 \, \mathrm{err}}{div(e_1; e_2) \, \mathrm{err}}}     | (6.1a)
+
+@${\dfrac{e_1 \, \mathrm{val} \quad e_2 \, \mathrm{err}}{div(e_1; e_2) \, \mathrm{err}}}     | (6.1a)
+
+}
+
+Expression "error" which forcibly induces an error, with the following static and dynamic semantics:
+
+@autoalign{
+
+@${\dfrac{.}{\Gamma \vdash \mathrm{error} : \tau}}      | (6.2a)
+
+@${\dfrac{.}{\mathrm{error} \, \mathrm{err}}}           | (6.2b)
+
+}
+
+@bold{Theorem 6.5} (Progress With Error). If @${e : \tau}, then either @${e \, \mathrm{err}},
+or @${e \, \mathrm{val}}, or there exists @${e'} such that @${e \longmapsto e'}.

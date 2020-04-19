@@ -65,3 +65,6 @@ latex
       [(equal? token "\n") (values (x-append table (x-append row (maybe-paragraph cell))) `() `())]
       [(equal? token "|") (values table (x-append row (maybe-paragraph cell)) `())]
       [else (values table row (x-append cell token))])))
+
+(define (h2 x)
+  (make-element "h2" x))

@@ -38,3 +38,7 @@ article img {
 .STable td {
     vertical-align: top;
 }
+
+li p {
+    margin: 0.1em;
+}

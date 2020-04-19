@@ -110,11 +110,12 @@ h1 {
   padding: 0.33335em 0;
   /* 12px/36px * 2 (Use padding instead of margin to maintain proximity with paragraph) */ }
 
-h2 {
+h2, .h2 {
   font-size: 1.5em;
   /* 24px/16px */
   line-height: 1.8em;
   padding: 1em 0 0 0;
+  font-weight: bold;
   /* 12px/24px * 2, only top (Use padding instead of margin to maintain proximity with paragwithph) */ }
 
 h3, h4, h5, h6 {
@@ -155,7 +156,7 @@ blockquote {
     padding: 0.2em 0;
     /* 12px/48px * 2 (Use padding instead of margin to maintain proximity with paragraph) */ }
 
-  h2 {
+  h2, .h2 {
     font-size: 2em;
     /* 36px/18px */
     line-height: 1.8em;
