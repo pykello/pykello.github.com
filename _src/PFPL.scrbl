@@ -22,6 +22,10 @@ Exp @${e}  ::=    | @${x}                    | @${x}            | variable
                    | num[@${n}]               | @${n}            | numeral
                    | str[@${s}]               | "@${s}"          | literal
                    | plus(@${e_1} ; @${e_2})  | @${e_1} + @${e_2} | addition
+                   | times(@${e_1} ; @${e_2}) | @${e_1} * @${e_2} | multiplication
+                   | cat(@${e_1} ; @${e_2})   | @${e_1} ^ @${e_2} | concatenation
+                   | len(@${e})               | @${|e|}           | length
+                   | let(@${e_1;x.e_2})      | let @${e} be @${e_1} in @${e_2} | definition
 }
 
 @bold{4.2. Type System}
@@ -124,10 +128,38 @@ or @${e \, \mathrm{val}}, or there exists @${e'} such that @${e \longmapsto e'}.
 
 @h2{Language ED}
 
-Adds first-order functions to Language E:
+Adds first-order functions to Language E.
+
+Syntax is:
 
 @autoalign{
                    | abstract-syntax                 | concrete-syntax  | meaning
 Exp @${e}         ::=  | @${\mathrm{apply} \, {f}(e)}                     | @${f(e)}             | application
                    | @${\mathrm{fun}\{\tau_1;\tau_2\}(x_1.e_2;f.e)} | @${\mathrm{fun} \, f(x_1 : \tau_1): \tau_2 = e_2 \, \mathrm{in} \, e}  | definition
+}
+
+Statics of LD is (the judgement @${f(\tau_1) : \tau_2} is called the @italic{function header}):
+
+@autoalign{
+
+@${\dfrac{\Gamma, x_1 : \tau_1 \vdash e_2 : \tau_2 \quad \Gamma, f(\tau_1) : \tau_2 \vdash e : \tau}{\Gamma \vdash \mathrm{fun}\{\tau_1; \tau_2\}(x_1.e_2; f.e) : \tau}}    |  (8.1a)
+
+@${\dfrac{\Gamma \vdash f(\tau_1) : \tau_2 \quad \Gamma \vdash e : \tau_1}{\Gamma \vdash \mathrm{apply}\{f\}(e) : \tau_2}}   | (8.1b)
+
+}
+
+Inductive definition of function substituition:
+
+@autoalign{
+
+@${\dfrac{.}{[[ x.e/f ]] \mathrm{apply}\{f\}(e') = \mathrm{let}([[ x.e/f ]] e'; x.e)}} | (8.2)
+
+}
+
+Dynamics of LD is:
+
+@autoalign{
+
+@${\dfrac{.}{\mathrm{fun}\{\tau_1;\tau_2\}(x_1.e_2;f.e) \longmapsto [[x_1.e_2/f]]e}} | (8.3)
+
 }
