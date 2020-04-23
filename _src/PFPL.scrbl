@@ -138,7 +138,7 @@ Exp @${e}         ::=  | @${\mathrm{apply} \, {f}(e)}                     | @${f
                    | @${\mathrm{fun}\{\tau_1;\tau_2\}(x_1.e_2;f.e)} | @${\mathrm{fun} \, f(x_1 : \tau_1): \tau_2 = e_2 \, \mathrm{in} \, e}  | definition
 }
 
-Statics of LD is (the judgement @${f(\tau_1) : \tau_2} is called the @italic{function header}):
+Statics of ED is (the judgement @${f(\tau_1) : \tau_2} is called the @italic{function header}):
 
 @autoalign{
 
@@ -156,10 +156,51 @@ Inductive definition of function substituition:
 
 }
 
-Dynamics of LD is:
+Dynamics of ED is:
 
 @autoalign{
 
 @${\dfrac{.}{\mathrm{fun}\{\tau_1;\tau_2\}(x_1.e_2;f.e) \longmapsto [[x_1.e_2/f]]e}} | (8.3)
 
 }
+
+
+@h2{Language EF}
+
+Adds higher-order functions to Language E.
+
+Syntax of EF is:
+
+@autoalign{
+                   | abstract-syntax                 | concrete-syntax  | meaning
+    Type @${\tau} ::=  | @${\mathrm{arr}(\tau_1; \tau_2)} | @${\tau_1 \rightarrow \tau_2} | function
+    Exp @${e} ::= | @${\mathrm{lam}\{\tau\}(x.e)}   | @${\lambda (x : \tau) e} | abstraction
+                   | @${ap(e_1; e_2)}                | @${e_1(e_2)}     | application
+}
+
+Statics of EF is:
+
+@autoalign{
+
+@${\dfrac{\Gamma, x : \tau_1 \vdash e : \tau_2}{\Gamma \vdash \mathrm{lam}\{\tau_1\}(x.e) : \mathrm{arr}(\tau_1; \tau_2)}}   | (8.4a)
+
+@${\dfrac{\Gamma \vdash e_1 : \mathrm{arr}(\tau_2;\tau) \quad \Gamma \vdash e_2 : \tau_2}{\Gamma \vdash \mathrm{ap}(e_1;e_2) : \tau}}   | (8.4b)
+
+}
+
+Dynamics of EF is:
+
+@autoalign{
+
+@${\dfrac{.}{\mathrm{lam}\{\tau\}(x.e) \, \mathrm{val}}}   | (8.5a)
+
+@${\dfrac{e_1 \longmapsto e'_1}{\mathrm{ap}(e_1; e_2) \longmapsto \mathrm{ap}(e_1';e_2)}}   | (8.5b)
+
+@${\left[ \dfrac{e_1 \, \mathrm{val} \quad e_2 \longmapsto e'_2}{\mathrm{ap}(e_1;e_2) \longmapsto \mathrm{ap}(e_1;e'_2)} \right]} | (8.5c)
+
+@${\dfrac{ [e_2 \, \mathrm{val}]}{\mathrm{ap}(\mathrm{lam}\{\tau_2\}(x.e_1); e_2) \longmapsto [e_2/x]e_1}} | (8.5d)
+}
+
+The bracketed rule and premise are included for a @italic{call-by-value} interpretation
+of function application and excluded for a @italic{call-by-name} interpretation.
+
