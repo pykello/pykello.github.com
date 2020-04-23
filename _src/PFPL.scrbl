@@ -225,3 +225,21 @@ Meaning of @${\mathrm{rec}(e_0;x.y.e_1)(e)}:
 @item{Given result of function at x to be y, result of function at s(x) is calculated as @${e_1}}
 @item{Find the result of function at e}
 ]
+
+Motivation:
+
+@itemlist[
+@item{We can only define total functions in System T}
+@item{We define @italic{Definability} in 9.3, and show that functions like @${d(n) = 2 \times n} and 
+      @hyperlink["https://en.wikipedia.org/wiki/Ackermann_function" "Ackermann's function"] are definable}
+@item{We show in 9.4 that there exists undefinable functions}
+]
+
+Existance of an undefinable function:
+
+@itemlist[
+
+@item{@italic{Gödel's number} @${\ulcorner a \urcorner} is mapping from expressions to natural number}
+@item{@italic{Universal function} @${f_{univ}(\ulcorner e \urcorner)(m) = n} iff @${e(m) = n : nat}}
+@item{Then we prove that @${\delta(m) = f_{univ}(m)(m)} is not definable}
+]
