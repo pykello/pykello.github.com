@@ -204,3 +204,24 @@ Dynamics of EF is:
 The bracketed rule and premise are included for a @italic{call-by-value} interpretation
 of function application and excluded for a @italic{call-by-name} interpretation.
 
+@h2{System T}
+
+@autoalign{
+                   | abstract-syntax                 | concrete-syntax  | meaning
+  Type @${\tau} ::= | nat                             | nat              | naturals
+                   | @${arr(\tau_1;\tau_2)}          | @${\tau_1 \rightarrow \tau_2}  | function
+  Exp @${e} ::=    | @${x}                           | x                | variable
+                   | z                               | z                | zero
+                   | s(e)                            | s(e)             | successor
+                   | @${\mathrm{rec}(e_0;x.y.e_1)(e)} | @${\mathrm{rec} \, e\{ \mathrm{z}\hookrightarrow e_0 | \mathrm{s}(x) \mathrm{with} \, y \hookrightarrow e_1\}} | recursion
+                   | @${\mathrm{lam}\{\tau\}(x.e)}   | @${\lambda(x:\tau)e} | abstraction
+                   | @${\mathrm{ap}(e_1;e_2)}        | @${e_1(e_2)}     | application    
+}
+
+Meaning of @${\mathrm{rec}(e_0;x.y.e_1)(e)}:
+
+@itemlist[
+@item{Result of the recursive function at z is @${e_0}}
+@item{Given result of function at x to be y, result of function at s(x) is calculated as @${e_1}}
+@item{Find the result of function at e}
+]
