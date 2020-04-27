@@ -266,3 +266,25 @@ Existance of an undefinable function:
   Exp @${e} ::=    | @${\mathrm{tpl}(\{i \hookrightarrow e_i\}_{i \in I})}   | @${\langle e_i \rangle _{i \in I}} | tuple
                    | pr[i][e]                                                | @${e . i}                          | projection
 }
+
+@h2{Sum Types}
+
+@bold{11.1. Nullary and Binary Sums}
+
+@autoalign{
+                   | abstract-syntax                 | concrete-syntax  | meaning
+  Type @${\tau} ::= | void                             | void              | nullary sum
+                    | @${\mathrm{sum}(\tau_1;\tau_2)} | @${\tau_1 + \tau_2} | binary sum
+  Exp @${e} ::=    | @${\mathrm{abort\{\tau\}(e)}}    | abort(e)            | abort
+                   | @${\mathrm{in}[l]\{\tau_1;\tau_2\}(2)} | @${\mathrm{l} . e} | left injection
+                   | @${\mathrm{in}[r]\{\tau_1;\tau_2\}(2)} | @${\mathrm{r} . e} | right injection
+                   | @${\mathrm{case}(e;x_1.e_1;x_2.e_2)} | @${\mathrm{case} \, e \{\mathrm{l} . x_1 \hookrightarrow e_1 | \mathrm{r}.x_2 \hookrightarrow e_2 \}} | case analysis
+}
+
+
+Statics of case:
+
+@autoalign{
+
+@${\dfrac{\Gamma \vdash e : \tau_1 + \tau_2 \quad \Gamma, x_1 : \tau_1 \vdash e_1 : \tau \quad \Gamma, x_2 : \tau_2 \vdash e_2 : \tau}{\Gamma \vdash \mathrm{case} \, e \{\mathrm{l} . x_1 \hookrightarrow e_1 | \mathrm{r}.x_2 \hookrightarrow e_2 \} : \tau}}
+}
