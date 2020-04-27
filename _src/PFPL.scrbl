@@ -243,3 +243,26 @@ Existance of an undefinable function:
 @item{@italic{Universal function} @${f_{univ}(\ulcorner e \urcorner)(m) = n} iff @${e(m) = n : nat}}
 @item{Then we prove that @${\delta(m) = f_{univ}(m)(m)} is not definable}
 ]
+
+@h2{Product Types}
+
+@bold{10.1. Nullary and Binary Products}
+
+@autoalign{
+                   | abstract-syntax                 | concrete-syntax  | meaning
+  Type @${\tau} ::= | unit                             | unit              | nullary product
+                    | @${\mathrm{prod}(\tau_1;\tau_2)} | @${\tau_1 \times \tau_2} | binary product
+  Exp @${e} ::=    | triv                              | @${\langle \rangle} | null tuple
+                   | @${\mathrm{pair}(e_1;e_2)}        | @${\langle e_1,e_2 \rangle} | ordered tuple
+                   | pr[l][e]                          | @${e . \mathrm{l}}  | left projection
+                   | pr[r][e]                          | @${e . \mathrm{r}}  | right projection
+}
+
+@bold{10.2. Finite Products}
+
+@autoalign{
+                   | abstract-syntax                 | concrete-syntax  | meaning
+  Type @${\tau} ::= | @${\mathrm{prod}[i \hookrightarrow \tau_1]_{i \in I}}  | @${\langle \tau_i \rangle _{i \in I}}              | product
+  Exp @${e} ::=    | @${\mathrm{tpl}(\{i \hookrightarrow e_i\}_{i \in I})}   | @${\langle e_i \rangle _{i \in I}} | tuple
+                   | pr[i][e]                                                | @${e . i}                          | projection
+}
