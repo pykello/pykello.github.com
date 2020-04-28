@@ -288,3 +288,12 @@ Statics of case:
 
 @${\dfrac{\Gamma \vdash e : \tau_1 + \tau_2 \quad \Gamma, x_1 : \tau_1 \vdash e_1 : \tau \quad \Gamma, x_2 : \tau_2 \vdash e_2 : \tau}{\Gamma \vdash \mathrm{case} \, e \{\mathrm{l} . x_1 \hookrightarrow e_1 | \mathrm{r}.x_2 \hookrightarrow e_2 \} : \tau}}
 }
+
+@bold{11.2. Finite Sums}
+
+@autoalign{
+                   | abstract-syntax                 | concrete-syntax  | meaning
+  Type @${\tau} ::= | @${\mathrm{sum}[i \hookrightarrow \tau_1]_{i \in I}}  | @${[ \tau_i ] _{i \in I}}              | sum
+  Exp @${e} ::=    | @${\mathrm{in}\{\vec{\tau}\}(e)}   | @${i.e} | injection
+                   | @${\mathrm{case}(e;\{i \hookrightarrow x_i.e_i\}_{i \in I})}      | @${\mathrm{case} \, e \{i . x_i \hookrightarrow e_i \}_{i \in I}}               | case analysis
+}
