@@ -297,3 +297,19 @@ Statics of case:
   Exp @${e} ::=    | @${\mathrm{in}\{\vec{\tau}\}(e)}   | @${i.e} | injection
                    | @${\mathrm{case}(e;\{i \hookrightarrow x_i.e_i\}_{i \in I})}      | @${\mathrm{case} \, e \{i . x_i \hookrightarrow e_i \}_{i \in I}}               | case analysis
 }
+
+
+@h2{Generic Programming}
+
+A @bold{type operator} is a type equipped with a designated variable whose occurences mark the spots
+in the type where a transformation is applied.
+
+It is an abstractor @${t.\tau} such that @${t \, \mathrm{type} \vdash \tau \, \mathrm{type}}. An example is:
+
+@${t.\mathrm{unit} + (\mathrm{bool} \times t)}
+
+An @bold{instance} of a type operator is obtained by substituting a type @${\rho} for the variable @${t} within
+the type @${\tau}.
+
+The @bold{polynomial} type operators aare those constructed from the type variable @${t} and the types void and
+unit, and the product and sume type constructers @${\tau_1 \times \tau_2} and @${\tau_1 + tau_2}.
