@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?> 
+<feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
+ <title type="text">The Lost Packet: Posts tagged 'haskell'</title>
+ <link rel="self" href="https://pykello.github.com/feeds/haskell.atom.xml" />
+ <link href="https://pykello.github.com/tags/haskell.html" />
+ <id>urn:https-pykello-github-com:-tags-haskell-html</id>
+ <updated>2015-12-12T08:00:00Z</updated>
+ <entry>
+  <title type="text">Haskell Skyline</title>
+  <link rel="alternate" href="https://pykello.github.com/2015/12/haskell-skyline.html?utm_source=haskell&amp;utm_medium=Atom" />
+  <id>urn:https-pykello-github-com:-2015-12-haskell-skyline-html</id>
+  <published>2015-12-12T08:00:00Z</published>
+  <updated>2015-12-12T08:00:00Z</updated>
+  <author>
+   <name>Hadi Moshayedi</name></author>
+  <content type="html">
+&lt;p&gt;Recently I started learning Haskell by studying the &lt;a href="https://www.edx.org/course/introduction-functional-programming-delftx-fp101x-0"&gt;Intro to FP Programming&lt;/a&gt; course on Edx. Since then, I try to model different problems using Haskell.&lt;/p&gt;
+
+&lt;p&gt;One of these problems is the Skyline problem, which goes like this:&lt;/p&gt;
+
+&lt;blockquote&gt;
+ &lt;p&gt;You are given a set of rectangular buildings in a city, and you should return the skyline view of the city. Input is a sequence of tuples &lt;code&gt;(x_{left}, height,
+x_{right})&lt;/code&gt;, each describing a building. The output is a sequence of pairs &lt;code&gt;(x, height)&lt;/code&gt; meaning that the height of skyline changed to &lt;code&gt;height&lt;/code&gt; at the given x coordinate.&lt;/p&gt;&lt;/blockquote&gt;&lt;a href="https://pykello.github.com/2015/12/haskell-skyline.html?utm_source=haskell&amp;amp;utm_medium=Atom"&gt;&lt;em&gt;More&amp;hellip;&lt;/em&gt;&lt;/a&gt;</content></entry></feed>

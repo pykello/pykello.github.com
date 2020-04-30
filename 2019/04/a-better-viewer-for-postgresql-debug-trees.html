@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+
+    <meta charset="utf-8">
+    <title>A better viewer for PostgreSQL debug trees</title>
+    <meta name="description" content="If you set `debug_print_parse`, `debug_print_rewritten`, or `debug_print_plan` to true, PostgreSQL will log some of the interesting internal data structures during the query execution. But these logs are usually too long and difficult to inspect.  I recen...">
+    <meta name="author"      content="Hadi Moshayedi">
+    <meta name="keywords"    content="postgres, racket">
+    <meta name="viewport"    content="width=device-width, initial-scale=1.0">
+    <link rel="icon"      href="/favicon.svg">
+    <link rel="canonical" href="https://pykello.github.com/2019/04/a-better-viewer-for-postgresql-debug-trees.html">
+    <link rel="next" href="/2019/03/postgresql-internals-truncate.html">
+    <link rel="prev" href="/2019/06/citus-notes-copy.html">
+    <!-- CSS -->
+    <link rel="stylesheet" type="text/css" href="/css/monochrome.css">
+    <link rel="stylesheet" type="text/css" href="/css/pygments.css">
+    <link rel="stylesheet" type="text/css" href="/css/scribble.css">
+    <link rel="stylesheet" type="text/css" href="/css/custom.css">
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script type="text/javascript" id="MathJax-script" async
+      src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-MML-AM_CHTML">
+    </script>
+    <!-- Feeds -->
+    <link rel="alternate" type="application/atom+xml"
+          href="/feeds/all.atom.xml" title="Atom Feed">
+    <link rel="alternate" type="application/rss+xml"
+          href="/feeds/all.rss.xml" title="RSS Feed">
+    <!-- JS -->
+    <script type="text/javascript">
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+      ga('create', 'UA-xxxxx', 'auto');
+      ga('send', 'pageview');
+    </script>
+  </head>
+  <body>
+
+    <!-- Header -->
+
+    <header id="header" class="parent justify-spaceBetween">
+      <div class="inner w100 relative">
+        <span class="f-left">
+          <a href="/">
+            <h1>
+              <span>the</span>lost<span>packet</span>
+            </h1>
+          </a>
+        </span>
+      </div>
+    </header>
+
+    <div id="container">
+        <main>
+            <article>
+  <header>
+    <h1>A better viewer for PostgreSQL debug trees</h1>
+    <p class='date-and-tags'>
+<time datetime="2019-04-13" pubdate="true">2019-04-13</time> :: <span class="tags"><a href="/tags/postgres.html">postgres</a>, <a href="/tags/racket.html">racket</a></span></p>
+    <p class='authors'>By: <span class="authors">Hadi Moshayedi</span></p>
+  </header>
+
+<p>If you set <code>debug_print_parse</code>, <code>debug_print_rewritten</code>, or <code>debug_print_plan</code> to true, PostgreSQL will log some of the interesting internal data structures during the query execution. But these logs are usually too long and difficult to inspect.</p>
+
+<p>I recently switched to using <a href="https://docs.racket-lang.org/frog/index.html">Frog</a> to generate my blog. Last week I wrote a little Frog plugin to allow me embed these trees in a nice tree view in blog posts.</p>
+<!-- more-->
+
+<p>For example, for <code>SELECT * FROM t</code>, the query tree would be:</p>
+
+<div class="pgtree">
+ <ul>
+  <li>
+   <input checked="true" id="chk-423599649" type="checkbox" />
+   <label for="chk-423599649">{QUERY</label>
+   <ul class="obj-contents">
+    <li>
+     <b>:commandType </b><span>1</span></li>
+    <li>
+     <b>:querySource </b><span>0</span></li>
+    <li>
+     <b>:canSetTag </b><span>true</span></li>
+    <li>
+     <b>:utilityStmt </b><span>&lt;&gt;</span></li>
+    <li>
+     <b>:resultRelation </b><span>0</span></li>
+    <li>
+     <b>:hasAggs </b><span>false</span></li>
+    <li>
+     <b>:hasWindowFuncs </b><span>false</span></li>
+    <li>
+     <b>:hasTargetSRFs </b><span>false</span></li>
+    <li>
+     <b>:hasSubLinks </b><span>false</span></li>
+    <li>
+     <b>:hasDistinctOn </b><span>false</span></li>
+    <li>
+     <b>:hasRecursive </b><span>false</span></li>
+    <li>
+     <b>:hasModifyingCTE </b><span>false</span></li>
+    <li>
+     <b>:hasForUpdate </b><span>false</span></li>
+    <li>
+     <b>:hasRowSecurity </b><span>false</span></li>
+    <li>
+     <b>:cteList </b><span>&lt;&gt;</span></li>
+    <li>
+     <b>:rtable </b>
+     <ul>
+      <li>
+       <input checked="true" id="chk-616649342" type="checkbox" />
+       <label for="chk-616649342">(</label>
+       <ul class="obj-contents">
+        <li>
+         <ul>
+          <li>
+           <input notchecked="true" id="chk-125764833" type="checkbox" />
+           <label for="chk-125764833">{RTE</label>
+           <ul class="obj-contents">
+            <li>
+             <b>:alias </b><span>&lt;&gt;</span></li>
+            <li>
+             <b>:eref </b>
+             <ul>
+              <li>
+               <input notchecked="true" id="chk-303258513" type="checkbox" />
+               <label for="chk-303258513">{ALIAS</label>
+               <ul class="obj-contents">
+                <li>
+                 <b>:aliasname </b><span>t</span></li>
+                <li>
+                 <b>:colnames </b>
+                 <ul>
+                  <li>
+                   <input checked="true" id="chk-676873221" type="checkbox" />
+                   <label for="chk-676873221">(</label>
+                   <ul class="obj-contents">
+                    <li><span>"a" "b"</span></li></ul>
+                   <div class="obj-placeholder">(1 items)</div></li>
+                  <li>)</li></ul></li></ul>
+               <div class="obj-placeholder">...</div></li>
+              <li>}</li></ul></li>
+            <li>
+             <b>:rtekind </b><span>0</span></li>
+            <li>
+             <b>:relid </b><span>16890</span></li>
+            <li>
+             <b>:relkind </b><span>r</span></li>
+            <li>
+             <b>:tablesample </b><span>&lt;&gt;</span></li>
+            <li>
+             <b>:lateral </b><span>false</span></li>
+            <li>
+             <b>:inh </b><span>true</span></li>
+            <li>
+             <b>:inFromCl </b><span>true</span></li>
+            <li>
+             <b>:requiredPerms </b><span>2</span></li>
+            <li>
+             <b>:checkAsUser </b><span>0</span></li>
+            <li>
+             <b>:selectedCols </b>
+             <ul>
+              <li>
+               <input checked="true" id="chk-909047468" type="checkbox" />
+               <label for="chk-909047468">(</label>
+               <ul class="obj-contents">
+                <li><span>b 9 10</span></li></ul>
+               <div class="obj-placeholder">(1 items)</div></li>
+              <li>)</li></ul></li>
+            <li>
+             <b>:insertedCols </b>
+             <ul>
+              <li>
+               <input checked="true" id="chk-686588378" type="checkbox" />
+               <label for="chk-686588378">(</label>
+               <ul class="obj-contents">
+                <li><span>b</span></li></ul>
+               <div class="obj-placeholder">(1 items)</div></li>
+              <li>)</li></ul></li>
+            <li>
+             <b>:updatedCols </b>
+             <ul>
+              <li>
+               <input checked="true" id="chk-304701220" type="checkbox" />
+               <label for="chk-304701220">(</label>
+               <ul class="obj-contents">
+                <li><span>b</span></li></ul>
+               <div class="obj-placeholder">(1 items)</div></li>
+              <li>)</li></ul></li>
+            <li>
+             <b>:securityQuals </b><span>&lt;&gt;</span></li></ul>
+           <div class="obj-placeholder">...</div></li>
+          <li>}</li></ul></li></ul>
+       <div class="obj-placeholder">(1 items)</div></li>
+      <li>)</li></ul></li>
+    <li>
+     <b>:jointree </b>
+     <ul>
+      <li>
+       <input notchecked="true" id="chk-328010661" type="checkbox" />
+       <label for="chk-328010661">{FROMEXPR</label>
+       <ul class="obj-contents">
+        <li>
+         <b>:fromlist </b>
+         <ul>
+          <li>
+           <input checked="true" id="chk-750824228" type="checkbox" />
+           <label for="chk-750824228">(</label>
+           <ul class="obj-contents">
+            <li>
+             <ul>
+              <li>
+               <input notchecked="true" id="chk-899929329" type="checkbox" />
+               <label for="chk-899929329">{RANGETBLREF</label>
+               <ul class="obj-contents">
+                <li>
+                 <b>:rtindex </b><span>1</span></li></ul>
+               <div class="obj-placeholder">...</div></li>
+              <li>}</li></ul></li></ul>
+           <div class="obj-placeholder">(1 items)</div></li>
+          <li>)</li></ul></li>
+        <li>
+         <b>:quals </b>
+         <ul>
+          <li>
+           <input notchecked="true" id="chk-389819269" type="checkbox" />
+           <label for="chk-389819269">{OPEXPR</label>
+           <ul class="obj-contents">
+            <li>
+             <b>:opno </b><span>521</span></li>
+            <li>
+             <b>:opfuncid </b><span>147</span></li>
+            <li>
+             <b>:opresulttype </b><span>16</span></li>
+            <li>
+             <b>:opretset </b><span>false</span></li>
+            <li>
+             <b>:opcollid </b><span>0</span></li>
+            <li>
+             <b>:inputcollid </b><span>0</span></li>
+            <li>
+             <b>:args </b>
+             <ul>
+              <li>
+               <input notchecked="true" id="chk-377323930" type="checkbox" />
+               <label for="chk-377323930">(</label>
+               <ul class="obj-contents">
+                <li>
+                 <ul>
+                  <li>
+                   <input notchecked="true" id="chk-204322607" type="checkbox" />
+                   <label for="chk-204322607">{VAR</label>
+                   <ul class="obj-contents">
+                    <li>
+                     <b>:varno </b><span>1</span></li>
+                    <li>
+                     <b>:varattno </b><span>1</span></li>
+                    <li>
+                     <b>:vartype </b><span>23</span></li>
+                    <li>
+                     <b>:vartypmod </b><span>-1</span></li>
+                    <li>
+                     <b>:varcollid </b><span>0</span></li>
+                    <li>
+                     <b>:varlevelsup </b><span>0</span></li>
+                    <li>
+                     <b>:varnoold </b><span>1</span></li>
+                    <li>
+                     <b>:varoattno </b><span>1</span></li>
+                    <li>
+                     <b>:location </b><span>22</span></li></ul>
+                   <div class="obj-placeholder">...</div></li>
+                  <li>}</li></ul></li>
+                <li>
+                 <ul>
+                  <li>
+                   <input notchecked="true" id="chk-811401091" type="checkbox" />
+                   <label for="chk-811401091">{CONST</label>
+                   <ul class="obj-contents">
+                    <li>
+                     <b>:consttype </b><span>23</span></li>
+                    <li>
+                     <b>:consttypmod </b><span>-1</span></li>
+                    <li>
+                     <b>:constcollid </b><span>0</span></li>
+                    <li>
+                     <b>:constlen </b><span>4</span></li>
+                    <li>
+                     <b>:constbyval </b><span>true</span></li>
+                    <li>
+                     <b>:constisnull </b><span>false</span></li>
+                    <li>
+                     <b>:location </b><span>26</span></li>
+                    <li>
+                     <b>:constvalue </b><span>4 [ 0 0 0 0 0 0 0 0 ]</span></li></ul>
+                   <div class="obj-placeholder">...</div></li>
+                  <li>}</li></ul></li></ul>
+               <div class="obj-placeholder">(2 items)</div></li>
+              <li>)</li></ul></li>
+            <li>
+             <b>:location </b><span>24</span></li></ul>
+           <div class="obj-placeholder">...</div></li>
+          <li>}</li></ul></li></ul>
+       <div class="obj-placeholder">...</div></li>
+      <li>}</li></ul></li>
+    <li>
+     <b>:targetList </b>
+     <ul>
+      <li>
+       <input notchecked="true" id="chk-125962924" type="checkbox" />
+       <label for="chk-125962924">(</label>
+       <ul class="obj-contents">
+        <li>
+         <ul>
+          <li>
+           <input notchecked="true" id="chk-175862046" type="checkbox" />
+           <label for="chk-175862046">{TARGETENTRY</label>
+           <ul class="obj-contents">
+            <li>
+             <b>:expr </b>
+             <ul>
+              <li>
+               <input notchecked="true" id="chk-624195344" type="checkbox" />
+               <label for="chk-624195344">{VAR</label>
+               <ul class="obj-contents">
+                <li>
+                 <b>:varno </b><span>1</span></li>
+                <li>
+                 <b>:varattno </b><span>1</span></li>
+                <li>
+                 <b>:vartype </b><span>23</span></li>
+                <li>
+                 <b>:vartypmod </b><span>-1</span></li>
+                <li>
+                 <b>:varcollid </b><span>0</span></li>
+                <li>
+                 <b>:varlevelsup </b><span>0</span></li>
+                <li>
+                 <b>:varnoold </b><span>1</span></li>
+                <li>
+                 <b>:varoattno </b><span>1</span></li>
+                <li>
+                 <b>:location </b><span>7</span></li></ul>
+               <div class="obj-placeholder">...</div></li>
+              <li>}</li></ul></li>
+            <li>
+             <b>:resno </b><span>1</span></li>
+            <li>
+             <b>:resname </b><span>a</span></li>
+            <li>
+             <b>:ressortgroupref </b><span>0</span></li>
+            <li>
+             <b>:resorigtbl </b><span>16890</span></li>
+            <li>
+             <b>:resorigcol </b><span>1</span></li>
+            <li>
+             <b>:resjunk </b><span>false</span></li></ul>
+           <div class="obj-placeholder">...</div></li>
+          <li>}</li></ul></li>
+        <li>
+         <ul>
+          <li>
+           <input notchecked="true" id="chk-391644940" type="checkbox" />
+           <label for="chk-391644940">{TARGETENTRY</label>
+           <ul class="obj-contents">
+            <li>
+             <b>:expr </b>
+             <ul>
+              <li>
+               <input notchecked="true" id="chk-598309628" type="checkbox" />
+               <label for="chk-598309628">{VAR</label>
+               <ul class="obj-contents">
+                <li>
+                 <b>:varno </b><span>1</span></li>
+                <li>
+                 <b>:varattno </b><span>2</span></li>
+                <li>
+                 <b>:vartype </b><span>25</span></li>
+                <li>
+                 <b>:vartypmod </b><span>-1</span></li>
+                <li>
+                 <b>:varcollid </b><span>100</span></li>
+                <li>
+                 <b>:varlevelsup </b><span>0</span></li>
+                <li>
+                 <b>:varnoold </b><span>1</span></li>
+                <li>
+                 <b>:varoattno </b><span>2</span></li>
+                <li>
+                 <b>:location </b><span>7</span></li></ul>
+               <div class="obj-placeholder">...</div></li>
+              <li>}</li></ul></li>
+            <li>
+             <b>:resno </b><span>2</span></li>
+            <li>
+             <b>:resname </b><span>b</span></li>
+            <li>
+             <b>:ressortgroupref </b><span>0</span></li>
+            <li>
+             <b>:resorigtbl </b><span>16890</span></li>
+            <li>
+             <b>:resorigcol </b><span>2</span></li>
+            <li>
+             <b>:resjunk </b><span>false</span></li></ul>
+           <div class="obj-placeholder">...</div></li>
+          <li>}</li></ul></li></ul>
+       <div class="obj-placeholder">(2 items)</div></li>
+      <li>)</li></ul></li>
+    <li>
+     <b>:override </b><span>0</span></li>
+    <li>
+     <b>:onConflict </b><span>&lt;&gt;</span></li>
+    <li>
+     <b>:returningList </b><span>&lt;&gt;</span></li>
+    <li>
+     <b>:groupClause </b><span>&lt;&gt;</span></li>
+    <li>
+     <b>:groupingSets </b><span>&lt;&gt;</span></li>
+    <li>
+     <b>:havingQual </b><span>&lt;&gt;</span></li>
+    <li>
+     <b>:windowClause </b><span>&lt;&gt;</span></li>
+    <li>
+     <b>:distinctClause </b><span>&lt;&gt;</span></li>
+    <li>
+     <b>:sortClause </b><span>&lt;&gt;</span></li>
+    <li>
+     <b>:limitOffset </b><span>&lt;&gt;</span></li>
+    <li>
+     <b>:limitCount </b><span>&lt;&gt;</span></li>
+    <li>
+     <b>:rowMarks </b><span>&lt;&gt;</span></li>
+    <li>
+     <b>:setOperations </b><span>&lt;&gt;</span></li>
+    <li>
+     <b>:constraintDeps </b><span>&lt;&gt;</span></li>
+    <li>
+     <b>:stmt_location </b><span>0</span></li>
+    <li>
+     <b>:stmt_len </b><span>27</span></li></ul>
+   <div class="obj-placeholder">...</div></li>
+  <li>}</li></ul></div>
+
+<p>If you haven&rsquo;t noticed, the advantage of this compared to putting the whole thing into a simple html code block is that arrays and objects are minimized by default so you can have a better view at the higher level before digging deep into the lower levels.</p>
+
+<p>You can find the source code for this plugin at <a href="https://github.com/pykello/pykello.github.com/blob/3dfd8be2aa6382137a92b3ac4f9f02fa60950069/pgtree.rkt">pgtree.rkt</a>.</p>
+
+<p>It would be nice if some of editors/IDEs had something similar for postgres logs.</p>
+  <footer>
+    <script type="text/javascript">
+      !function(d,s,id){
+          var js,fjs=d.getElementsByTagName(s)[0];
+          if(!d.getElementById(id)){
+              js=d.createElement(s);
+              js.id=id;
+              js.src="//platform.twitter.com/widgets.js";
+              fjs.parentNode.insertBefore(js,fjs);
+          }
+      }(document,"script","twitter-wjs");
+    </script>
+    <a href="https://twitter.com/share"
+       class="twitter-share-button"
+       data-url="https://pykello.github.com/2019/04/a-better-viewer-for-postgresql-debug-trees.html"
+       data-dnt="true">
+      "Tweet"</a>
+    <div id="disqus_thread"></div>
+    <script type="text/javascript">
+      var disqus_config = function () {
+        this.page.identifier = undefined;
+        this.page.url = undefined;
+        this.page.title = undefined;
+        this.page.category_id = undefined;
+      };
+      var disqus_shortname = 'pykello';
+      (function() {
+          var dsq = document.createElement('script');
+          dsq.type = 'text/javascript';
+          dsq.async = true;
+          dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+          dsq.setAttribute('data-timestamp', +new Date());
+          (document.head || document.body).appendChild(dsq);
+      })();
+    </script>
+    <noscript>
+      Please enable JavaScript to view the
+      <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+    </noscript>
+  </footer>
+</article>
+        </main>
+        <footer>
+            <hr />
+            <p><a href="https://twitter.com/pykello"
+                  class="twitter-follow-button"
+                  data-show-count="false"
+                  data-lang="en">
+                 "Follow Hadi Moshayedi"
+               </a>
+               <script type="text/javascript">
+                 !function(d,s,id){
+                     var js,fjs=d.getElementsByTagName(s)[0];
+                     if(!d.getElementById(id)){
+                         js=d.createElement(s);
+                         js.id=id;
+                         js.src="//platform.twitter.com/widgets.js";
+                         fjs.parentNode.insertBefore(js,fjs);
+                     }
+                 }(document,"script","twitter-wjs");
+               </script></p>
+          </footer>
+    </div>
+  </body>
+</html>

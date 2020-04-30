@@ -1,0 +1,914 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+
+    <meta charset="utf-8">
+    <title>Practical Foundations of Programming Languages</title>
+    <meta name="description" content="Practical Foundations of Programming Languages: Language E 4.1. Syntax                       abstract-syntax            concrete-syntax    meaning Typ   ::=    num                        num                numbers                      str                 ...">
+    <meta name="author"      content="Hadi Moshayedi">
+    <meta name="keywords"    content="">
+    <meta name="viewport"    content="width=device-width, initial-scale=1.0">
+    <link rel="icon"      href="/favicon.svg">
+    <link rel="canonical" href="https://pykello.github.com/PFPL.html">
+
+
+    <!-- CSS -->
+    <link rel="stylesheet" type="text/css" href="/css/monochrome.css">
+    <link rel="stylesheet" type="text/css" href="/css/pygments.css">
+    <link rel="stylesheet" type="text/css" href="/css/scribble.css">
+    <link rel="stylesheet" type="text/css" href="/css/custom.css">
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script type="text/javascript" id="MathJax-script" async
+      src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-MML-AM_CHTML">
+    </script>
+    <!-- Feeds -->
+    <link rel="alternate" type="application/atom+xml"
+          href="/feeds/all.atom.xml" title="Atom Feed">
+    <link rel="alternate" type="application/rss+xml"
+          href="/feeds/all.rss.xml" title="RSS Feed">
+    <!-- JS -->
+    <script type="text/javascript">
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+      ga('create', 'UA-xxxxx', 'auto');
+      ga('send', 'pageview');
+    </script>
+  </head>
+  <body>
+
+    <!-- Header -->
+
+    <header id="header" class="parent justify-spaceBetween">
+      <div class="inner w100 relative">
+        <span class="f-left">
+          <a href="/">
+            <h1>
+              <span>the</span>lost<span>packet</span>
+            </h1>
+          </a>
+        </span>
+      </div>
+    </header>
+
+    <div id="container">
+        <main>
+
+<h1><a name="(part._.Practical_.Foundations_of_.Programming_.Languages)"></a>Practical Foundations of Programming Languages</h1>
+
+<p><span class="h2">Language E</span></p>
+
+<p><span style="font-weight: bold">4.1. Syntax</span></p>
+
+<p></p>
+
+<table cellpadding="0" cellspacing="0" class="STable">
+ <tbody>
+  <tr>
+   <td>
+    <p>                   </p></td>
+   <td>
+    <p> abstract-syntax          </p></td>
+   <td>
+    <p> concrete-syntax  </p></td>
+   <td>
+    <p> meaning</p></td></tr>
+  <tr>
+   <td>
+    <p>Typ <img src="/PFPL/pict.png" alt="image" height="14.177777777777777" style="vertical-align: 0px; margin: -3px -3px -3px -3px;" width="15.244444444444444" />  ::=  </p></td>
+   <td>
+    <p> num                      </p></td>
+   <td>
+    <p> num              </p></td>
+   <td>
+    <p> numbers</p></td></tr>
+  <tr>
+   <td>
+    <p>                   </p></td>
+   <td>
+    <p> str                      </p></td>
+   <td>
+    <p> str              </p></td>
+   <td>
+    <p> strings</p></td></tr>
+  <tr>
+   <td>
+    <p>Exp <img src="/PFPL/pict_2.png" alt="image" height="14.533333333333333" style="vertical-align: 0px; margin: -3px -3px -3px -3px;" width="13.11111111111111" />  ::=    </p></td>
+   <td>
+    <p> <img src="/PFPL/pict_3.png" alt="image" height="14.533333333333333" style="vertical-align: 0px; margin: -3px -3px -3px -3px;" width="15.244444444444444" />                    </p></td>
+   <td>
+    <p> <img src="/PFPL/pict_4.png" alt="image" height="14.533333333333333" style="vertical-align: 0px; margin: -3px -3px -3px -3px;" width="15.244444444444444" />            </p></td>
+   <td>
+    <p> variable</p></td></tr>
+  <tr>
+   <td>
+    <p>                   </p></td>
+   <td>
+    <p> num[<img src="/PFPL/pict_5.png" alt="image" height="14.533333333333333" style="vertical-align: 0px; margin: -3px -3px -3px -3px;" width="16.31111111111111" />]               </p></td>
+   <td>
+    <p> <img src="/PFPL/pict_6.png" alt="image" height="14.533333333333333" style="vertical-align: 0px; margin: -3px -3px -3px -3px;" width="16.31111111111111" />            </p></td>
+   <td>
+    <p> numeral</p></td></tr>
+  <tr>
+   <td>
+    <p>                   </p></td>
+   <td>
+    <p> str[<img src="/PFPL/pict_7.png" alt="image" height="14.533333333333333" style="vertical-align: 0px; margin: -3px -3px -3px -3px;" width="13.11111111111111" />]               </p></td>
+   <td>
+    <p> "<img src="/PFPL/pict_8.png" alt="image" height="14.533333333333333" style="vertical-align: 0px; margin: -3px -3px -3px -3px;" width="13.11111111111111" />"          </p></td>
+   <td>
+    <p> literal</p></td></tr>
+  <tr>
+   <td>
+    <p>                   </p></td>
+   <td>
+    <p> plus(<img src="/PFPL/pict_9.png" alt="image" height="17.37777777777778" style="vertical-align: 0px; margin: -3px -3px -3px -3px;" width="19.511111111111113" /> ; <img src="/PFPL/pict_10.png" alt="image" height="17.022222222222222" style="vertical-align: 0px; margin: -3px -3px -3px -3px;" width="19.866666666666667" />)  </p></td>
+   <td>
+    <p> <img src="/PFPL/pict_11.png" alt="image" height="17.37777777777778" style="vertical-align: 0px; margin: -3px -3px -3px -3px;" width="19.511111111111113" /> + <img src="/PFPL/pict_12.png" alt="image" height="17.022222222222222" style="vertical-align: 0px; margin: -3px -3px -3px -3px;" width="19.866666666666667" /> </p></td>
+   <td>
+    <p> addition</p></td></tr>
+  <tr>
+   <td>
+    <p>                   </p></td>
+   <td>
+    <p> times(<img src="/PFPL/pict_13.png" alt="image" height="17.37777777777778" style="vertical-align: 0px; margin: -3px -3px -3px -3px;" width="19.511111111111113" /> ; <img src="/PFPL/pict_14.png" alt="image" height="17.022222222222222" style="vertical-align: 0px; margin: -3px -3px -3px -3px;" width="19.866666666666667" />) </p></td>
+   <td>
+    <p> <img src="/PFPL/pict_15.png" alt="image" height="17.37777777777778" style="vertical-align: 0px; margin: -3px -3px -3px -3px;" width="19.511111111111113" /> * <img src="/PFPL/pict_16.png" alt="image" height="17.022222222222222" style="vertical-align: 0px; margin: -3px -3px -3px -3px;" width="19.866666666666667" /> </p></td>
+   <td>
+    <p> multiplication</p></td></tr>
+  <tr>
+   <td>
+    <p>                   </p></td>
+   <td>
+    <p> cat(<img src="/PFPL/pict_17.png" alt="image" height="17.37777777777778" style="vertical-align: 0px; margin: -3px -3px -3px -3px;" width="19.511111111111113" /> ; <img src="/PFPL/pict_18.png" alt="image" height="17.022222222222222" style="vertical-align: 0px; margin: -3px -3px -3px -3px;" width="19.866666666666667" />)   </p></td>
+   <td>
+    <p> <img src="/PFPL/pict_19.png" alt="image" height="17.37777777777778" style="vertical-align: 0px; margin: -3px -3px -3px -3px;" width="19.511111111111113" /> ^ <img src="/PFPL/pict_20.png" alt="image" height="17.022222222222222" style="vertical-align: 0px; margin: -3px -3px -3px -3px;" width="19.866666666666667" /> </p></td>
+   <td>
+    <p> concatenation</p></td></tr>
+  <tr>
+   <td>
+    <p>                   </p></td>
+   <td>
+    <p> len(<img src="/PFPL/pict_21.png" alt="image" height="14.533333333333333" style="vertical-align: 0px; margin: -3px -3px -3px -3px;" width="13.11111111111111" />)               </p></td>
+   <td>
+    <p> <img src="/PFPL/pict_22.png" alt="image" height="24.844444444444445" style="vertical-align: 0px; margin: -3px -3px -3px -3px;" width="20.933333333333334" />           </p></td>
+   <td>
+    <p> length</p></td></tr>
+  <tr>
+   <td>
+    <p>                   </p></td>
+   <td>
+    <p> let(<img src="/PFPL/pict_23.png" alt="image" height="17.733333333333334" style="vertical-align: 0px; margin: -3px -3px -3px -3px;" width="58.977777777777774" />)      </p></td>
+   <td>
+    <p> let <img src="/PFPL/pict_24.png" alt="image" height="14.533333333333333" style="vertical-align: 0px; margin: -3px -3px -3px -3px;" width="13.11111111111111" /> be <img src="/PFPL/pict_25.png" alt="image" height="17.37777777777778" style="vertical-align: 0px; margin: -3px -3px -3px -3px;" width="19.511111111111113" /> in <img src="/PFPL/pict_26.png" alt="image" height="17.022222222222222" style="vertical-align: 0px; margin: -3px -3px -3px -3px;" width="19.866666666666667" /> </p></td>
+   <td>
+    <p> definition</p></td></tr></tbody></table>
+
+<p><span style="font-weight: bold">4.2. Type System</span></p>
+
+<p></p>
+
+<table cellpadding="0" cellspacing="0" class="STable">
+ <tbody>
+  <tr>
+   <td>
+    <p><img src="/PFPL/pict_27.png" alt="image" height="36.93333333333334" style="vertical-align: 0px; margin: -3px -3px -3px -3px;" width="118.71111111111111" />           </p></td>
+   <td>
+    <p> (4.1a)</p></td></tr>
+  <tr>
+   <td>
+    <p><img src="/PFPL/pict_28.png" alt="image" height="38.0" style="vertical-align: 0px; margin: -3px -3px -3px -3px;" width="121.2" />                </p></td>
+   <td>
+    <p> (4.1b)</p></td></tr>
+  <tr>
+   <td>
+    <p><img src="/PFPL/pict_29.png" alt="image" height="38.0" style="vertical-align: 0px; margin: -3px -3px -3px -3px;" width="150.0" />                </p></td>
+   <td>
+    <p> (4.1c)</p></td></tr>
+  <tr>
+   <td>
+    <p><img src="/PFPL/pict_30.png" alt="image" height="49.022222222222226" style="vertical-align: 0px; margin: -3px -3px -3px -3px;" width="227.15555555555557" /> </p></td>
+   <td>
+    <p> (4.1d)</p></td></tr>
+  <tr>
+   <td>
+    <p><img src="/PFPL/pict_31.png" alt="image" height="49.022222222222226" style="vertical-align: 0px; margin: -3px -3px -3px -3px;" width="227.15555555555557" /> </p></td>
+   <td>
+    <p> (4.1e)</p></td></tr>
+  <tr>
+   <td>
+    <p><img src="/PFPL/pict_32.png" alt="image" height="49.022222222222226" style="vertical-align: 0px; margin: -3px -3px -3px -3px;" width="200.48888888888888" /> </p></td>
+   <td>
+    <p> (4.1f)</p></td></tr>
+  <tr>
+   <td>
+    <p><img src="/PFPL/pict_33.png" alt="image" height="49.022222222222226" style="vertical-align: 0px; margin: -3px -3px -3px -3px;" width="139.6888888888889" /> </p></td>
+   <td>
+    <p> (4.1g)</p></td></tr>
+  <tr>
+   <td>
+    <p><img src="/PFPL/pict_34.png" alt="image" height="49.022222222222226" style="vertical-align: 0px; margin: -3px -3px -3px -3px;" width="232.48888888888888" /> </p></td>
+   <td>
+    <p> (4.1h)</p></td></tr></tbody></table>
+
+<p><span style="font-weight: bold">5.2. Structural Dynamics</span></p>
+
+<p>The judgment <img src="/PFPL/pict_35.png" alt="image" height="19.155555555555555" style="vertical-align: 0px; margin: -3px -3px -3px -3px;" width="39.422222222222224" />, which states <img src="/PFPL/pict_36.png" alt="image" height="14.533333333333333" style="vertical-align: 0px; margin: -3px -3px -3px -3px;" width="13.11111111111111" /> is a value, is inductively defined as:</p>
+
+<p></p>
+
+<table cellpadding="0" cellspacing="0" class="STable">
+ <tbody>
+  <tr>
+   <td>
+    <p><img src="/PFPL/pict_37.png" alt="image" height="38.0" style="vertical-align: 0px; margin: -3px -3px -3px -3px;" width="90.26666666666667" />                                    </p></td>
+   <td>
+    <p> (5.3a)</p></td></tr>
+  <tr>
+   <td>
+    <p><img src="/PFPL/pict_38.png" alt="image" height="38.0" style="vertical-align: 0px; margin: -3px -3px -3px -3px;" width="74.62222222222222" />                                    </p></td>
+   <td>
+    <p> (5.3b)</p></td></tr></tbody></table>
+
+<p>The transition judgment <img src="/PFPL/pict_39.png" alt="image" height="20.933333333333334" style="vertical-align: 0px; margin: -3px -3px -3px -3px;" width="66.08888888888889" /> between states is inductively defined
+by the following rules:</p>
+
+<p></p>
+
+<table cellpadding="0" cellspacing="0" class="STable">
+ <tbody>
+  <tr>
+   <td>
+    <p><img src="/PFPL/pict_40.png" alt="image" height="46.53333333333333" style="vertical-align: 0px; margin: -3px -3px -3px -3px;" width="292.5777777777778" />             </p></td>
+   <td>
+    <p> (5.4a)</p></td></tr>
+  <tr>
+   <td>
+    <p><img src="/PFPL/pict_41.png" alt="image" height="50.08888888888889" style="vertical-align: 0px; margin: -3px -3px -3px -3px;" width="222.88888888888889" />         </p></td>
+   <td>
+    <p> (5.4b)</p></td></tr>
+  <tr>
+   <td>
+    <p><img src="/PFPL/pict_42.png" alt="image" height="49.733333333333334" style="vertical-align: 0px; margin: -3px -3px -3px -3px;" width="222.88888888888889" /> </p></td>
+   <td>
+    <p> (5.4c)</p></td></tr>
+  <tr>
+   <td>
+    <p><img src="/PFPL/pict_43.png" alt="image" height="48.666666666666664" style="vertical-align: 0px; margin: -3px -3px -3px -3px;" width="242.0888888888889" />         </p></td>
+   <td>
+    <p> (5.4d)</p></td></tr>
+  <tr>
+   <td>
+    <p><img src="/PFPL/pict_44.png" alt="image" height="50.08888888888889" style="vertical-align: 0px; margin: -3px -3px -3px -3px;" width="202.26666666666668" />         </p></td>
+   <td>
+    <p> (5.4e)</p></td></tr>
+  <tr>
+   <td>
+    <p><img src="/PFPL/pict_45.png" alt="image" height="49.733333333333334" style="vertical-align: 0px; margin: -3px -3px -3px -3px;" width="202.26666666666668" /> </p></td>
+   <td>
+    <p> (5.4f)</p></td></tr>
+  <tr>
+   <td>
+    <p><img src="/PFPL/pict_46.png" alt="image" height="51.15555555555556" style="vertical-align: 0px; margin: -3px -3px -3px -3px;" width="240.66666666666666" />   </p></td>
+   <td>
+    <p> (5.4g)</p></td></tr>
+  <tr>
+   <td>
+    <p><img src="/PFPL/pict_47.png" alt="image" height="49.733333333333334" style="vertical-align: 0px; margin: -3px -3px -3px -3px;" width="197.64444444444445" />         </p></td>
+   <td>
+    <p> (5.4h)</p></td></tr></tbody></table>
+
+<p>Rules (5.4a), (5.4d), and (5.4h) are <span style="font-style: italic">instruction transitions</span>, because they
+correspond to the primitive steps of evaluation. The remaining rules are
+<span style="font-style: italic">search transitions</span> that determine the order of execution of instructions.</p>
+
+<p>The bracketed rule (5.4g) and bracketed premise on rule (5.4h) are included for a
+<span style="font-style: italic">by-value</span> interpretation of let and omitted for a <span style="font-style: italic">by-name</span>
+interpretation.</p>
+
+<p><span class="h2">Type Safety</span></p>
+
+<p><span style="font-weight: bold">Theorem 6.1</span> (Type Safety).</p>
+
+<ol>
+ <li>
+  <p>(Preservation)
+If <img src="/PFPL/pict_48.png" alt="image" height="14.533333333333333" style="vertical-align: 0px; margin: -3px -3px -3px -3px;" width="38.71111111111111" /> and <img src="/PFPL/pict_49.png" alt="image" height="20.933333333333334" style="vertical-align: 0px; margin: -3px -3px -3px -3px;" width="66.08888888888889" />, then <img src="/PFPL/pict_50.png" alt="image" height="20.933333333333334" style="vertical-align: 0px; margin: -3px -3px -3px -3px;" width="42.977777777777774" />.</p></li>
+ <li>
+  <p>(Progress)
+If <img src="/PFPL/pict_51.png" alt="image" height="14.533333333333333" style="vertical-align: 0px; margin: -3px -3px -3px -3px;" width="38.71111111111111" />, then either <img src="/PFPL/pict_52.png" alt="image" height="19.155555555555555" style="vertical-align: 0px; margin: -3px -3px -3px -3px;" width="39.422222222222224" /> or there exists <img src="/PFPL/pict_53.png" alt="image" height="20.933333333333334" style="vertical-align: 0px; margin: -3px -3px -3px -3px;" width="17.37777777777778" /> such that <img src="/PFPL/pict_54.png" alt="image" height="20.933333333333334" style="vertical-align: 0px; margin: -3px -3px -3px -3px;" width="66.08888888888889" />.</p></li></ol>
+
+<p><span style="font-weight: bold">Error Judgment for Language E</span></p>
+
+<p></p>
+
+<table cellpadding="0" cellspacing="0" class="STable">
+ <tbody>
+  <tr>
+   <td>
+    <p><img src="/PFPL/pict_55.png" alt="image" height="48.666666666666664" style="vertical-align: 0px; margin: -3px -3px -3px -3px;" width="151.06666666666666" />     </p></td>
+   <td>
+    <p> (6.1a)</p></td></tr>
+  <tr>
+   <td>
+    <p><img src="/PFPL/pict_56.png" alt="image" height="44.044444444444444" style="vertical-align: 0px; margin: -3px -3px -3px -3px;" width="110.53333333333333" />     </p></td>
+   <td>
+    <p> (6.1a)</p></td></tr>
+  <tr>
+   <td>
+    <p><img src="/PFPL/pict_57.png" alt="image" height="48.666666666666664" style="vertical-align: 0px; margin: -3px -3px -3px -3px;" width="110.53333333333333" />     </p></td>
+   <td>
+    <p> (6.1a)</p></td></tr></tbody></table>
+
+<p>Expression "error" which forcibly induces an error, with the following static and dynamic semantics:</p>
+
+<p></p>
+
+<table cellpadding="0" cellspacing="0" class="STable">
+ <tbody>
+  <tr>
+   <td>
+    <p><img src="/PFPL/pict_58.png" alt="image" height="33.733333333333334" style="vertical-align: 0px; margin: -3px -3px -3px -3px;" width="103.06666666666666" />      </p></td>
+   <td>
+    <p> (6.2a)</p></td></tr>
+  <tr>
+   <td>
+    <p><img src="/PFPL/pict_59.png" alt="image" height="33.733333333333334" style="vertical-align: 0px; margin: -3px -3px -3px -3px;" width="70.0" />           </p></td>
+   <td>
+    <p> (6.2b)</p></td></tr></tbody></table>
+
+<p><span style="font-weight: bold">Theorem 6.5</span> (Progress With Error). If <img src="/PFPL/pict_60.png" alt="image" height="14.533333333333333" style="vertical-align: 0px; margin: -3px -3px -3px -3px;" width="38.71111111111111" />, then either <img src="/PFPL/pict_61.png" alt="image" height="14.533333333333333" style="vertical-align: 0px; margin: -3px -3px -3px -3px;" width="39.06666666666667" />,
+or <img src="/PFPL/pict_62.png" alt="image" height="19.155555555555555" style="vertical-align: 0px; margin: -3px -3px -3px -3px;" width="39.422222222222224" />, or there exists <img src="/PFPL/pict_63.png" alt="image" height="20.933333333333334" style="vertical-align: 0px; margin: -3px -3px -3px -3px;" width="17.37777777777778" /> such that <img src="/PFPL/pict_64.png" alt="image" height="20.933333333333334" style="vertical-align: 0px; margin: -3px -3px -3px -3px;" width="66.08888888888889" />.</p>
+
+<p><span class="h2">Language ED</span></p>
+
+<p>Adds first-order functions to Language E.</p>
+
+<p>Syntax is:</p>
+
+<p></p>
+
+<table cellpadding="0" cellspacing="0" class="STable">
+ <tbody>
+  <tr>
+   <td>
+    <p>                   </p></td>
+   <td>
+    <p> abstract-syntax                 </p></td>
+   <td>
+    <p> concrete-syntax  </p></td>
+   <td>
+    <p> meaning</p></td></tr>
+  <tr>
+   <td>
+    <p>Exp <img src="/PFPL/pict_65.png" alt="image" height="14.533333333333333" style="vertical-align: 0px; margin: -3px -3px -3px -3px;" width="13.11111111111111" />         ::=  </p></td>
+   <td>
+    <p> <img src="/PFPL/pict_66.png" alt="image" height="24.488888888888887" style="vertical-align: 0px; margin: -3px -3px -3px -3px;" width="84.57777777777778" />                     </p></td>
+   <td>
+    <p> <img src="/PFPL/pict_67.png" alt="image" height="24.488888888888887" style="vertical-align: 0px; margin: -3px -3px -3px -3px;" width="37.28888888888889" />             </p></td>
+   <td>
+    <p> application</p></td></tr>
+  <tr>
+   <td>
+    <p>                   </p></td>
+   <td>
+    <p> <img src="/PFPL/pict_68.png" alt="image" height="25.2" style="vertical-align: 0px; margin: -3px -3px -3px -3px;" width="171.33333333333334" /> </p></td>
+   <td>
+    <p> <img src="/PFPL/pict_69.png" alt="image" height="24.488888888888887" style="vertical-align: 0px; margin: -3px -3px -3px -3px;" width="208.3111111111111" />  </p></td>
+   <td>
+    <p> definition</p></td></tr></tbody></table>
+
+<p>Statics of ED is (the judgement <img src="/PFPL/pict_70.png" alt="image" height="24.488888888888887" style="vertical-align: 0px; margin: -3px -3px -3px -3px;" width="74.97777777777777" /> is called the <span style="font-style: italic">function header</span>):</p>
+
+<p></p>
+
+<table cellpadding="0" cellspacing="0" class="STable">
+ <tbody>
+  <tr>
+   <td>
+    <p><img src="/PFPL/pict_71.png" alt="image" height="50.08888888888889" style="vertical-align: 0px; margin: -3px -3px -3px -3px;" width="306.44444444444446" />    </p></td>
+   <td>
+    <p>  (8.1a)</p></td></tr>
+  <tr>
+   <td>
+    <p><img src="/PFPL/pict_72.png" alt="image" height="50.08888888888889" style="vertical-align: 0px; margin: -3px -3px -3px -3px;" width="200.84444444444443" />   </p></td>
+   <td>
+    <p> (8.1b)</p></td></tr></tbody></table>
+
+<p>Inductive definition of function substituition:</p>
+
+<p></p>
+
+<table cellpadding="0" cellspacing="0" class="STable">
+ <tbody>
+  <tr>
+   <td>
+    <p><img src="/PFPL/pict_73.png" alt="image" height="38.355555555555554" style="vertical-align: 0px; margin: -3px -3px -3px -3px;" width="338.8" /> </p></td>
+   <td>
+    <p> (8.2)</p></td></tr></tbody></table>
+
+<p>Dynamics of ED is:</p>
+
+<p></p>
+
+<table cellpadding="0" cellspacing="0" class="STable">
+ <tbody>
+  <tr>
+   <td>
+    <p><img src="/PFPL/pict_74.png" alt="image" height="38.355555555555554" style="vertical-align: 0px; margin: -3px -3px -3px -3px;" width="301.1111111111111" /> </p></td>
+   <td>
+    <p> (8.3)</p></td></tr></tbody></table>
+
+<p><span class="h2">Language EF</span></p>
+
+<p>Adds higher-order functions to Language E.</p>
+
+<p>Syntax of EF is:</p>
+
+<p></p>
+
+<table cellpadding="0" cellspacing="0" class="STable">
+ <tbody>
+  <tr>
+   <td>
+    <p>               </p></td>
+   <td>
+    <p> abstract-syntax                 </p></td>
+   <td>
+    <p> concrete-syntax  </p></td>
+   <td>
+    <p> meaning</p></td></tr>
+  <tr>
+   <td>
+    <p>Type <img src="/PFPL/pict_75.png" alt="image" height="14.177777777777777" style="vertical-align: 0px; margin: -3px -3px -3px -3px;" width="15.244444444444444" /> ::=  </p></td>
+   <td>
+    <p> <img src="/PFPL/pict_76.png" alt="image" height="24.488888888888887" style="vertical-align: 0px; margin: -3px -3px -3px -3px;" width="79.6" /> </p></td>
+   <td>
+    <p> <img src="/PFPL/pict_77.png" alt="image" height="18.8" style="vertical-align: 0px; margin: -3px -3px -3px -3px;" width="63.6" /> </p></td>
+   <td>
+    <p> function</p></td></tr>
+  <tr>
+   <td>
+    <p>Exp <img src="/PFPL/pict_78.png" alt="image" height="14.533333333333333" style="vertical-align: 0px; margin: -3px -3px -3px -3px;" width="13.11111111111111" /> ::= </p></td>
+   <td>
+    <p> <img src="/PFPL/pict_79.png" alt="image" height="25.2" style="vertical-align: 0px; margin: -3px -3px -3px -3px;" width="99.86666666666666" />   </p></td>
+   <td>
+    <p> <img src="/PFPL/pict_80.png" alt="image" height="24.488888888888887" style="vertical-align: 0px; margin: -3px -3px -3px -3px;" width="73.55555555555556" /> </p></td>
+   <td>
+    <p> abstraction</p></td></tr>
+  <tr>
+   <td>
+    <p>               </p></td>
+   <td>
+    <p> <img src="/PFPL/pict_81.png" alt="image" height="24.488888888888887" style="vertical-align: 0px; margin: -3px -3px -3px -3px;" width="76.04444444444445" />                </p></td>
+   <td>
+    <p> <img src="/PFPL/pict_82.png" alt="image" height="24.488888888888887" style="vertical-align: 0px; margin: -3px -3px -3px -3px;" width="49.37777777777778" />     </p></td>
+   <td>
+    <p> application</p></td></tr></tbody></table>
+
+<p>Statics of EF is:</p>
+
+<p></p>
+
+<table cellpadding="0" cellspacing="0" class="STable">
+ <tbody>
+  <tr>
+   <td>
+    <p><img src="/PFPL/pict_83.png" alt="image" height="49.37777777777778" style="vertical-align: 0px; margin: -3px -3px -3px -3px;" width="232.13333333333333" />   </p></td>
+   <td>
+    <p> (8.4a)</p></td></tr>
+  <tr>
+   <td>
+    <p><img src="/PFPL/pict_84.png" alt="image" height="49.733333333333334" style="vertical-align: 0px; margin: -3px -3px -3px -3px;" width="238.88888888888889" />   </p></td>
+   <td>
+    <p> (8.4b)</p></td></tr></tbody></table>
+
+<p>Dynamics of EF is:</p>
+
+<p></p>
+
+<table cellpadding="0" cellspacing="0" class="STable">
+ <tbody>
+  <tr>
+   <td>
+    <p><img src="/PFPL/pict_85.png" alt="image" height="38.355555555555554" style="vertical-align: 0px; margin: -3px -3px -3px -3px;" width="127.95555555555555" />   </p></td>
+   <td>
+    <p> (8.5a)</p></td></tr>
+  <tr>
+   <td>
+    <p><img src="/PFPL/pict_86.png" alt="image" height="50.08888888888889" style="vertical-align: 0px; margin: -3px -3px -3px -3px;" width="192.66666666666666" />   </p></td>
+   <td>
+    <p> (8.5b)</p></td></tr>
+  <tr>
+   <td>
+    <p><img src="/PFPL/pict_87.png" alt="image" height="51.15555555555556" style="vertical-align: 0px; margin: -3px -3px -3px -3px;" width="206.88888888888889" /> </p></td>
+   <td>
+    <p> (8.5c)</p></td></tr>
+  <tr>
+   <td>
+    <p><img src="/PFPL/pict_88.png" alt="image" height="50.08888888888889" style="vertical-align: 0px; margin: -3px -3px -3px -3px;" width="273.3777777777778" /> </p></td>
+   <td>
+    <p> (8.5d)</p></td></tr></tbody></table>
+
+<p>The bracketed rule and premise are included for a <span style="font-style: italic">call-by-value</span> interpretation
+of function application and excluded for a <span style="font-style: italic">call-by-name</span> interpretation.</p>
+
+<p><span class="h2">System T</span></p>
+
+<p></p>
+
+<table cellpadding="0" cellspacing="0" class="STable">
+ <tbody>
+  <tr>
+   <td>
+    <p>                 </p></td>
+   <td>
+    <p> abstract-syntax                 </p></td>
+   <td>
+    <p> concrete-syntax  </p></td>
+   <td>
+    <p> meaning</p></td></tr>
+  <tr>
+   <td>
+    <p>Type <img src="/PFPL/pict_89.png" alt="image" height="14.177777777777777" style="vertical-align: 0px; margin: -3px -3px -3px -3px;" width="15.244444444444444" /> ::= </p></td>
+   <td>
+    <p> nat                             </p></td>
+   <td>
+    <p> nat              </p></td>
+   <td>
+    <p> naturals</p></td></tr>
+  <tr>
+   <td>
+    <p>                 </p></td>
+   <td>
+    <p> <img src="/PFPL/pict_90.png" alt="image" height="24.488888888888887" style="vertical-align: 0px; margin: -3px -3px -3px -3px;" width="83.5111111111111" />          </p></td>
+   <td>
+    <p> <img src="/PFPL/pict_91.png" alt="image" height="18.8" style="vertical-align: 0px; margin: -3px -3px -3px -3px;" width="63.6" />  </p></td>
+   <td>
+    <p> function</p></td></tr>
+  <tr>
+   <td>
+    <p>Exp <img src="/PFPL/pict_92.png" alt="image" height="14.533333333333333" style="vertical-align: 0px; margin: -3px -3px -3px -3px;" width="13.11111111111111" /> ::=    </p></td>
+   <td>
+    <p> <img src="/PFPL/pict_93.png" alt="image" height="14.533333333333333" style="vertical-align: 0px; margin: -3px -3px -3px -3px;" width="15.244444444444444" />                           </p></td>
+   <td>
+    <p> x                </p></td>
+   <td>
+    <p> variable</p></td></tr>
+  <tr>
+   <td>
+    <p>                 </p></td>
+   <td>
+    <p> z                               </p></td>
+   <td>
+    <p> z                </p></td>
+   <td>
+    <p> zero</p></td></tr>
+  <tr>
+   <td>
+    <p>                 </p></td>
+   <td>
+    <p> s(e)                            </p></td>
+   <td>
+    <p> s(e)             </p></td>
+   <td>
+    <p> successor</p></td></tr>
+  <tr>
+   <td>
+    <p>                 </p></td>
+   <td>
+    <p> <img src="/PFPL/pict_94.png" alt="image" height="24.488888888888887" style="vertical-align: 0px; margin: -3px -3px -3px -3px;" width="134.0" /> </p></td>
+   <td>
+    <p> <img src="/PFPL/pict_95.png" alt="image" height="25.2" style="vertical-align: 0px; margin: -3px -3px -3px -3px;" width="244.57777777777778" /> </p></td>
+   <td>
+    <p> recursion</p></td></tr>
+  <tr>
+   <td>
+    <p>                 </p></td>
+   <td>
+    <p> <img src="/PFPL/pict_96.png" alt="image" height="25.2" style="vertical-align: 0px; margin: -3px -3px -3px -3px;" width="99.86666666666666" />   </p></td>
+   <td>
+    <p> <img src="/PFPL/pict_97.png" alt="image" height="24.488888888888887" style="vertical-align: 0px; margin: -3px -3px -3px -3px;" width="73.55555555555556" /> </p></td>
+   <td>
+    <p> abstraction</p></td></tr>
+  <tr>
+   <td>
+    <p>                 </p></td>
+   <td>
+    <p> <img src="/PFPL/pict_98.png" alt="image" height="24.488888888888887" style="vertical-align: 0px; margin: -3px -3px -3px -3px;" width="76.75555555555556" />        </p></td>
+   <td>
+    <p> <img src="/PFPL/pict_99.png" alt="image" height="24.488888888888887" style="vertical-align: 0px; margin: -3px -3px -3px -3px;" width="49.37777777777778" />     </p></td>
+   <td>
+    <p> application</p></td></tr></tbody></table>
+
+<p>Meaning of <img src="/PFPL/pict_100.png" alt="image" height="24.488888888888887" style="vertical-align: 0px; margin: -3px -3px -3px -3px;" width="134.0" />:</p>
+
+<ul>
+ <li>
+  <p>Result of the recursive function at z is <img src="/PFPL/pict_101.png" alt="image" height="17.37777777777778" style="vertical-align: 0px; margin: -3px -3px -3px -3px;" width="20.22222222222222" /></p></li>
+ <li>
+  <p>Given result of function at x to be y, result of function at s(x) is calculated as <img src="/PFPL/pict_102.png" alt="image" height="17.37777777777778" style="vertical-align: 0px; margin: -3px -3px -3px -3px;" width="19.511111111111113" /></p></li>
+ <li>
+  <p>Find the result of function at e</p></li></ul>
+
+<p>Motivation:</p>
+
+<ul>
+ <li>
+  <p>We can only define total functions in System T</p></li>
+ <li>
+  <p>We define <span style="font-style: italic">Definability</span> in 9.3, and show that functions like <img src="/PFPL/pict_103.png" alt="image" height="24.488888888888887" style="vertical-align: 0px; margin: -3px -3px -3px -3px;" width="106.62222222222222" /> and
+<a href="https://en.wikipedia.org/wiki/Ackermann_function">Ackermann&rsquo;s function</a> are definable</p></li>
+ <li>
+  <p>We show in 9.4 that there exists undefinable functions</p></li></ul>
+
+<p>Existance of an undefinable function:</p>
+
+<ul>
+ <li>
+  <p><span style="font-style: italic">G&#246;del&rsquo;s number</span> <img src="/PFPL/pict_104.png" alt="image" height="19.511111111111113" style="vertical-align: 0px; margin: -3px -3px -3px -3px;" width="32.66666666666667" /> is mapping from expressions to natural number</p></li>
+ <li>
+  <p><span style="font-style: italic">Universal function</span> <img src="/PFPL/pict_105.png" alt="image" height="24.488888888888887" style="vertical-align: 0px; margin: -3px -3px -3px -3px;" width="148.57777777777778" /> iff <img src="/PFPL/pict_106.png" alt="image" height="24.488888888888887" style="vertical-align: 0px; margin: -3px -3px -3px -3px;" width="121.2" /></p></li>
+ <li>
+  <p>Then we prove that <img src="/PFPL/pict_107.png" alt="image" height="24.488888888888887" style="vertical-align: 0px; margin: -3px -3px -3px -3px;" width="164.22222222222223" /> is not definable</p></li></ul>
+
+<p><span class="h2">Product Types</span></p>
+
+<p><span style="font-weight: bold">10.1. Nullary and Binary Products</span></p>
+
+<p></p>
+
+<table cellpadding="0" cellspacing="0" class="STable">
+ <tbody>
+  <tr>
+   <td>
+    <p>                 </p></td>
+   <td>
+    <p> abstract-syntax                 </p></td>
+   <td>
+    <p> concrete-syntax  </p></td>
+   <td>
+    <p> meaning</p></td></tr>
+  <tr>
+   <td>
+    <p>Type <img src="/PFPL/pict_108.png" alt="image" height="14.177777777777777" style="vertical-align: 0px; margin: -3px -3px -3px -3px;" width="15.244444444444444" /> ::= </p></td>
+   <td>
+    <p> unit                             </p></td>
+   <td>
+    <p> unit              </p></td>
+   <td>
+    <p> nullary product</p></td></tr>
+  <tr>
+   <td>
+    <p>                  </p></td>
+   <td>
+    <p> <img src="/PFPL/pict_109.png" alt="image" height="24.488888888888887" style="vertical-align: 0px; margin: -3px -3px -3px -3px;" width="93.82222222222222" /> </p></td>
+   <td>
+    <p> <img src="/PFPL/pict_110.png" alt="image" height="18.444444444444443" style="vertical-align: 0px; margin: -3px -3px -3px -3px;" width="57.55555555555556" /> </p></td>
+   <td>
+    <p> binary product</p></td></tr>
+  <tr>
+   <td>
+    <p>Exp <img src="/PFPL/pict_111.png" alt="image" height="14.533333333333333" style="vertical-align: 0px; margin: -3px -3px -3px -3px;" width="13.11111111111111" /> ::=    </p></td>
+   <td>
+    <p> triv                              </p></td>
+   <td>
+    <p> <img src="/PFPL/pict_112.png" alt="image" height="25.2" style="vertical-align: 0px; margin: -3px -3px -3px -3px;" width="16.666666666666664" /> </p></td>
+   <td>
+    <p> null tuple</p></td></tr>
+  <tr>
+   <td>
+    <p>                 </p></td>
+   <td>
+    <p> <img src="/PFPL/pict_113.png" alt="image" height="24.488888888888887" style="vertical-align: 0px; margin: -3px -3px -3px -3px;" width="89.2" />        </p></td>
+   <td>
+    <p> <img src="/PFPL/pict_114.png" alt="image" height="25.2" style="vertical-align: 0px; margin: -3px -3px -3px -3px;" width="56.84444444444444" /> </p></td>
+   <td>
+    <p> ordered tuple</p></td></tr>
+  <tr>
+   <td>
+    <p>                 </p></td>
+   <td>
+    <p> pr[l][e]                          </p></td>
+   <td>
+    <p> <img src="/PFPL/pict_115.png" alt="image" height="19.155555555555555" style="vertical-align: 0px; margin: -3px -3px -3px -3px;" width="23.42222222222222" />  </p></td>
+   <td>
+    <p> left projection</p></td></tr>
+  <tr>
+   <td>
+    <p>                 </p></td>
+   <td>
+    <p> pr[r][e]                          </p></td>
+   <td>
+    <p> <img src="/PFPL/pict_116.png" alt="image" height="14.533333333333333" style="vertical-align: 0px; margin: -3px -3px -3px -3px;" width="25.555555555555557" />  </p></td>
+   <td>
+    <p> right projection</p></td></tr></tbody></table>
+
+<p><span style="font-weight: bold">10.2. Finite Products</span></p>
+
+<p></p>
+
+<table cellpadding="0" cellspacing="0" class="STable">
+ <tbody>
+  <tr>
+   <td>
+    <p>                 </p></td>
+   <td>
+    <p> abstract-syntax                 </p></td>
+   <td>
+    <p> concrete-syntax  </p></td>
+   <td>
+    <p> meaning</p></td></tr>
+  <tr>
+   <td>
+    <p>Type <img src="/PFPL/pict_117.png" alt="image" height="14.177777777777777" style="vertical-align: 0px; margin: -3px -3px -3px -3px;" width="15.244444444444444" /> ::= </p></td>
+   <td>
+    <p> <img src="/PFPL/pict_118.png" alt="image" height="24.488888888888887" style="vertical-align: 0px; margin: -3px -3px -3px -3px;" width="124.75555555555556" />  </p></td>
+   <td>
+    <p> <img src="/PFPL/pict_119.png" alt="image" height="25.2" style="vertical-align: 0px; margin: -3px -3px -3px -3px;" width="51.51111111111111" />              </p></td>
+   <td>
+    <p> product</p></td></tr>
+  <tr>
+   <td>
+    <p>Exp <img src="/PFPL/pict_120.png" alt="image" height="14.533333333333333" style="vertical-align: 0px; margin: -3px -3px -3px -3px;" width="13.11111111111111" /> ::=    </p></td>
+   <td>
+    <p> <img src="/PFPL/pict_121.png" alt="image" height="25.2" style="vertical-align: 0px; margin: -3px -3px -3px -3px;" width="130.8" />   </p></td>
+   <td>
+    <p> <img src="/PFPL/pict_122.png" alt="image" height="25.2" style="vertical-align: 0px; margin: -3px -3px -3px -3px;" width="52.22222222222222" /> </p></td>
+   <td>
+    <p> tuple</p></td></tr>
+  <tr>
+   <td>
+    <p>                 </p></td>
+   <td>
+    <p> pr[i][e]                                                </p></td>
+   <td>
+    <p> <img src="/PFPL/pict_123.png" alt="image" height="18.444444444444443" style="vertical-align: 0px; margin: -3px -3px -3px -3px;" width="24.133333333333333" />                          </p></td>
+   <td>
+    <p> projection</p></td></tr></tbody></table>
+
+<p><span class="h2">Sum Types</span></p>
+
+<p><span style="font-weight: bold">11.1. Nullary and Binary Sums</span></p>
+
+<p></p>
+
+<table cellpadding="0" cellspacing="0" class="STable">
+ <tbody>
+  <tr>
+   <td>
+    <p>                 </p></td>
+   <td>
+    <p> abstract-syntax                 </p></td>
+   <td>
+    <p> concrete-syntax  </p></td>
+   <td>
+    <p> meaning</p></td></tr>
+  <tr>
+   <td>
+    <p>Type <img src="/PFPL/pict_124.png" alt="image" height="14.177777777777777" style="vertical-align: 0px; margin: -3px -3px -3px -3px;" width="15.244444444444444" /> ::= </p></td>
+   <td>
+    <p> void                             </p></td>
+   <td>
+    <p> void              </p></td>
+   <td>
+    <p> nullary sum</p></td></tr>
+  <tr>
+   <td>
+    <p>                  </p></td>
+   <td>
+    <p> <img src="/PFPL/pict_125.png" alt="image" height="24.488888888888887" style="vertical-align: 0px; margin: -3px -3px -3px -3px;" width="89.2" /> </p></td>
+   <td>
+    <p> <img src="/PFPL/pict_126.png" alt="image" height="19.866666666666667" style="vertical-align: 0px; margin: -3px -3px -3px -3px;" width="57.2" /> </p></td>
+   <td>
+    <p> binary sum</p></td></tr>
+  <tr>
+   <td>
+    <p>Exp <img src="/PFPL/pict_127.png" alt="image" height="14.533333333333333" style="vertical-align: 0px; margin: -3px -3px -3px -3px;" width="13.11111111111111" /> ::=    </p></td>
+   <td>
+    <p> <img src="/PFPL/pict_128.png" alt="image" height="25.2" style="vertical-align: 0px; margin: -3px -3px -3px -3px;" width="97.37777777777778" />    </p></td>
+   <td>
+    <p> abort(e)            </p></td>
+   <td>
+    <p> abort</p></td></tr>
+  <tr>
+   <td>
+    <p>                 </p></td>
+   <td>
+    <p> <img src="/PFPL/pict_129.png" alt="image" height="25.2" style="vertical-align: 0px; margin: -3px -3px -3px -3px;" width="115.5111111111111" /> </p></td>
+   <td>
+    <p> <img src="/PFPL/pict_130.png" alt="image" height="19.155555555555555" style="vertical-align: 0px; margin: -3px -3px -3px -3px;" width="23.42222222222222" /> </p></td>
+   <td>
+    <p> left injection</p></td></tr>
+  <tr>
+   <td>
+    <p>                 </p></td>
+   <td>
+    <p> <img src="/PFPL/pict_131.png" alt="image" height="25.2" style="vertical-align: 0px; margin: -3px -3px -3px -3px;" width="118.35555555555555" /> </p></td>
+   <td>
+    <p> <img src="/PFPL/pict_132.png" alt="image" height="14.533333333333333" style="vertical-align: 0px; margin: -3px -3px -3px -3px;" width="25.555555555555557" /> </p></td>
+   <td>
+    <p> right injection</p></td></tr>
+  <tr>
+   <td>
+    <p>                 </p></td>
+   <td>
+    <p> <img src="/PFPL/pict_133.png" alt="image" height="24.488888888888887" style="vertical-align: 0px; margin: -3px -3px -3px -3px;" width="152.48888888888888" /> </p></td>
+   <td>
+    <p> <img src="/PFPL/pict_134.png" alt="image" height="25.2" style="vertical-align: 0px; margin: -3px -3px -3px -3px;" width="223.24444444444444" /> </p></td>
+   <td>
+    <p> case analysis</p></td></tr></tbody></table>
+
+<p>Statics of case:</p>
+
+<p></p>
+
+<table cellpadding="0" cellspacing="0" class="STable">
+ <tbody>
+  <tr>
+   <td>
+    <p><img src="/PFPL/pict_135.png" alt="image" height="49.37777777777778" style="vertical-align: 0px; margin: -3px -3px -3px -3px;" width="414.1777777777778" /></p></td></tr></tbody></table>
+
+<p><span style="font-weight: bold">11.2. Finite Sums</span></p>
+
+<p></p>
+
+<table cellpadding="0" cellspacing="0" class="STable">
+ <tbody>
+  <tr>
+   <td>
+    <p>                 </p></td>
+   <td>
+    <p> abstract-syntax                 </p></td>
+   <td>
+    <p> concrete-syntax  </p></td>
+   <td>
+    <p> meaning</p></td></tr>
+  <tr>
+   <td>
+    <p>Type <img src="/PFPL/pict_136.png" alt="image" height="14.177777777777777" style="vertical-align: 0px; margin: -3px -3px -3px -3px;" width="15.244444444444444" /> ::= </p></td>
+   <td>
+    <p> <img src="/PFPL/pict_137.png" alt="image" height="24.488888888888887" style="vertical-align: 0px; margin: -3px -3px -3px -3px;" width="120.4888888888889" />  </p></td>
+   <td>
+    <p> <img src="/PFPL/pict_138.png" alt="image" height="24.488888888888887" style="vertical-align: 0px; margin: -3px -3px -3px -3px;" width="46.888888888888886" />              </p></td>
+   <td>
+    <p> sum</p></td></tr>
+  <tr>
+   <td>
+    <p>Exp <img src="/PFPL/pict_139.png" alt="image" height="14.533333333333333" style="vertical-align: 0px; margin: -3px -3px -3px -3px;" width="13.11111111111111" /> ::=    </p></td>
+   <td>
+    <p> <img src="/PFPL/pict_140.png" alt="image" height="25.2" style="vertical-align: 0px; margin: -3px -3px -3px -3px;" width="70.35555555555555" />   </p></td>
+   <td>
+    <p> <img src="/PFPL/pict_141.png" alt="image" height="18.444444444444443" style="vertical-align: 0px; margin: -3px -3px -3px -3px;" width="24.488888888888887" /> </p></td>
+   <td>
+    <p> injection</p></td></tr>
+  <tr>
+   <td>
+    <p>                 </p></td>
+   <td>
+    <p> <img src="/PFPL/pict_142.png" alt="image" height="25.2" style="vertical-align: 0px; margin: -3px -3px -3px -3px;" width="177.73333333333332" />      </p></td>
+   <td>
+    <p> <img src="/PFPL/pict_143.png" alt="image" height="25.2" style="vertical-align: 0px; margin: -3px -3px -3px -3px;" width="159.6" />               </p></td>
+   <td>
+    <p> case analysis</p></td></tr></tbody></table>
+
+<p><span class="h2">Generic Programming</span></p>
+
+<p>A <span style="font-weight: bold">type operator</span> is a type equipped with a designated variable whose occurences mark the spots
+in the type where a transformation is applied.</p>
+
+<p>It is an abstractor <img src="/PFPL/pict_144.png" alt="image" height="17.733333333333334" style="vertical-align: 0px; margin: -3px -3px -3px -3px;" width="26.622222222222224" /> such that <img src="/PFPL/pict_145.png" alt="image" height="23.066666666666666" style="vertical-align: 0px; margin: -3px -3px -3px -3px;" width="119.77777777777777" />. An example is:</p>
+
+<p><img src="/PFPL/pict_146.png" alt="image" height="24.488888888888887" style="vertical-align: 0px; margin: -3px -3px -3px -3px;" width="147.86666666666667" /></p>
+
+<p>An <span style="font-weight: bold">instance</span> of a type operator is obtained by substituting a type <img src="/PFPL/pict_147.png" alt="image" height="18.444444444444443" style="vertical-align: 0px; margin: -3px -3px -3px -3px;" width="14.88888888888889" /> for the variable <img src="/PFPL/pict_148.png" alt="image" height="17.733333333333334" style="vertical-align: 0px; margin: -3px -3px -3px -3px;" width="11.68888888888889" /> within
+the type <img src="/PFPL/pict_149.png" alt="image" height="14.177777777777777" style="vertical-align: 0px; margin: -3px -3px -3px -3px;" width="15.244444444444444" />.</p>
+
+<p>The <span style="font-weight: bold">polynomial</span> type operators aare those constructed from the type variable <img src="/PFPL/pict_150.png" alt="image" height="17.733333333333334" style="vertical-align: 0px; margin: -3px -3px -3px -3px;" width="11.68888888888889" /> and the types void and
+unit, and the product and sume type constructers <img src="/PFPL/pict_151.png" alt="image" height="18.444444444444443" style="vertical-align: 0px; margin: -3px -3px -3px -3px;" width="57.55555555555556" /> and <img src="/PFPL/pict_152.png" alt="image" height="20.577777777777776" style="vertical-align: 0px; margin: -3px -3px -3px -3px;" width="75.68888888888888" />.</p>
+        </main>
+        <footer>
+            <hr />
+            <p><a href="https://twitter.com/pykello"
+                  class="twitter-follow-button"
+                  data-show-count="false"
+                  data-lang="en">
+                 "Follow Hadi Moshayedi"
+               </a>
+               <script type="text/javascript">
+                 !function(d,s,id){
+                     var js,fjs=d.getElementsByTagName(s)[0];
+                     if(!d.getElementById(id)){
+                         js=d.createElement(s);
+                         js.id=id;
+                         js.src="//platform.twitter.com/widgets.js";
+                         fjs.parentNode.insertBefore(js,fjs);
+                     }
+                 }(document,"script","twitter-wjs");
+               </script></p>
+          </footer>
+    </div>
+  </body>
+</html>
