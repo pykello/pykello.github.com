@@ -301,7 +301,7 @@ Statics of case:
 
 @h2{Generic Programming}
 
-A @bold{type operator} is a type equipped with a designated variable whose occurences mark the spots
+A @bold{type operator} is a type equipped with a designated variable whose occurrences mark the spots
 in the type where a transformation is applied.
 
 It is an abstractor @${t.\tau} such that @${t \, \mathrm{type} \vdash \tau \, \mathrm{type}}. An example is:
@@ -313,3 +313,11 @@ the type @${\tau}.
 
 The @bold{polynomial} type operators aare those constructed from the type variable @${t} and the types void and
 unit, and the product and sume type constructers @${\tau_1 \times \tau_2} and @${\tau_1 + tau_2}.
+
+The @bold{positive} type operators extend the polynomial type operators to admit restricted forms of function
+type. Specifically, @${t.\tau_1 \rightarrow \tau_2} is a positive type operator, if (1) t does not occur in
+@${\tau_1}, and (2) @${t.\tau_2} is a positive type operator.
+
+Any occurrences of t within the domain of a function type are @bold{negative occurrences}, whereas any
+occurrences of t within the range of function type, or within a product or sum type, are @bold{positive
+occurrences}.
