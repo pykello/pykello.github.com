@@ -321,3 +321,36 @@ type. Specifically, @${t.\tau_1 \rightarrow \tau_2} is a positive type operator,
 Any occurrences of t within the domain of a function type are @bold{negative occurrences}, whereas any
 occurrences of t within the range of function type, or within a product or sum type, are @bold{positive
 occurrences}.
+
+
+@h2{Inductive and Coinductive Types}
+
+@bold{Natural numbers}
+
+We can view the type nat as a special case of an inductive type:
+
+@autoalign{
+
+    @${\dfrac{\Gamma \vdash e : \mathrm{unit} + \mathrm{nat}}{\Gamma \vdash \mathrm{fold}_\mathrm{nat}(e) : \mathrm{nat}}}   | (15.1a)
+    @${\dfrac{\Gamma, x : \mathrm{unit} + \tau \vdash e_1 : \tau \, \Gamma \vdash e_2 : \mathrm{nat}}{\Gamma \vdash \mathrm{rec}_\mathrm{nat}(x.e_1;e_2):\tau}} | (15.1b)
+}
+
+Unique introduction form:
+@itemlist[
+
+@item{z = @${\mathrm{fold}_\mathrm{nat}(\mathrm{l} . \langle \rangle)}}
+@item{s(e) = @${\mathrm{fold}_\mathrm{nat}(\mathrm{r} . e)}}
+]
+
+Recursor:
+
+@itemlist[
+
+@item{@${x.e_1 : arr(\mathrm{unit + \tau}, \tau)}}
+@item{For x = l.<>, then e_1 computes the base case}
+@item{For x = r . e, then e_1 computes the inductive case from the result e of the recrusive call}
+]
+
+@bold{Streams}
+
+An example of coinductive types is the type of streams of natural numbers.
