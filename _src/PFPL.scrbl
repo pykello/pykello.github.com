@@ -378,3 +378,45 @@ and reorganize the generator correspondingly. With the following statics:
              {\Gamma \vdash \mathrm{gen}_\mathrm{stream}(x.e_1;e_2) : \mathrm{stream}}}                   | (15.5b)
 }
 
+
+@bold{Language M: Statics}
+
+Abstract syntax of inductive and coinductive types:
+
+@autoalign{
+
+    @${\mathrm{Typ} \, \tau ::=}  |  t    | t    | self-reference
+                               | @${\mathrm{ind}(t.\tau)}   | @${\mu(t.\tau)}   | inductive
+                               | @${\mathrm{coi}(t.\tau)}   | @${v(t.\tau)}     | coinductive
+}
+
+@bold{Type formation judgements} have the form:
+
+@autoalign{
+    @${t_1 \, \mathrm{type},...,t_n \, \mathrm{type} \vdash \tau \, \mathrm{type}}
+}
+
+Recrusively defines the following forms (see 15.7a-15.7h)
+
+@itemlist[
+
+@item{Type variables: @${t \, \mathrm{type}}}
+@item{@${\mathrm{unit} \, \mathrm{type} }}
+@item{@${\mathrm{prod}(\tau_1;\tau_2) \, \mathrm{type}}}
+@item{@${\mathrm{void} \, \mathrm{type}}}
+@item{@${\mathrm{sum}(\tau_1;\tau_2) \, \mathrm{type}}}
+@item{@${\mathrm{arr}(\tau_1;\tau_2) \, \mathrm{type}}}
+@item{@${\mathrm{ind}(t.\tau) \, \mathrm{type}}}
+@item{@${\mathrm{coi}(t.\tau) \, \mathrm{type}}}
+]
+
+Abstract syntax of expressions in M:
+
+@autoalign{
+
+    @${\mathrm{Exp} \, e  ::=} | @${\mathrm{fold}\{t.\tau\}(e)}   | @${\mathrm{fold}_{t.\tau}(e)}   | constructor
+                               | @${\mathrm{rec}\{t.\tau\}(x.e_1;e_2)} | @${\mathrm{rec}(x.e_1;e_2)}  | recursor
+                               | @${\mathrm{unfold}\{t.\tau\}(e)} | @${\mathrm{unfold}_{t.\tau}(e)} | destructor
+                               | @${\mathrm{gen}\{t.\tau\}(x.e_1;e_2)} | @${\mathrm{gen}(x.e_1;e_2)} | generator
+
+}
