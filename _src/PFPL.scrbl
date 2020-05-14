@@ -351,6 +351,30 @@ Recursor:
 @item{For x = r . e, then e_1 computes the inductive case from the result e of the recrusive call}
 ]
 
+
+@${\dfrac{.}{\mathrm{rec}_\mathrm{nat}(x.e_1;\mathrm{fold}_\mathrm{nat}(e_2)) 
+             \longmapsto
+             [\mathrm{case}\,e_2\{\mathrm{l} . \_ \hookrightarrow \mathrm{l} . \langle \rangle\ | \mathrm{r} . y \hookrightarrow \mathrm{r} . \mathrm{rec}_\mathrm{nat}(x.e_1;y)\}/x]e_1}}
+
 @bold{Streams}
 
 An example of coinductive types is the type of streams of natural numbers.
+
+@itemlist[
+
+@item{hd(e) returns the next element of the stream}
+@item{tl(e) returns the tail of the stream}
+@item{A stream is introduced by a generator, the dual of recursor, that defines the head and the tail of the stream in terms of the current state of the stream}
+]
+
+To derive streams as a special case of a coinductive type, we combine the head and the tail into a single elimination form,
+and reorganize the generator correspondingly. With the following statics:
+
+@autoalign{
+
+    @${\dfrac{\Gamma \vdash e : \mathrm{stream}}
+             {\Gamma \vdash \mathrm{unfold}_\mathrm{stream}(e) : \mathrm{nat} \times \mathrm{stream}}}     | (15.5a)
+    @${\dfrac{\Gamma, x : \tau \vdash e_1 : \mathrm{nat} \times \tau \quad \Gamma \vdash e_2 : \tau}
+             {\Gamma \vdash \mathrm{gen}_\mathrm{stream}(x.e_1;e_2) : \mathrm{stream}}}                   | (15.5b)
+}
+

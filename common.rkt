@@ -22,8 +22,8 @@
 \newcommand{\R}{\mathbb{R}}
 latex
               )
-(define ($ x)
-           (scale ($$ x) 0.5))
+(define ($ . x)
+           (scale ($$ (apply string-append x)) 0.5))
 
 (define omitable-style (make-style 'omitable null))
 
