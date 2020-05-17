@@ -1,1 +1,23 @@
-../../css/custom.css
+
+@font-face {
+    font-family: 'XB Titre';
+    src: url('css/Titre/XB Titre.ttf')  format('truetype')
+  }
+
+@font-face {
+    font-family: 'Nazli';
+    src: url('css/Nazli/nazli.ttf')  format('truetype')
+  }
+
+body {
+    direction: rtl;
+    font-family: Nazli;
+}
+
+h1, h2 {
+    font-family: 'XB Titre';
+}
+
+pre {
+    direction: ltr;
+}
