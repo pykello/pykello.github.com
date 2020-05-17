@@ -62,6 +62,14 @@ git checkout REL_12_STABLE
 ./configure --prefix=$PGPATH --enable-cassert --enable-debug --enable-depend --with-openssl
 make -j 8
 make install
+
+# install some extensions
+make -C contrib/pageinspect/ install
+make -C contrib/pg_buffercache/ install
+make -C contrib/pg_visibility/ install
+make -C contrib/pgstattuple/ install
+make -C contrib/pg_freespacemap/ install
+make -C contrib/pgrowlocks/ install
 ```
 
 سپس فایل‌های باینری پستگرس را به مسیر اضافه کنید:
@@ -78,6 +86,4 @@ pg_config --version
 ```
 
 خروجی دستور بالا باید چیزی مثل `PostgreSQL 12.1` باشد.
-
-
 
