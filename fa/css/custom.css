@@ -17,10 +17,14 @@ article {
     font-family: Nazli;
 }
 
-article h1, h2 {
+article h1, h2, h3, h4 {
     font-family: 'XB Titre';
 }
 
 pre {
     direction: ltr;
+}
+
+li {
+    margin-right: 25pt;
 }

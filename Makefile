@@ -10,5 +10,7 @@ preview:
 
 clean:
 	raco frog --clean
+	rm -f PFPL/*
 	rm -f index.html sitemap.txt
+	cd fa && make clean
 
