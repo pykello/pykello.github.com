@@ -11,10 +11,13 @@
 
 body {
     direction: rtl;
+}
+
+article {
     font-family: Nazli;
 }
 
-h1, h2 {
+article h1, h2 {
     font-family: 'XB Titre';
 }
 
