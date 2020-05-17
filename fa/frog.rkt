@@ -5,10 +5,10 @@
 ;; in frog/params.
 (define/contract (init)
   (-> any)
-  (current-scheme/host "http://pykello.github.com/fa/")
+  (current-scheme/host "http://pykello.github.com")
   (current-title "My Blog")
   (current-author "The Unknown Author")
-  (current-uri-prefix "/"))
+  (current-uri-prefix "/fa/"))
 
 ;; Called once per post and non-post page, on the contents.
 (define/contract (enhance-body xs)
