@@ -1,9 +1,9 @@
 @(local-require racket/date)
 <article class='post'>
   <header>
-    <h2><a href='@|uri-path|'>@|title|</a></h2>
+    <h2><a href='@|uri-prefix|@|uri-path|'>@|title|</a></h2>
     <p class='date-and-tags'>@|date| :: @|tags|</p>
   </header>
   @|content-only|
-  <p><a href='@|uri-path|'><i>... More ...</i></a></p>
+  <p><a href='@|uri-prefix|@|uri-path|'><i>... More ...</i></a></p>
 </article>
