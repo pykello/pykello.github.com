@@ -36,7 +36,7 @@ sudo apt-get install flex bison libssl-dev
 برای نصب پیش‌نیازها در ردهت:
 
 ```
-sudo yum install -y bison-devel readline-devel zlib-devel openssl-devel wget
+sudo yum install -y bison-devel readline-devel zlib-devel
 sudo yum groupinstall -y 'Development Tools'
 ```
 
@@ -59,7 +59,7 @@ git checkout REL_12_STABLE
 و بالاخره کامپایل و نصب:
 
 ```
-./configure --prefix=$PGPATH --enable-cassert --enable-debug --enable-depend --with-openssl
+./configure --prefix=$PGPATH --enable-cassert --enable-debug --enable-depend
 make -j 8
 make install
 
@@ -75,8 +75,8 @@ make -C contrib/pgrowlocks/ install
 سپس فایل‌های باینری پستگرس را به مسیر اضافه کنید:
 
 ```
-echo PATH=$PGPATH:\$PATH >> ~/.bashrc
-export PATH=$PGPATH:$PATH
+echo PATH=$PGPATH/bin:\$PATH >> ~/.bashrc
+export PATH=$PGPATH/bin:$PATH
 ```
 
 برای امتحان اینکه نصب پستگرس با موفقیت انجام شده است، دستور زیر را اجرا کنید:
@@ -85,5 +85,32 @@ export PATH=$PGPATH:$PATH
 pg_config --version
 ```
 
-خروجی دستور بالا باید چیزی مثل `PostgreSQL 12.1` باشد.
+خروجی دستور بالا باید چیزی مثل `PostgreSQL 12.3` باشد.
+
+**اجرای پستگرس**
+
+ابتدا مسیری برا برای قرار دادن فایل‌های کلاستر پستگرستان در نظر بگریرید:
+
+```
+export PGDATA=$HOME/pg/data
+echo PGDATA=$HOME/pg/data >> ~/.bashrc
+```
+
+سپس کلاستر پستگرس را ایجاد کنید:
+
+```
+initdb -D $PGDATA
+```
+
+سپس پستگرس را اجرا کنید:
+
+```
+pg_ctl -D $PGDATA -l $HOME/pg/log start
+```
+
+اکنون باید بتوانید با کلاینت psql به پستگرس متصل بشوید:
+
+```
+psql -d postgres
+```
 
