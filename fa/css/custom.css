@@ -1,12 +1,12 @@
 
 @font-face {
     font-family: 'XB Titre';
-    src: url('css/Titre/XB Titre.ttf')  format('truetype')
+    src: url('Titre/XB Titre.ttf')  format('truetype')
   }
 
 @font-face {
     font-family: 'Nazli';
-    src: url('css/Nazli/nazli.ttf')  format('truetype')
+    src: url('Nazli/nazli.ttf')  format('truetype')
   }
 
 body {
@@ -14,7 +14,7 @@ body {
 }
 
 article {
-    font-family: Nazli;
+    /* font-family: Nazli; */
 }
 
 article h1, h2, h3, h4 {
