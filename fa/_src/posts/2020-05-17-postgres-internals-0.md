@@ -114,3 +114,17 @@ pg_ctl -D $PGDATA -l $HOME/pg/log start
 psql -d postgres
 ```
 
+### لینک‌ها
+
+* [کامیت‌فست پستگرس](https://wiki.postgresql.org/wiki/CommitFest)
+* [مشارکت کنندگان پستگرس](https://www.postgresql.org/community/contributors/)
+* [لیست افراد با دسترسی کامیت](https://wiki.postgresql.org/wiki/Committers)
+* [مطلبی درباره مشارکت‌های جولیان آسانژ](http://herraiz.org/blog/2011/07/07/software-projects-alzheimer-julian-assanges-lost-contributions/)
+
+
+### سایر مطالب آموزشی مرتبط
+* [بلاگ Egor Rogov درباره پستگرس](https://habr.com/en/users/erogov/posts/)
+* [وبسایت The Internals of PostgreSQL](http://www.interdb.jp/pg/)
+* [درس Intro to Database Systems دانشگاه CMU](https://www.youtube.com/playlist?list=PLSE8ODhjZXjbohkNBWQs_otTrBTrjyohi)
+* [ویدئوهای کنفرانس PGCon](https://www.youtube.com/channel/UCer4R0y7DrLsOXo-bI71O6A/videos)
+
