@@ -22,6 +22,8 @@
 
 ### کامپایل و نصب پستگرس
 
+اجرای مراحل زیر را در این ویدئو نیز می‌توانید مشاهده کنید: https://youtu.be/3I2ZRquphBw
+
 **نصب پیش نیازها**
 
 برای لیست نرم‌افزارهایی که پیش‌نیاز کامپایل پستگرس هستند به این لینک مراجعه کنید: https://www.postgresql.org/docs/12/install-requirements.html
@@ -30,13 +32,13 @@
 
 ```
 sudo apt-get install build-essential libreadline-dev zlib1g-dev
-sudo apt-get install flex bison libssl-dev
+sudo apt-get install flex bison git
 ```
 
 برای نصب پیش‌نیازها در ردهت:
 
 ```
-sudo yum install -y bison-devel readline-devel zlib-devel
+sudo yum install -y bison-devel readline-devel zlib-devel flex git
 sudo yum groupinstall -y 'Development Tools'
 ```
 
@@ -51,7 +53,7 @@ export PGPATH=$HOME/pg/12
 سپس سورس‌کد را از مخزن پستگرس در گیت‌هاب دریافت کرده و به شاخه نسخه ۱۲ بروید:
 
 ```
-git clone git@github.com:postgres/postgres.git
+git clone https://github.com/postgres/postgres.git
 cd postgres
 git checkout REL_12_STABLE
 ```
