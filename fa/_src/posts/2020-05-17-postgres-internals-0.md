@@ -22,11 +22,12 @@
 
 ### کامپایل و نصب پستگرس
 
-اجرای مراحل زیر را در این ویدئو نیز می‌توانید مشاهده کنید: https://youtu.be/3I2ZRquphBw
+اجرای مراحل زیر را در این ویدئو نیز می‌توانید مشاهده کنید: [youtu.be/F1R1qDQghLY](https://youtu.be/F1R1qDQghLY)
 
 **نصب پیش نیازها**
 
-برای لیست نرم‌افزارهایی که پیش‌نیاز کامپایل پستگرس هستند به این لینک مراجعه کنید: https://www.postgresql.org/docs/12/install-requirements.html
+برای لیست نرم‌افزارهایی که پیش‌نیاز کامپایل پستگرس هستند به این لینک مراجعه کنید:
+[PostgreSQL 12 Requirements](https://www.postgresql.org/docs/12/install-requirements.html)
 
 برای نصب پیش‌نیازها در اوبونتو:
 
