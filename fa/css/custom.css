@@ -66,6 +66,11 @@ pre {
     direction: ltr;
 }
 
+code {
+  display: inline-block;
+  direction: ltr;
+}
+
 li {
     margin-right: 25pt;
 }
