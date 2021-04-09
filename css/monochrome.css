@@ -19,10 +19,8 @@ html {
   background-color: #FFFFFF;
   font-size: 16px;
   line-height: 1.8;
-  color: #333333; }
-  @media (min-width: 940px) {
-    html {
-      font-size: 18px; } }
+  color: #333333;
+}
 
 body {
   max-width: 1000px;
