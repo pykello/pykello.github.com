@@ -547,6 +547,8 @@ article img {
 */
 max-width: 100%;
 height: auto;
+text-align: center;
+display: block;
 }
 
 .STable {
