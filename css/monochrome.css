@@ -91,6 +91,7 @@ body {
   font-style: normal;
   font-weight: 400;
   font-size: 16px;
+  -webkit-text-size-adjust: 100%;
   color: #333; }
 
 /*- Typography for medium and small screen, based on 16px font-size -*/
