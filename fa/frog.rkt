@@ -5,7 +5,7 @@
 ;; in frog/params.
 (define/contract (init)
   (-> any)
-  (current-scheme/host "http://pykello.github.com")
+  (current-scheme/host "http://pykello.github.com/fa/")
   (current-title "The Lost Packet")
   (current-author "هادی مشیدی")
   (current-uri-prefix "/fa/"))
