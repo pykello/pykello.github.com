@@ -115,3 +115,10 @@ postgres=# select oid, relfilenode from pg_class where relname='t';
 
 ## فراداده ستون‌ها: pg_attribute
 
+## فراداده نوع‌ها: pg_type
+
+## فراداده عملگرها: pg_operator
+
+## فراداده تابع‌ها: pg_proc
+
+
