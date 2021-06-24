@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+
+    <meta charset="utf-8">
+    <title>Citus Notes: COPY</title>
+    <meta name="description" content="(These are some notes I took while studying Citus code, so it is probably more detail oriented than higher picture oriented).  Citus overrides the utility hook with `multi_ProcessUtility`. This function calls `ProcessCopyStmt()` for COPY statements, which...">
+    <meta name="author"      content="Hadi Moshayedi">
+    <meta name="keywords"    content="postgres, citus, internals">
+    <meta name="viewport"    content="width=device-width, initial-scale=1.0">
+    <link rel="icon"      href="/favicon.svg">
+    <link rel="canonical" href="https://pykello.github.com/2019/06/citus-notes-copy.html">
+    <link rel="next" href="/2019/04/a-better-viewer-for-postgresql-debug-trees.html">
+
+    <!-- CSS -->
+    <link rel="stylesheet" type="text/css" href="/css/monochrome.css">
+    <link rel="stylesheet" type="text/css" href="/css/pygments.css">
+    <link rel="stylesheet" type="text/css" href="/css/scribble.css">
+    <link rel="stylesheet" type="text/css" href="/css/custom.css">
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script type="text/javascript" id="MathJax-script" async
+      src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-MML-AM_CHTML">
+    </script>
+    <!-- Feeds -->
+    <link rel="alternate" type="application/atom+xml"
+          href="/feeds/all.atom.xml" title="Atom Feed">
+    <link rel="alternate" type="application/rss+xml"
+          href="/feeds/all.rss.xml" title="RSS Feed">
+    <!-- JS -->
+    <script type="text/javascript">
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+      ga('create', 'UA-xxxxx', 'auto');
+      ga('send', 'pageview');
+    </script>
+  </head>
+  <body>
+
+    <!-- Header -->
+
+    <header id="header" class="parent justify-spaceBetween">
+      <div class="inner w100 relative">
+        <span class="f-left">
+          <a href="/fa">
+            <h1>
+              <span>the</span>lost<span>packet</span>
+            </h1>
+          </a>
+        </span>
+      </div>
+    </header>
+
+    <div id="container">
+        <main>
+            <article>
+  <header>
+    <h1>Citus Notes: COPY</h1>
+    <p class='date-and-tags'>
+<time datetime="2019-06-20" pubdate="true">2019-06-20</time> :: <span class="tags"><a href="/tags/postgres.html">postgres</a>, <a href="/tags/citus.html">citus</a>, <a href="/tags/internals.html">internals</a></span></p>
+    <p class='authors'><span class="authors">Hadi Moshayedi</span></p>
+  </header>
+
+<p>(These are some notes I took while studying Citus code, so it is probably more detail oriented than higher picture oriented).</p>
+
+<p>Citus overrides the utility hook with <a href="https://github.com/citusdata/citus/blob/6741ffd716593f09b22a01dab70f64d7c62922cd/src/backend/distributed/commands/utility_hook.c#L97"><code>multi_ProcessUtility</code></a>. This function calls <a href="https://github.com/citusdata/citus/blob/6741ffd716593f09b22a01dab70f64d7c62922cd/src/backend/distributed/commands/multi_copy.c#L2556"><code>ProcessCopyStmt()</code></a> for COPY statements, which calls <a href="https://github.com/citusdata/citus/blob/6741ffd716593f09b22a01dab70f64d7c62922cd/src/backend/distributed/commands/multi_copy.c#L181"><code>CitusCopyFrom()</code></a>, which calls <a href="https://github.com/citusdata/citus/blob/6741ffd716593f09b22a01dab70f64d7c62922cd/src/backend/distributed/commands/multi_copy.c#L317"><code>CopyToExistingShards()</code></a>.</p>
+
+<p><code>CopyToExistingShards()</code> uses the <a href="https://github.com/postgres/postgres/blob/master/src/include/commands/copy.h"><code>postgres/src/include/commands/copy.h</code></a> API to read tuples:</p>
+
+<ul>
+ <li><code>BeginCopyFrom()</code></li>
+ <li><code>NextCopyFrom()</code></li>
+ <li><code>EndCopyFrom()</code></li></ul>
+
+<p>and it uses the <code>CitusCopyDestReceiver</code> API to write tuples. <code>CitusCopyDestReceiver</code> is a specialization of postgres’ DataReceiver, which contains the following methods:</p>
+
+<ul>
+ <li><code>rStartup</code>/<code>rShutdown</code>: per-executor-run initialization and shutdown</li>
+ <li><code>rDestroy</code>: destroy the object itself.</li>
+ <li><code>receiveSlot</code>: called for each tuple to be output.</li></ul>
+<!-- more-->
+
+<h2 id="cituscopydestreceiver">CitusCopyDestReceiver</h2>
+
+<h3 id="why">Why?</h3>
+
+<p>You might wonder why would we need to comply with the <code>DestReceiver</code> API? Looking at the implementation of <code>CopyToExistingShards()</code>, we really didn’t need to comply with any API and we could just call some sort of startup/receive/shutdown functions without creating a <code>DestReceiver</code>?</p>
+
+<p>The reason is that Citus also handles “<code>INSERT INTO distributed_table SELECT ...</code>” as a COPY command. We need a way to get tuples in the “<code>SELECT …</code>” part of the statement. <code>DestReceiver</code> is postgres’ generic tuple target. Look closely at <a href="https://github.com/citusdata/citus/blob/96d9847aa4628de2b4a20c6d3b8e219140393b1d/src/backend/distributed/executor/multi_executor.c#L449"><code>ExecutePlanIntoDestReciever()</code></a>. Here Citus asks postgres to run the given planned query, and send each of the tuples to the given  <code>DestReciever</code>. <code>CitusCopyDestReceiver</code> receives those tuples and sends them to the worker nodes.</p>
+
+<h3 id="cituscopydestreceiverstartup-implements-destreceiver-rstartup">CitusCopyDestReceiverStartup (implements DestReceiver-&gt;rStartup)</h3>
+
+<p>Does the necessary checks (e.g. has shards already been created?), acquires necessary locks, and does some initialization (e.g. loads column output functions, etc.)</p>
+
+<h3 id="cituscopydestreceiverreceive-implements-destreceiver-receiveslot">CitusCopyDestReceiverReceive (implements DestReceiver-&gt;receiveSlot)</h3>
+
+<ol>
+ <li>Extracts the partition column value of the tuple</li>
+ <li>Based on value of partition column, finds the shard the tuple need to be sent to.</li>
+ <li>If this is the first tuple for that shard,
+  <ul>
+   <li>Opens connections to all placements of that shards,</li>
+   <li>Starts the COPY statement at the connection.</li></ul></li>
+ <li>Sends the COPY data over all connections for placements of that shard.
+  <ul>
+   <li>Serialize data</li>
+   <li>SendCopyDataToAll() calls SendCopyDataToPlacement() for each placement,  which calls PutRemoteCopyData() for the placement connection, which actually  uses the libpq API to put the COPY data on the connection, and if the data on  the line is more than 8MB, it flushes the data for that connection.</li></ul></li></ol>
+
+<h3 id="cituscopydestreceivershutdown-implements-destreceiver-rshutdown">CitusCopyDestReceiverShutdown (implements DestReceiver-&gt;rShutdown)</h3>
+
+<p>For each of the connections we opened, sends the necessary footers, ends the copy command, and checks the result of COPY command for errors.</p>
+  <footer>
+    <script type="text/javascript">
+      !function(d,s,id){
+          var js,fjs=d.getElementsByTagName(s)[0];
+          if(!d.getElementById(id)){
+              js=d.createElement(s);
+              js.id=id;
+              js.src="//platform.twitter.com/widgets.js";
+              fjs.parentNode.insertBefore(js,fjs);
+          }
+      }(document,"script","twitter-wjs");
+    </script>
+    <a href="https://twitter.com/share"
+       class="twitter-share-button"
+       data-url="https://pykello.github.com/2019/06/citus-notes-copy.html"
+       data-dnt="true">
+      "Tweet"</a>
+    <div id="disqus_thread"></div>
+    <script type="text/javascript">
+      var disqus_config = function () {
+        this.page.identifier = undefined;
+        this.page.url = undefined;
+        this.page.title = undefined;
+        this.page.category_id = undefined;
+      };
+      var disqus_shortname = 'pykello';
+      (function() {
+          var dsq = document.createElement('script');
+          dsq.type = 'text/javascript';
+          dsq.async = true;
+          dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+          dsq.setAttribute('data-timestamp', +new Date());
+          (document.head || document.body).appendChild(dsq);
+      })();
+    </script>
+    <noscript>
+      Please enable JavaScript to view the
+      <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+    </noscript>
+  </footer>
+</article>
+        </main>
+        <footer>
+            <hr />
+            <p><a href="https://twitter.com/pykello"
+                  class="twitter-follow-button"
+                  data-show-count="false"
+                  data-lang="en">
+                 "Follow Hadi Moshayedi"
+               </a>
+               <script type="text/javascript">
+                 !function(d,s,id){
+                     var js,fjs=d.getElementsByTagName(s)[0];
+                     if(!d.getElementById(id)){
+                         js=d.createElement(s);
+                         js.id=id;
+                         js.src="//platform.twitter.com/widgets.js";
+                         fjs.parentNode.insertBefore(js,fjs);
+                     }
+                 }(document,"script","twitter-wjs");
+               </script></p>
+          </footer>
+    </div>
+  </body>
+</html>

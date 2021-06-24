@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?> 
+<feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
+ <title type="text">The Lost Packet: Posts tagged 'citus'</title>
+ <link rel="self" href="https://pykello.github.com/feeds/citus.atom.xml" />
+ <link href="https://pykello.github.com/tags/citus.html" />
+ <id>urn:https-pykello-github-com:-tags-citus-html</id>
+ <updated>2019-06-20T07:00:00Z</updated>
+ <entry>
+  <title type="text">Citus Notes: COPY</title>
+  <link rel="alternate" href="https://pykello.github.com/2019/06/citus-notes-copy.html?utm_source=citus&amp;utm_medium=Atom" />
+  <id>urn:https-pykello-github-com:-2019-06-citus-notes-copy-html</id>
+  <published>2019-06-20T07:00:00Z</published>
+  <updated>2019-06-20T07:00:00Z</updated>
+  <author>
+   <name>Hadi Moshayedi</name></author>
+  <content type="html">
+&lt;p&gt;(These are some notes I took while studying Citus code, so it is probably more detail oriented than higher picture oriented).&lt;/p&gt;
+
+&lt;p&gt;Citus overrides the utility hook with &lt;a href="https://github.com/citusdata/citus/blob/6741ffd716593f09b22a01dab70f64d7c62922cd/src/backend/distributed/commands/utility_hook.c#L97"&gt;&lt;code&gt;multi_ProcessUtility&lt;/code&gt;&lt;/a&gt;. This function calls &lt;a href="https://github.com/citusdata/citus/blob/6741ffd716593f09b22a01dab70f64d7c62922cd/src/backend/distributed/commands/multi_copy.c#L2556"&gt;&lt;code&gt;ProcessCopyStmt()&lt;/code&gt;&lt;/a&gt; for COPY statements, which calls &lt;a href="https://github.com/citusdata/citus/blob/6741ffd716593f09b22a01dab70f64d7c62922cd/src/backend/distributed/commands/multi_copy.c#L181"&gt;&lt;code&gt;CitusCopyFrom()&lt;/code&gt;&lt;/a&gt;, which calls &lt;a href="https://github.com/citusdata/citus/blob/6741ffd716593f09b22a01dab70f64d7c62922cd/src/backend/distributed/commands/multi_copy.c#L317"&gt;&lt;code&gt;CopyToExistingShards()&lt;/code&gt;&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;CopyToExistingShards()&lt;/code&gt; uses the &lt;a href="https://github.com/postgres/postgres/blob/master/src/include/commands/copy.h"&gt;&lt;code&gt;postgres/src/include/commands/copy.h&lt;/code&gt;&lt;/a&gt; API to read tuples:&lt;/p&gt;
+
+&lt;ul&gt;
+ &lt;li&gt;&lt;code&gt;BeginCopyFrom()&lt;/code&gt;&lt;/li&gt;
+ &lt;li&gt;&lt;code&gt;NextCopyFrom()&lt;/code&gt;&lt;/li&gt;
+ &lt;li&gt;&lt;code&gt;EndCopyFrom()&lt;/code&gt;&lt;/li&gt;&lt;/ul&gt;
+
+&lt;p&gt;and it uses the &lt;code&gt;CitusCopyDestReceiver&lt;/code&gt; API to write tuples. &lt;code&gt;CitusCopyDestReceiver&lt;/code&gt; is a specialization of postgres’ DataReceiver, which contains the following methods:&lt;/p&gt;
+
+&lt;ul&gt;
+ &lt;li&gt;&lt;code&gt;rStartup&lt;/code&gt;/&lt;code&gt;rShutdown&lt;/code&gt;: per-executor-run initialization and shutdown&lt;/li&gt;
+ &lt;li&gt;&lt;code&gt;rDestroy&lt;/code&gt;: destroy the object itself.&lt;/li&gt;
+ &lt;li&gt;&lt;code&gt;receiveSlot&lt;/code&gt;: called for each tuple to be output.&lt;/li&gt;&lt;/ul&gt;&lt;a href="https://pykello.github.com/2019/06/citus-notes-copy.html?utm_source=citus&amp;amp;utm_medium=Atom"&gt;&lt;em&gt;More&amp;hellip;&lt;/em&gt;&lt;/a&gt;</content></entry></feed>

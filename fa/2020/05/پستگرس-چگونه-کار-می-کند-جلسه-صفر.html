@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+
+    <meta charset="utf-8">
+    <title>پستگرس چگونه کار می‌کند؟ جلسه صفر</title>
+    <meta name="description" content="در این سری از ویدئوها به بررسی اینکه پستگرس (Postgres یا PostgreSQL) چگونه کار می‌کند می‌پردازیم. برخی از سوالاتی که سعی می‌کنیم به آن‌ها پاسخ دهیم:   پستگرس چگونه داده‌ها را ذخیره می‌کند؟ پستگرس چگونه همروندی را مدیریت می‌کند؟   پستگرس چگونه خطا را مدیری...">
+    <meta name="author"      content="هادی مشیدی">
+    <meta name="keywords"    content="پستگرس">
+    <meta name="viewport"    content="width=device-width, initial-scale=1.0">
+    <link rel="icon"      href="/fa/favicon.svg">
+    <link rel="canonical" href="http://pykello.github.com/fa//fa/2020/05/%D9%BE%D8%B3%D8%AA%DA%AF%D8%B1%D8%B3-%DA%86%DA%AF%D9%88%D9%86%D9%87-%DA%A9%D8%A7%D8%B1-%D9%85%DB%8C-%DA%A9%D9%86%D8%AF-%D8%AC%D9%84%D8%B3%D9%87-%D8%B5%D9%81%D8%B1.html">
+
+    <link rel="prev" href="/fa/2021/04/%D9%BE%D8%B3%D8%AA%DA%AF%D8%B1%D8%B3-%DA%86%DA%AF%D9%88%D9%86%D9%87-%DA%A9%D8%A7%D8%B1-%D9%85%DB%8C-%DA%A9%D9%86%D8%AF-%D8%AC%D9%84%D8%B3%D9%87-%DB%8C%DA%A9-%D8%B2%D9%86%D8%AF%DA%AF%DB%8C-%DB%8C%DA%A9-%DA%A9%D9%88%D9%8A%D9%94%D8%B1%DB%8C.html">
+    <!-- CSS -->
+    <link rel="stylesheet" type="text/css" href="/fa/css/monochrome.css">
+    <link rel="stylesheet" type="text/css" href="/fa/css/pygments.css">
+    <link rel="stylesheet" type="text/css" href="/fa/css/scribble.css">
+    <link rel="stylesheet" type="text/css" href="/fa/css/custom.css">
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script type="text/javascript" id="MathJax-script" async
+      src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-MML-AM_CHTML">
+    </script>
+    <!-- Feeds -->
+    <link rel="alternate" type="application/atom+xml"
+          href="/fa/feeds/all.atom.xml" title="Atom Feed">
+    <link rel="alternate" type="application/rss+xml"
+          href="/fa/feeds/all.rss.xml" title="RSS Feed">
+    <!-- JS -->
+    <script type="text/javascript">
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+      ga('create', 'UA-xxxxx', 'auto');
+      ga('send', 'pageview');
+    </script>
+  </head>
+  <body>
+
+    <!-- Header -->
+
+    <header id="header" class="parent justify-spaceBetween">
+      <div class="inner w100 relative">
+        <span class="f-left">
+          <a href="/fa">
+            <h1>
+              <span>the</span>lost<span>packet</span>
+            </h1>
+          </a>
+        </span>
+      </div>
+    </header>
+
+    <div id="container">
+        <main>
+            <article>
+  <header>
+    <h1>پستگرس چگونه کار می‌کند؟ جلسه صفر</h1>
+    <p class='date-and-tags'>
+<time datetime="2020-05-17" pubdate="true">2020-05-17</time> :: <span class="tags"><a href="/fa/tags/%D9%BE%D8%B3%D8%AA%DA%AF%D8%B1%D8%B3.html">پستگرس</a></span></p>
+    <p class='authors'><span class="authors">هادی مشیدی</span></p>
+  </header>
+
+<p>در این سری از ویدئوها به بررسی اینکه پستگرس (Postgres یا PostgreSQL) چگونه کار می‌کند می‌پردازیم. برخی از سوالاتی که سعی می‌کنیم به آن‌ها پاسخ دهیم:</p>
+
+<ol>
+ <li>پستگرس چگونه داده‌ها را ذخیره می‌کند؟</li>
+ <li>پستگرس چگونه همروندی را مدیریت می‌کند؟</li>
+ <li>پستگرس چگونه خطا را مدیریت می‌کند؟</li>
+ <li>پستگرس چگونه query ها را اجرا می‌کند؟</li></ol>
+
+<p>این سری ویدئوها به آموزش استفاده از پستگرس نمی‌پردازند، و فرض می‌کند که شما تا حدی با مفهوم پایگاه داده و نرم‌افزار پستگرس و زبان SQL (در حد مقدماتی) آشنا هستید.</p>
+<!-- more-->
+
+<h2 id="ویدئو">ویدئو</h2>
+
+<p>(لینک ویدئو)</p>
+
+<h2 id="یادداشتها">یادداشت‌ها</h2>
+
+<h3 id="کامپایل-و-نصب-پستگرس">کامپایل و نصب پستگرس</h3>
+
+<p>اجرای مراحل زیر را در این ویدئو نیز می‌توانید مشاهده کنید: <a href="https://youtu.be/F1R1qDQghLY">youtu.be/F1R1qDQghLY</a></p>
+
+<p><strong>نصب پیش نیازها</strong></p>
+
+<p>برای لیست نرم‌افزارهایی که پیش‌نیاز کامپایل پستگرس هستند به این لینک مراجعه کنید: <a href="https://www.postgresql.org/docs/12/install-requirements.html">PostgreSQL 12 Requirements</a></p>
+
+<p>برای نصب پیش‌نیازها در اوبونتو:</p>
+
+<pre><code>sudo apt-get install build-essential libreadline-dev zlib1g-dev
+sudo apt-get install flex bison git</code></pre>
+
+<p>برای نصب پیش‌نیازها در ردهت:</p>
+
+<pre><code>sudo yum install -y bison-devel readline-devel zlib-devel flex git
+sudo yum groupinstall -y 'Development Tools'</code></pre>
+
+<p><strong>دریافت سورس‌کد و کامپایل</strong></p>
+
+<p>ابتدا مسیری را برای نصب پستگرس در نظر بگیرید:</p>
+
+<pre><code>export PGPATH=$HOME/pg/12</code></pre>
+
+<p>سپس سورس‌کد را از مخزن پستگرس در گیت‌هاب دریافت کرده و به شاخه نسخه ۱۲ بروید:</p>
+
+<pre><code>git clone https://github.com/postgres/postgres.git
+cd postgres
+git checkout REL_12_STABLE</code></pre>
+
+<p>و بالاخره کامپایل و نصب:</p>
+
+<pre><code>./configure --prefix=$PGPATH --enable-cassert --enable-debug --enable-depend
+make -j 8
+make install
+
+# install some extensions
+make -C contrib/pageinspect/ install
+make -C contrib/pg_buffercache/ install
+make -C contrib/pg_visibility/ install
+make -C contrib/pgstattuple/ install
+make -C contrib/pg_freespacemap/ install
+make -C contrib/pgrowlocks/ install</code></pre>
+
+<p>سپس فایل‌های باینری پستگرس را به مسیر اضافه کنید:</p>
+
+<pre><code>echo PATH=$PGPATH/bin:\$PATH &gt;&gt; ~/.bashrc
+export PATH=$PGPATH/bin:$PATH</code></pre>
+
+<p>برای امتحان اینکه نصب پستگرس با موفقیت انجام شده است، دستور زیر را اجرا کنید:</p>
+
+<pre><code>pg_config --version</code></pre>
+
+<p>خروجی دستور بالا باید چیزی مثل <code>PostgreSQL 12.3</code> باشد.</p>
+
+<p><strong>اجرای پستگرس</strong></p>
+
+<p>ابتدا مسیری برا برای قرار دادن فایل‌های کلاستر پستگرستان در نظر بگریرید:</p>
+
+<pre><code>export PGDATA=$HOME/pg/data
+echo PGDATA=$PGDATA &gt;&gt; ~/.bashrc</code></pre>
+
+<p>سپس کلاستر پستگرس را ایجاد کنید:</p>
+
+<pre><code>initdb -D $PGDATA</code></pre>
+
+<p>سپس پستگرس را اجرا کنید:</p>
+
+<pre><code>pg_ctl -D $PGDATA -l $HOME/pg/log start</code></pre>
+
+<p>اکنون باید بتوانید با کلاینت psql به پستگرس متصل بشوید:</p>
+
+<pre><code>psql -d postgres</code></pre>
+
+<h3 id="لینکها">لینک‌ها</h3>
+
+<ul>
+ <li><a href="https://wiki.postgresql.org/wiki/CommitFest">کامیت‌فست پستگرس</a></li>
+ <li><a href="https://www.postgresql.org/community/contributors/">مشارکت کنندگان پستگرس</a></li>
+ <li><a href="https://wiki.postgresql.org/wiki/Committers">لیست افراد با دسترسی کامیت</a></li>
+ <li><a href="http://herraiz.org/blog/2011/07/07/software-projects-alzheimer-julian-assanges-lost-contributions/">مطلبی درباره مشارکت‌های جولیان آسانژ</a></li></ul>
+
+<h3 id="سایر-مطالب-آموزشی-مرتبط">سایر مطالب آموزشی مرتبط</h3>
+
+<ul>
+ <li><a href="https://habr.com/en/users/erogov/posts/">بلاگ Egor Rogov درباره پستگرس</a></li>
+ <li><a href="http://www.interdb.jp/pg/">وبسایت The Internals of PostgreSQL</a></li>
+ <li><a href="https://www.youtube.com/playlist?list=PLSE8ODhjZXjbohkNBWQs_otTrBTrjyohi">درس Intro to Database Systems دانشگاه CMU</a></li>
+ <li><a href="https://www.youtube.com/channel/UCer4R0y7DrLsOXo-bI71O6A/videos">ویدئوهای کنفرانس PGCon</a></li></ul>
+  <footer>
+    <script type="text/javascript">
+      !function(d,s,id){
+          var js,fjs=d.getElementsByTagName(s)[0];
+          if(!d.getElementById(id)){
+              js=d.createElement(s);
+              js.id=id;
+              js.src="//platform.twitter.com/widgets.js";
+              fjs.parentNode.insertBefore(js,fjs);
+          }
+      }(document,"script","twitter-wjs");
+    </script>
+    <a href="https://twitter.com/share"
+       class="twitter-share-button"
+       data-url="http://pykello.github.com/fa//fa/2020/05/%D9%BE%D8%B3%D8%AA%DA%AF%D8%B1%D8%B3-%DA%86%DA%AF%D9%88%D9%86%D9%87-%DA%A9%D8%A7%D8%B1-%D9%85%DB%8C-%DA%A9%D9%86%D8%AF-%D8%AC%D9%84%D8%B3%D9%87-%D8%B5%D9%81%D8%B1.html"
+       data-dnt="true">
+      "Tweet"</a>
+    <div id="disqus_thread"></div>
+    <script type="text/javascript">
+      var disqus_config = function () {
+        this.page.identifier = undefined;
+        this.page.url = undefined;
+        this.page.title = undefined;
+        this.page.category_id = undefined;
+      };
+      var disqus_shortname = 'pykello';
+      (function() {
+          var dsq = document.createElement('script');
+          dsq.type = 'text/javascript';
+          dsq.async = true;
+          dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+          dsq.setAttribute('data-timestamp', +new Date());
+          (document.head || document.body).appendChild(dsq);
+      })();
+    </script>
+    <noscript>
+      Please enable JavaScript to view the
+      <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+    </noscript>
+  </footer>
+</article>
+        </main>
+        <footer>
+            <hr />
+            <p><a href="https://twitter.com/pykello"
+                  class="twitter-follow-button"
+                  data-show-count="false"
+                  data-lang="en">
+                 "Follow Hadi Moshayedi"
+               </a>
+               <script type="text/javascript">
+                 !function(d,s,id){
+                     var js,fjs=d.getElementsByTagName(s)[0];
+                     if(!d.getElementById(id)){
+                         js=d.createElement(s);
+                         js.id=id;
+                         js.src="//platform.twitter.com/widgets.js";
+                         fjs.parentNode.insertBefore(js,fjs);
+                     }
+                 }(document,"script","twitter-wjs");
+               </script></p>
+          </footer>
+    </div>
+  </body>
+</html>

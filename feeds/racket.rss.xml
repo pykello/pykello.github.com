@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?> 
+<rss version="2.0">
+ <channel>
+  <title>The Lost Packet: Posts tagged 'racket'</title>
+  <description>The Lost Packet: Posts tagged 'racket'</description>
+  <link>https://pykello.github.com/tags/racket.html</link>
+  <lastBuildDate>Sat, 13 Apr 2019 07:00:00 UT</lastBuildDate>
+  <pubDate>Sat, 13 Apr 2019 07:00:00 UT</pubDate>
+  <ttl>1800</ttl>
+  <item>
+   <title>A better viewer for PostgreSQL debug trees</title>
+   <link>https://pykello.github.com/2019/04/a-better-viewer-for-postgresql-debug-trees.html?utm_source=racket&amp;utm_medium=RSS</link>
+   <guid isPermaLink="false">urn:https-pykello-github-com:-2019-04-a-better-viewer-for-postgresql-debug-trees-html</guid>
+   <pubDate>Sat, 13 Apr 2019 07:00:00 UT</pubDate>
+   <author>Hadi Moshayedi</author>
+   <description>
+&lt;p&gt;If you set &lt;code&gt;debug_print_parse&lt;/code&gt;, &lt;code&gt;debug_print_rewritten&lt;/code&gt;, or &lt;code&gt;debug_print_plan&lt;/code&gt; to true, PostgreSQL will log some of the interesting internal data structures during the query execution. But these logs are usually too long and difficult to inspect.&lt;/p&gt;
+
+&lt;p&gt;I recently switched to using &lt;a href="https://docs.racket-lang.org/frog/index.html"&gt;Frog&lt;/a&gt; to generate my blog. Last week I wrote a little Frog plugin to allow me embed these trees in a nice tree view in blog posts.&lt;/p&gt;&lt;a href="https://pykello.github.com/2019/04/a-better-viewer-for-postgresql-debug-trees.html?utm_source=racket&amp;amp;utm_medium=RSS"&gt;&lt;em&gt;More&amp;hellip;&lt;/em&gt;&lt;/a&gt;</description></item></channel></rss>
