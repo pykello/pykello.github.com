@@ -5,6 +5,7 @@ This is built using [Frog](https://docs.racket-lang.org/frog/index.html).
 * To deploy to github pages, do `./deploy.sh`.
 
 ```
+sudo apt install python3 python-is-python3 texlive dvipng
 raco pkg install frog
 raco pkg install slideshow-latex
 raco pkg install scribble-math
