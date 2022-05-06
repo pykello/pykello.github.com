@@ -71,6 +71,13 @@ code {
   direction: ltr;
 }
 
+div[class='brush: python'] {
+  display: block;
+  direction: ltr;
+}
+
+.linenodiv { display: none;}
+
 li {
     margin-right: 25pt;
 }
