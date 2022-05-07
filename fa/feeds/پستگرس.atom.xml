@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?> 
+<feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
+ <title type="text">The Lost Packet: Posts tagged 'پستگرس'</title>
+ <link rel="self" href="http://pykello.github.com/fa//fa/feeds/%D9%BE%D8%B3%D8%AA%DA%AF%D8%B1%D8%B3.atom.xml" />
+ <link href="http://pykello.github.com/fa//fa/tags/%D9%BE%D8%B3%D8%AA%DA%AF%D8%B1%D8%B3.html" />
+ <id>urn:http-pykello-github-com-fa:-fa-tags-D9-BE-D8-B3-D8-AA-DA-AF-D8-B1-D8-B3-html</id>
+ <updated>2021-06-20T07:00:00Z</updated>
+ <entry>
+  <title type="text">بهینه‌ساز پستگرس، بخش یکم</title>
+  <link rel="alternate" href="http://pykello.github.com/fa//fa/2021/06/%D8%A8%D9%87%DB%8C%D9%86%D9%87-%D8%B3%D8%A7%D8%B2-%D9%BE%D8%B3%D8%AA%DA%AF%D8%B1%D8%B3-%D8%A8%D8%AE%D8%B4-%DB%8C%DA%A9%D9%85.html?utm_source=%D9%BE%D8%B3%D8%AA%DA%AF%D8%B1%D8%B3&amp;utm_medium=Atom" />
+  <id>urn:http-pykello-github-com-fa:-fa-2021-06-D8-A8-D9-87-DB-8C-D9-86-D9-87-D8-B3-D8-A7-D8-B2-D9-BE-D8-B3-D8-AA-DA-AF-D8-B1-D8-B3-D8-A8-D8-AE-D8-B4-DB-8C-DA-A9-D9-85-html</id>
+  <published>2021-06-20T07:00:00Z</published>
+  <updated>2021-06-20T07:00:00Z</updated>
+  <author>
+   <name>هادی مشیدی</name></author>
+  <content type="html">
+&lt;p&gt;در این نوشته و بخش‌های بعدی به مباحث زیر می‌پردازیم:&lt;/p&gt;
+
+&lt;ol&gt;
+ &lt;li&gt;روش‌های یافتن سطرها در پستگرس&lt;/li&gt;
+ &lt;li&gt;روش‌های انجام join در پستگرس&lt;/li&gt;
+ &lt;li&gt;چند مثال از join که کند است و چگونه سریع‌تر کنیم.&lt;/li&gt;&lt;/ol&gt;
+
+&lt;p&gt;در این بخش، تنها به مورد ۱، یعنی روش‌های یافتن سطرها می‌پردازیم.&lt;/p&gt;
+
+&lt;p&gt;لینک ویدئو: &lt;a href="https://youtu.be/SoJp8cznKrE"&gt;youtu.be/SoJp8cznKrE&lt;/a&gt;&lt;/p&gt;&lt;a href="http://pykello.github.com/fa//fa/2021/06/%D8%A8%D9%87%DB%8C%D9%86%D9%87-%D8%B3%D8%A7%D8%B2-%D9%BE%D8%B3%D8%AA%DA%AF%D8%B1%D8%B3-%D8%A8%D8%AE%D8%B4-%DB%8C%DA%A9%D9%85.html?utm_source=%D9%BE%D8%B3%D8%AA%DA%AF%D8%B1%D8%B3&amp;amp;utm_medium=Atom"&gt;&lt;em&gt;More&amp;hellip;&lt;/em&gt;&lt;/a&gt;</content></entry>
+ <entry>
+  <title type="text">پستگرس چگونه کار می‌کند؟ جلسه دو - جدول‌های سیستمی</title>
+  <link rel="alternate" href="http://pykello.github.com/fa//fa/2021/04/%D9%BE%D8%B3%D8%AA%DA%AF%D8%B1%D8%B3-%DA%86%DA%AF%D9%88%D9%86%D9%87-%DA%A9%D8%A7%D8%B1-%D9%85%DB%8C-%DA%A9%D9%86%D8%AF-%D8%AC%D9%84%D8%B3%D9%87-%D8%AF%D9%88-%D8%AC%D8%AF%D9%88%D9%84-%D9%87%D8%A7%DB%8C-%D8%B3%DB%8C%D8%B3%D8%AA%D9%85%DB%8C.html?utm_source=%D9%BE%D8%B3%D8%AA%DA%AF%D8%B1%D8%B3&amp;utm_medium=Atom" />
+  <id>urn:http-pykello-github-com-fa:-fa-2021-04-D9-BE-D8-B3-D8-AA-DA-AF-D8-B1-D8-B3-DA-86-DA-AF-D9-88-D9-86-D9-87-DA-A9-D8-A7-D8-B1-D9-85-DB-8C-DA-A9-D9-86-D8-AF-D8-AC-D9-84-D8-B3-D9-87-D8-AF-D9-88-D8-AC-D8-AF-D9-88-D9-84-D9-87-D8-A7-DB-8C-D8-B3-DB-8C-D8-B3-D8-AA-D9-85-DB-8C-html</id>
+  <published>2021-04-18T07:00:00Z</published>
+  <updated>2021-04-18T07:00:00Z</updated>
+  <author>
+   <name>هادی مشیدی</name></author>
+  <content type="html">
+&lt;p&gt;در &lt;a href="/fa/2021/04/پستگرس-چگونه-کار-می-کند-جلسه-یک-زندگی-یک-کوئری.html"&gt;جلسه یک&lt;/a&gt; گفتیم که پستگرس پس از parse کردن کوئری، در مرحله آنالیز ارجاعات به جداول، ستون‌ها، &amp;hellip; را بررسی می‌کند.&lt;/p&gt;
+
+&lt;p&gt;مثلا در کوئری زیر:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;SELECT a, b FROM t WHERE a &amp;gt; 0;&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;باید ارجاعات زیر بررسی شوند:&lt;/p&gt;
+
+&lt;ol&gt;
+ &lt;li&gt;آیا جدولی به نام t وجود دارد؟ در صورت وجود، فراداده‌ی مربوط به t (مثل مسیر فایل داده) چیست؟&lt;/li&gt;
+ &lt;li&gt;آیا جدول t ستون‌هایی به نام a و b دارد؟ در صورت وجود، این ستون‌ها چندمین ستون‌ها در این جدول هستند؟&lt;/li&gt;
+ &lt;li&gt;نوع داده‌های ستون‌های a و b چیست؟&lt;/li&gt;
+ &lt;li&gt;فرض کنید نوع ستون a عدد صحیح است. آیا عمل &lt;code&gt;a &amp;gt; 0&lt;/code&gt; برای اعداد صحیح تعیین شده است؟ اگر بلی، برای انجام این عمل باید از چه تابعی باید استفاده شود؟&lt;/li&gt;&lt;/ol&gt;
+
+&lt;p&gt;در این بخش به این می‌پردازیم که پستگرس چگونه به سوال‌های بالا پاسخ می‌دهد.&lt;/p&gt;
+
+&lt;p&gt;لینک ویدئو: &lt;a href="https://youtu.be/hHkubRh-LXw"&gt;youtu.be/hHkubRh-LXw&lt;/a&gt;&lt;/p&gt;&lt;a href="http://pykello.github.com/fa//fa/2021/04/%D9%BE%D8%B3%D8%AA%DA%AF%D8%B1%D8%B3-%DA%86%DA%AF%D9%88%D9%86%D9%87-%DA%A9%D8%A7%D8%B1-%D9%85%DB%8C-%DA%A9%D9%86%D8%AF-%D8%AC%D9%84%D8%B3%D9%87-%D8%AF%D9%88-%D8%AC%D8%AF%D9%88%D9%84-%D9%87%D8%A7%DB%8C-%D8%B3%DB%8C%D8%B3%D8%AA%D9%85%DB%8C.html?utm_source=%D9%BE%D8%B3%D8%AA%DA%AF%D8%B1%D8%B3&amp;amp;utm_medium=Atom"&gt;&lt;em&gt;More&amp;hellip;&lt;/em&gt;&lt;/a&gt;</content></entry>
+ <entry>
+  <title type="text">پستگرس چگونه کار می‌کند؟ جلسه یک - زندگی یک کوئری</title>
+  <link rel="alternate" href="http://pykello.github.com/fa//fa/2021/04/%D9%BE%D8%B3%D8%AA%DA%AF%D8%B1%D8%B3-%DA%86%DA%AF%D9%88%D9%86%D9%87-%DA%A9%D8%A7%D8%B1-%D9%85%DB%8C-%DA%A9%D9%86%D8%AF-%D8%AC%D9%84%D8%B3%D9%87-%DB%8C%DA%A9-%D8%B2%D9%86%D8%AF%DA%AF%DB%8C-%DB%8C%DA%A9-%DA%A9%D9%88%D9%8A%D9%94%D8%B1%DB%8C.html?utm_source=%D9%BE%D8%B3%D8%AA%DA%AF%D8%B1%D8%B3&amp;utm_medium=Atom" />
+  <id>urn:http-pykello-github-com-fa:-fa-2021-04-D9-BE-D8-B3-D8-AA-DA-AF-D8-B1-D8-B3-DA-86-DA-AF-D9-88-D9-86-D9-87-DA-A9-D8-A7-D8-B1-D9-85-DB-8C-DA-A9-D9-86-D8-AF-D8-AC-D9-84-D8-B3-D9-87-DB-8C-DA-A9-D8-B2-D9-86-D8-AF-DA-AF-DB-8C-DB-8C-DA-A9-DA-A9-D9-88-D9-8A-D9-94-D8-B1-DB-8C-html</id>
+  <published>2021-04-05T07:00:00Z</published>
+  <updated>2021-04-05T07:00:00Z</updated>
+  <author>
+   <name>هادی مشیدی</name></author>
+  <content type="html">
+&lt;p&gt;در این نوشته خلاصه‌‌ای از ویدئویی که چند روز پیش با عنوان «درونیجات پستگرس - زندگی یک کوئری» ضبط کردم را ارائه می‌دهم.&lt;/p&gt;
+
+&lt;p&gt;می‌خواهیم به این سوال بپردازیم که وقتی یک کوئری مثل &lt;code&gt;SELECT * FROM t&lt;/code&gt; در پستگرس اجرا می‌کنیم، چه اتفاقهایی در پشت صحنه می‌افتد.&lt;/p&gt;
+
+&lt;p&gt;لینک ویدئو: &lt;a href="https://youtu.be/Z09rG7cLzF8"&gt;youtu.be/Z09rG7cLzF8&lt;/a&gt;&lt;/p&gt;&lt;a href="http://pykello.github.com/fa//fa/2021/04/%D9%BE%D8%B3%D8%AA%DA%AF%D8%B1%D8%B3-%DA%86%DA%AF%D9%88%D9%86%D9%87-%DA%A9%D8%A7%D8%B1-%D9%85%DB%8C-%DA%A9%D9%86%D8%AF-%D8%AC%D9%84%D8%B3%D9%87-%DB%8C%DA%A9-%D8%B2%D9%86%D8%AF%DA%AF%DB%8C-%DB%8C%DA%A9-%DA%A9%D9%88%D9%8A%D9%94%D8%B1%DB%8C.html?utm_source=%D9%BE%D8%B3%D8%AA%DA%AF%D8%B1%D8%B3&amp;amp;utm_medium=Atom"&gt;&lt;em&gt;More&amp;hellip;&lt;/em&gt;&lt;/a&gt;</content></entry>
+ <entry>
+  <title type="text">پستگرس چگونه کار می‌کند؟ جلسه صفر</title>
+  <link rel="alternate" href="http://pykello.github.com/fa//fa/2020/05/%D9%BE%D8%B3%D8%AA%DA%AF%D8%B1%D8%B3-%DA%86%DA%AF%D9%88%D9%86%D9%87-%DA%A9%D8%A7%D8%B1-%D9%85%DB%8C-%DA%A9%D9%86%D8%AF-%D8%AC%D9%84%D8%B3%D9%87-%D8%B5%D9%81%D8%B1.html?utm_source=%D9%BE%D8%B3%D8%AA%DA%AF%D8%B1%D8%B3&amp;utm_medium=Atom" />
+  <id>urn:http-pykello-github-com-fa:-fa-2020-05-D9-BE-D8-B3-D8-AA-DA-AF-D8-B1-D8-B3-DA-86-DA-AF-D9-88-D9-86-D9-87-DA-A9-D8-A7-D8-B1-D9-85-DB-8C-DA-A9-D9-86-D8-AF-D8-AC-D9-84-D8-B3-D9-87-D8-B5-D9-81-D8-B1-html</id>
+  <published>2020-05-17T07:00:00Z</published>
+  <updated>2020-05-17T07:00:00Z</updated>
+  <author>
+   <name>هادی مشیدی</name></author>
+  <content type="html">
+&lt;p&gt;در این سری از ویدئوها به بررسی اینکه پستگرس (Postgres یا PostgreSQL) چگونه کار می‌کند می‌پردازیم. برخی از سوالاتی که سعی می‌کنیم به آن‌ها پاسخ دهیم:&lt;/p&gt;
+
+&lt;ol&gt;
+ &lt;li&gt;پستگرس چگونه داده‌ها را ذخیره می‌کند؟&lt;/li&gt;
+ &lt;li&gt;پستگرس چگونه همروندی را مدیریت می‌کند؟&lt;/li&gt;
+ &lt;li&gt;پستگرس چگونه خطا را مدیریت می‌کند؟&lt;/li&gt;
+ &lt;li&gt;پستگرس چگونه query ها را اجرا می‌کند؟&lt;/li&gt;&lt;/ol&gt;
+
+&lt;p&gt;این سری ویدئوها به آموزش استفاده از پستگرس نمی‌پردازند، و فرض می‌کند که شما تا حدی با مفهوم پایگاه داده و نرم‌افزار پستگرس و زبان SQL (در حد مقدماتی) آشنا هستید.&lt;/p&gt;&lt;a href="http://pykello.github.com/fa//fa/2020/05/%D9%BE%D8%B3%D8%AA%DA%AF%D8%B1%D8%B3-%DA%86%DA%AF%D9%88%D9%86%D9%87-%DA%A9%D8%A7%D8%B1-%D9%85%DB%8C-%DA%A9%D9%86%D8%AF-%D8%AC%D9%84%D8%B3%D9%87-%D8%B5%D9%81%D8%B1.html?utm_source=%D9%BE%D8%B3%D8%AA%DA%AF%D8%B1%D8%B3&amp;amp;utm_medium=Atom"&gt;&lt;em&gt;More&amp;hellip;&lt;/em&gt;&lt;/a&gt;</content></entry></feed>

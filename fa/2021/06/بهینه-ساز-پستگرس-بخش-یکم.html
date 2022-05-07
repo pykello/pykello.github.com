@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+
+    <meta charset="utf-8">
+    <title>بهینه‌ساز پستگرس، بخش یکم</title>
+    <meta name="description" content="در این نوشته و بخش‌های بعدی به مباحث زیر می‌پردازیم:   روش‌های یافتن سطرها در پستگرس روش‌های انجام join در پستگرس   چند مثال از join که کند است و چگونه سریع‌تر کنیم.  در این بخش، تنها به مورد ۱، یعنی روش‌های یافتن سطرها می‌پردازیم.  لینک ویدئو: youtu.be/S...">
+    <meta name="author"      content="هادی مشیدی">
+    <meta name="keywords"    content="پستگرس">
+    <meta name="viewport"    content="width=device-width, initial-scale=1.0">
+    <link rel="icon"      href="/fa/favicon.svg">
+    <link rel="canonical" href="http://pykello.github.com/fa//fa/2021/06/%D8%A8%D9%87%DB%8C%D9%86%D9%87-%D8%B3%D8%A7%D8%B2-%D9%BE%D8%B3%D8%AA%DA%AF%D8%B1%D8%B3-%D8%A8%D8%AE%D8%B4-%DB%8C%DA%A9%D9%85.html">
+    <link rel="next" href="/fa/2021/04/%D9%BE%D8%B3%D8%AA%DA%AF%D8%B1%D8%B3-%DA%86%DA%AF%D9%88%D9%86%D9%87-%DA%A9%D8%A7%D8%B1-%D9%85%DB%8C-%DA%A9%D9%86%D8%AF-%D8%AC%D9%84%D8%B3%D9%87-%D8%AF%D9%88-%D8%AC%D8%AF%D9%88%D9%84-%D9%87%D8%A7%DB%8C-%D8%B3%DB%8C%D8%B3%D8%AA%D9%85%DB%8C.html">
+    <link rel="prev" href="/fa/2022/05/%D9%BE%DB%8C%DA%A9-%D9%86%D9%88%D8%B1%D9%88%D8%B2%DB%8C-%DB%B1%DB%B4%DB%B0%DB%B1-%D8%B1%D9%88%D8%B2%D9%87%D8%A7%DB%8C-%DB%B1-%D8%AA%D8%A7-%DB%B4.html">
+    <!-- CSS -->
+    <link rel="stylesheet" type="text/css" href="/fa/css/monochrome.css">
+    <link rel="stylesheet" type="text/css" href="/fa/css/pygments.css">
+    <link rel="stylesheet" type="text/css" href="/fa/css/scribble.css">
+    <link rel="stylesheet" type="text/css" href="/fa/css/custom.css">
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script type="text/javascript" id="MathJax-script" async
+      src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-MML-AM_CHTML">
+    </script>
+    <!-- Feeds -->
+    <link rel="alternate" type="application/atom+xml"
+          href="/fa/feeds/all.atom.xml" title="Atom Feed">
+    <link rel="alternate" type="application/rss+xml"
+          href="/fa/feeds/all.rss.xml" title="RSS Feed">
+    <!-- JS -->
+    <script type="text/javascript">
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+      ga('create', 'UA-xxxxx', 'auto');
+      ga('send', 'pageview');
+    </script>
+  </head>
+  <body>
+
+    <!-- Header -->
+
+    <header id="header" class="parent justify-spaceBetween">
+      <div class="inner w100 relative">
+        <span class="f-left">
+          <a href="/fa">
+            <h1>
+              <span>the</span>lost<span>packet</span>
+            </h1>
+          </a>
+        </span>
+      </div>
+    </header>
+
+    <div id="container">
+        <main>
+            <article>
+  <header>
+    <h1>بهینه‌ساز پستگرس، بخش یکم</h1>
+    <p class='date-and-tags'>
+<time datetime="2021-06-20" pubdate="true">2021-06-20</time> :: <span class="tags"><a href="/fa/tags/%D9%BE%D8%B3%D8%AA%DA%AF%D8%B1%D8%B3.html">پستگرس</a></span></p>
+    <p class='authors'><span class="authors">هادی مشیدی</span></p>
+  </header>
+
+<p>در این نوشته و بخش‌های بعدی به مباحث زیر می‌پردازیم:</p>
+
+<ol>
+ <li>روش‌های یافتن سطرها در پستگرس</li>
+ <li>روش‌های انجام join در پستگرس</li>
+ <li>چند مثال از join که کند است و چگونه سریع‌تر کنیم.</li></ol>
+
+<p>در این بخش، تنها به مورد ۱، یعنی روش‌های یافتن سطرها می‌پردازیم.</p>
+
+<p>لینک ویدئو: <a href="https://youtu.be/SoJp8cznKrE">youtu.be/SoJp8cznKrE</a></p>
+<!-- more-->
+
+<p>برای ساده‌سازی، پردازش موازی پستگرس در مثال خاموش کرده‌ایم.</p>
+
+<pre><code>postgres=# set max_parallel_workers to 0;
+postgres=# set max_parallel_workers_per_gather to 0;</code></pre>
+
+<p>اصل قضیه مباحث بحث شده حتی موقعی که پردازش موازی روشن باشد هم صادق است.</p>
+
+<h3 id="مروری-کوتاه-بر-معماری-پستگرس">مروری کوتاه بر معماری پستگرس</h3>
+
+<p>فرض کنید پایگاه داده شما دارای دو جدول به نام‌های <code>users_table</code> و <code>orders_table</code> است و دارای یک ایندکس به نام <code>user_id_idx</code>.</p>
+
+<p> <img src="/img/postgres-architecture.svg" alt="Postgres Architecture" /></p>
+
+<p>برای جزییات اجرای کوئری، به پست  <a href="/fa/2021/04/پستگرس-چگونه-کار-می-کند-جلسه-یک-زندگی-یک-کوئری.html">پستگرس چگونه کار می‌کند؟ جلسه یک - زندگی یک کوئری</a> مراجعه کنید.</p>
+
+<p>جنبه‌هایی از معماری پستگرس در نمودار بالا که در این مقاله برای ما مهم است:</p>
+
+<ol>
+ <li>هر کدام از جدول ها و ایندکس‌ها در فایل یا فایل‌هایی در فایل سیستم ذخیره می‌شوند. مثلا در مثال بالا جدول users_table در فایل <code>base/12662/16455</code> ذخیره شده است و ایندکس <code>user_id_index</code> در فایل <code>base/12662/16512</code> ذخیره شده است.</li>
+ <li>پستگرس هر فایل را به صفحه‌های ۸ کیلوبایتی تقسیم می‌کند. این صفحه‌ها واحد خواندن از فایل هستند. یعنی حتی اگر پستگرس تنها به ۴ بایت هم نیاز داشته باشد، تمام صفحه ۸ کیلوبایتی شامل آن ۴ بایت را می‌خواند.</li>
+ <li>پستگرس برخی از این صفحه‌های ۸ کیلوبایتی را در بخش Shared Buffers کش می‌کند. در تصویر بالا سه صفحه از جدول users_table، دو صفحه از orders_table، و یک صفحه از ایندکس user_id_index کش شده است. این کش برای این است که پستگرس کمتر به فایل مراجعه کند و در نتیجه دسترسی کمتری به دیسک داشته باشد، زیرا دسترسی به دیسک کند است. اندازه این کش را می‌توان توسط پارامتر shared_buffers تغییر داد، و مقدار پیش‌فرض آن ۱۲۸ مگابایت است.</li></ol>
+
+<h4 id="ساختار-یک-صفحه-یک-جدول">ساختار یک صفحه یک جدول</h4>
+
+<p>هر صفحه جدول شامل اطلاعات یک سری سطر است. شکل زیر ساختار یکی از این صفحه‌های ۸ کیلوبایتی را نمایش میدهد:</p>
+
+<p> <img src="/img/pg-page.png" alt="Postgres Heap Page" /></p>
+
+<p>در شکل بالا این صفحه دارای اطلاعات سه سطر است.  در ابتدای صفحه، سربرگ (Header) صفحه است. سپس اشاره‌گرها به اطلاعات هر کدام از سطرها. اطلاعات سطرها به ترتیب عکس از آخر صفحه چیده می‌شوند.</p>
+
+<p><strong>شماره‌گذاری سطرها.</strong>  پستگرس برای اینکه بتواند از ایندکس به سطرهای یک صفحه اشاره کند، آن‌ها را شماره‌گذاری می‌کند. پستگرس سطرهای یک جدول را با یک جفت عدد شماره‌گذاری می‌کند که عدد اول شماره صفحه و عدد دوم شماره سطر در آن صفحه را مشخص می‌کند. مثلا اگر در مثال بالا شماره صفحه 4 باشد، سه سطر موجود در این صفحه <code>(4, 1)</code> و <code>(4, 2)</code> و <code>(4, 3)</code> شماره گذاری می‌شوند و <code>(5, 10)</code> اشاره می‌کند به سطر دهم در صفحه پنجم جدول.</p>
+
+<h4 id="ساختار-یک-ایندکس-btree">ساختار یک ایندکس btree</h4>
+
+<p>در شکل زیر ساختار یک ایندکس btree را می‌بینید.</p>
+
+<p> <img src="/img/btree-index.png" alt="Postgres BTree Index" /></p>
+
+<ol>
+ <li>هر کدام از گره‌هایی که با رنگ تیره مشخص شده‌اند به صورت یک صفحه‌ی هشت کیلوبایتی در دیسک ذخیره می‌شوند.</li>
+ <li>گره‌های میانی یا به گره‌های میانی پایین‌تر یا به گره‌های برگ اشاره می‌کنند.</li>
+ <li>گره‌های برگ شامل یک‌سری اشاره‌گر به سطرهای جدول هستند. همانطور که مشاهده می‌کنید، این اشاره‌گر جفت عدد هستند که مفهوم این جفت‌ها در بخش پیش توضیح داده شد.</li></ol>
+
+<p>مثلا فرض کنید می‌خواهیم <code>x = 368</code> را در ایندکس بالا بیابیم. ۳۶۸ بین ۳۶۷ و ۷۳۳ قرار دارد، پس اشاره‌گر مربوط به ۳۶۷ را دنبال می‌کنیم و به دومین گره برگ می‌رسیم. در این گره در این گره ۳۶۸ را پیدا می‌کنیم و می‌فهمیم که این مقدار ۱۸۳ امین سطر در صفحه اول جدول است.</p>
+
+<p>در این مثال تنها یک سطح میانی بود. تعداد سطوح میانی می‌توان بیشتر باشد. برای جزییات بیشتر به <a href="https://habr.com/en/company/postgrespro/blog/443284/">این مقاله</a> مراجعه کنید.</p>
+
+<h3 id="یافتن-سطرها">یافتن سطرها</h3>
+
+<p>فرض کنید جدولی را به صورت زیر ایجاد کردیم:</p>
+
+<pre><code>CREATE TABLE demo2 (x numeric, y int);</code></pre>
+
+<p>و تعدادی سطر با مقادیر تصادفی به آن اضافه کردیم:</p>
+
+<pre><code>INSERT INTO demo2
+         SELECT random() * 10000, i
+         FROM generate_series(1, 1000) i;</code></pre>
+
+<p>اکنون پستگرس کوئرهایی با شکل <code>SELECT * FROM demo2 WHERE x = 1234</code> را چگونه می‌توان پاسخ دهد؟ در این مرحله چون هیچ داده‌ساختاری برای یافتن سریع‌تر داده‌های این جدول نساخته نشده، پستگرس برای این کوئری و هر کوئری دیگری که به داده‌های جدول <code>demo2</code> نیاز دارد، همه جدول را پیمایش می‌کند. یعنی تک تک ۱۰ میلیون سطر را.</p>
+
+<p>این قضیه را می‌توانیم با فرمان EXPLAIN بررسی کنیم:</p>
+
+<pre><code>postgres=# EXPLAIN SELECT * FROM demo2 WHERE x = 1234;
+                        QUERY PLAN
+-----------------------------------------------------------
+ Seq Scan on demo2  (cost=0.00..179081.71 rows=1 width=15)
+   Filter: (x = '1234'::numeric)
+(2 rows)</code></pre>
+
+<p>عبارت <code>Seq Scan</code> در خروجی بالا نشان می‌دهد که کل جدول پیمایش می‌شود.</p>
+
+<p>اکنون یک ایندکس بر روی ستون x ایجاد می‌کنیم:</p>
+
+<pre><code>CREATE INDEX idx_x ON demo2(x);
+ANALYZE demo2;</code></pre>
+
+<p>(با اجرای دستور ANALYZE پستگرس آماری برای جدول جمع‌آوری کند. در بخش‌های بعد توضیح بیشتری در این مورد خواهیم داد)</p>
+
+<p>اکنون اگر کوئری بالا را تکرار کنیم، مشاهده می‌کنیم که پستگرس از ایندکس ساخته شده استفاده می‌کند:</p>
+
+<pre><code>postgres=# EXPLAIN SELECT * FROM demo2 WHERE x = 1234;
+                             QUERY PLAN
+--------------------------------------------------------------------
+ Index Scan using idx_x on demo2  (cost=0.43..8.45 rows=1 width=15)
+   Index Cond: (x = '1234'::numeric)
+(2 rows)</code></pre>
+
+<h4 id="index-scan-چه-میکند">Index Scan چه می‌کند؟</h4>
+
+<p>عمل Index Scan اشاره‌گر سطرها را از ایندکس پیدا می‌کند و سپس آن اشاره‌گرها را دنبال می‌کند و مقدار سطرها را از جدول اصلی می‌خواند.</p>
+
+<p>یک ایندکس تنها مقدار ستون‌هایی که ایندکس بر روی آن‌ها ساخته شده را دارد. مثلا در مثال بالا که <code>idx_x</code> بر روی ستون <code>x</code> ساخته شده است، ایندکس تنها مقدار <code>x</code> را دارد و مقدار ستون <code>y</code> را ندارد.</p>
+
+<p>در کوئری بالا، یعنی ‍<code>SELECT * FROM demo2 WHERE x = 1234</code> مقدار همه ستون‌ها درخواست شده است، پس اطلاعات موجود در ایندکس برای پاسخ به این کوئری کافی نیست. بنابراین پس از یافتن اشاره‌گرها از ایندکس، مقدار خود سطر از خود جدول خوانده میشود.</p>
+
+<h4 id="index-only-scan">Index Only Scan</h4>
+
+<p>اکنون در کوئری بالا یک تغییر کوچک می‌دهیم و به جای مقدار همه ستون‌ها، تنها مقدار ستون <code>x</code> را درخواست می‌کنیم:</p>
+
+<pre><code>postgres=# EXPLAIN SELECT x FROM demo2 WHERE x = 1234;
+                               QUERY PLAN                                
+------------------------------------------------------------------------- 
+Index Only Scan using idx_x on demo2  (cost=0.43..8.45 rows=1 width=11)
+   Index Cond: (x = '1234'::numeric)
+(2 rows)</code></pre>
+
+<p>دقت کنید که اکنون کوئری از <code>Index Only Scan</code> استفاده می‌کند.</p>
+
+<p>چرا؟ چون همه اطلاعات مورد نیاز این کوئری از ایندکس یافته می‌شود و نیازی به مراجعه به خود جدول نیست.</p>
+
+<p>مزیت <code>Index Only Scan</code> به <code>Index Scan</code> چیست؟</p>
+
+<p>اندازه فایل جدول و فایل ایندکس را با دستورهای زیر به دست می‌آوریم:</p>
+
+<pre><code>postgres=# SELECT pg_size_pretty(pg_relation_size('demo2'));
+ pg_size_pretty
+----------------
+ 423 MB
+(1 row)
+
+postgres=# SELECT pg_size_pretty(pg_relation_size('idx_x'));
+ pg_size_pretty
+----------------
+ 301 MB
+(1 row)</code></pre>
+
+<p>همانطور که می‌بینید در این مثال انداز جدول حدود ۱.۴ برابر اندازه ایندکس است. پس اگر هم به ایندکس و هم به جدول رجوع کنیم، حدود ۲.۴ برابر داده بیشتری نسبت به حالتی که تنها به ایندکس رجوع کنیم خواهیم خواند. خواندن از دیسک کند است. بنابراین پستگرس و سیستم عامل هر کدام بخشی از داده‌های فایل را کش می‌کنند تا تعداد دسترسی‌ها به دیسک کمتر شود. وقتی حجم داده‌ای که می‌خوانیم کمتر باشد، احتمال اینکه داده‌ها در حافظه اصلی کش شده باشند بیشتر است و تعداد دسترسی‌ها به دیسک کمتر می‌شود و بنابراین کوئری سریع‌تر اجرا می‌شود.</p>
+
+<h4 id="bitmap-index-scan">Bitmap Index Scan</h4>
+
+<p>فرض کنید شرط کوئری را به <code>x &lt; 423</code> تغییر دهیم. این شرط برای حدود ۴ درصد از سطرهای جدول صادق است.</p>
+
+<p>اکنون مشاهده می‌کنیم که پستگرس به جای استفاده از Index Scan، از الگوریتمی به نام Bitmap Index Scan استفاده می‌کند:</p>
+
+<pre><code>postgres=# EXPLAIN SELECT avg(y) FROM demo2 WHERE x &lt; 423;
+                                    QUERY PLAN
+-----------------------------------------------------------------------------------
+ Aggregate  (cost=71942.26..71942.27 rows=1 width=32)
+   -&gt;  Bitmap Heap Scan on demo2  (cost=11541.94..70888.87 rows=421355 width=4)
+         Recheck Cond: (x &lt; '423'::numeric)
+         -&gt;  Bitmap Index Scan on idx_x  (cost=0.00..11436.60 rows=421355 width=0)
+               Index Cond: (x &lt; '423'::numeric)
+(5 rows)</code></pre>
+
+<p>در خروجی بالا، پستگرس در مرحله <code>Bitmap Index Scan</code> با استفاده از ایندکس <code>idx_x</code>، لیست تمام صفحه‌های ۸ کیلوبایتی که دارای سطرهای مورد نیاز ما هستند را میابد، و سپس در مرحله <code>Bitmap Heap Scan</code> تمام سطرهای این صفحه‌های انتخاب شده را می‌خواند. چون سطرهای مورد نیاز ما زیرمجموعه‌ی سطرهای این صفحه‌هاست، پستگرس شرط <code>x &lt; 423</code> را برای هر کدام از سطرهای خوانده شده دوباره بررسی می‌کند.</p>
+
+<p>لیست صفحه‌های انتخاب شده در مرحله <code>Bitmap Index Scan</code> به صورت یک بیت‌مپ یا دنباله‌ای از صفر و یک است، که صفحه‌های انتخاب شده با یک و بقیه صفحه‌ها با صفر مشخص می‌شوند. مثلا اگر ۵ صفحه داشته باشیم و خروجی این مرحله 00110 باشد، یعنی فقط صفحه‌های سوم و چهارم انتخاب شده‌اند.</p>
+
+<h3 id="آیا-پستگرس-همیشه-از-ایندکس-استفاده-میکند">آیا پستگرس همیشه از ایندکس استفاده می‌کند؟</h3>
+
+<p>فرض کنید شرط کوئری را به <code>x &lt; 4235</code> تغییر دهیم. این شرط برای حدود ۴۰ درصد از سطرهای جدول صادق است.</p>
+
+<p>به صورت تئوری پستگرس می‌تواند از ایندکس <code>idx_x</code> برای یافتن سطرهایی که در این شرط صدق می‌کنند استفاده کند. ولی می‌بینیم که پستگرس به جای استفاده از این ایندکس ترجیح می‌دهد کل جدول را پیمایش کند:</p>
+
+<pre><code>postgres=# explain SELECT avg(y) FROM demo2 WHERE x &lt; 4235;
+                              QUERY PLAN
+----------------------------------------------------------------------
+ Aggregate  (cost=189651.11..189651.12 rows=1 width=4)
+   -&gt;  Seq Scan on demo2  (cost=0.00..179077.56 rows=4229421 width=4)
+         Filter: (x &lt; '4235'::numeric)
+(3 rows)</code></pre>
+
+<p>چرا؟ چون پستگرس تشخیص داده است که برای پیمایش ۴۰ درصد از سطرها، هزینه استفاده از ایندکس بیش از پیمایش تک تک سطرها خواهد بود.</p>
+
+<p>برای اینکه ببینیم آیا تصمیم پستگرس معقول است، کوئری را یکبار با الگوریتم انتخاب شده توسط پستگرس اجرا می‌کنیم، و سپس پستگرس را مجبور می‌کنیم که از ایندکس استفاده کند و زمان هر دو حالت را مقایسه می‌کنیم:</p>
+
+<pre><code>postgres=# SELECT avg(y) FROM demo2 WHERE x &lt; 4235;
+         avg
+----------------------
+ 5001717.501182855257
+(1 row)
+
+Time: 1388.657 ms (00:01.389)
+
+postgres=# EXPLAIN SELECT avg(y) FROM demo2 WHERE x &lt; 4235;
+                                     QUERY PLAN
+------------------------------------------------------------------------------------
+ Aggregate  (cost=383939.81..383939.82 rows=1 width=32)
+   -&gt;  Index Scan using idx_x on demo2  (cost=0.43..373366.26 rows=4229421 width=4)
+         Index Cond: (x &lt; '4235'::numeric)
+(3 rows)
+
+postgres=# SELECT avg(y) FROM demo2 WHERE x &lt; 4235;
+         avg
+----------------------
+ 5001717.501182855257
+(1 row)
+
+Time: 8347.422 ms (00:08.347)</code></pre>
+
+<p>همانطور که مشاهده می‌کنید، تصمیم پستگرس برای عدم استفاده از ایندکس بسیار خوب بود و در این مورد حدود ۶ برابر سریع‌تر از استفاده از ایندکس است.</p>
+
+<h3 id="تخمین-هزینه-پستگرس">تخمین هزینه پستگرس</h3>
+
+<p>در مثال بخش پیش پستگرس چگونه تشخیص داد که استفاده از ایندکس بدتر از عدم استفاده از آن است؟</p>
+
+<p>برای اینکار پستگرس هزینه هر کدام از روش‌ها را محاسبه می‌کند و الگوریتم با کمترین هزینه را محاسبه می‌کند.</p>
+
+<p>به عنوان نمونه، در مثال بالا هزینه کوئری با پیمایش کامل 189651.12 محاسبه شد و هزینه با استفاده از ایندکس 383939.82 محاسبه شد. چون هزینه پیمایش کامل کمتر از استفاده از ایندکس حساب شد، الگوریتم پیمایش کامل انتخاب شد.</p>
+
+<p><strong>تخمین تعداد سطرها.</strong>  گام اول برای تخمین هزینه، این است که تخمین زده شود چند سطر از جدول برای پاسخ به کوئری نیاز هستند. برای این کار، پستگرس آمار خلاصه‌ای از ستون‌های جدول نگهداری می‌کند. مثلا برای مشاهده آمار نگهداری شده برای ستون x از جدول demo2 از دستور زیر استفاده می‌کنیم.</p>
+
+<pre><code>postgres=# select * from pg_stats where tablename = 'demo2' and attname='x';
+-[ RECORD 1 ]----------+------------------------------------------------------------------------
+schemaname             | public
+tablename              | demo2
+attname                | x
+inherited              | f
+null_frac              | 0
+avg_width              | 11
+n_distinct             | -1
+most_common_vals       |
+most_common_freqs      |
+histogram_bounds       | {0.71681,95.25875,195.28383,295.39330,401.72351,...,9794.28152,9888.19313,9999.76112}
+correlation            | 0.0023217532
+most_common_elems      |
+most_common_elem_freqs |
+elem_count_histogram   |</code></pre>
+
+<p>(برای سادگی مقادیر ستون histogram_bounds را خلاصه کرده‌ام)</p>
+
+<p>ستون histogram_bounds بازه‌هایی از مقادیر ستون x را نگه می‌دارد که تعداد سطرهای دارای مقدار در این بازه‌ها تقریبا برابر است.</p>
+
+<p>یعنی تعداد سطرهایی که مقدار x آن‌ها بین 0.71681 و 95.25875 برابر با تعداد سطرهایی است که مقدار x آن‌ها بین 95.25875 و 195.28383 است، و همچنین برابر با تعداد سطرهایی است که مقدار x آن بین 195.28383 و 295.39330 است.</p>
+
+<p>با استفاده از این ستون، وقتی یک کوئری با شرط <code>x &lt; 4235</code> دریافت می‌شود، می‌توان تخمین زد که چند درصد از سطرهای جدول با این شرط سازگار هستند.</p>
+
+<p>همچنین تخمین تعداد کل سطرهای جدول demo2 را می‌توان از جدول سیستمی pg_class درآورد:</p>
+
+<pre><code>postgres=# select reltuples from pg_class where relname='demo2';
+-[ RECORD 1 ]-----------
+reltuples | 9.999805e+06</code></pre>
+
+<p>پستگرس با ضرب تخمین تعداد کل سطرها با تخمین درصد سطرهای برقرار کننده شرط <code>x &lt; 4235</code>، تعداد سطرهای برقرار کننده‌ی این شرط را تخمین می‌زند. در مثال بالا، این تخمین برابر است با 4229421.</p>
+
+<p><strong>تخمین هزینه به ازای هر سطر.</strong>  حال پستگرس مدلی داخلی دارد که حدس می‌زند هر الگوریتمی به ازای هر سطر چه تعداد از چه عمل‌هایی انجام می‌دهد. ضرایب این مدل با استفاده از متغیرهای زیر حساب می‌شوند:</p>
+
+<pre><code>-- هزینه خواندن یک صفحه ۸ کیلوبایتی به صورت ترتیبی از دیسک
+postgres=# SHOW seq_page_cost ;
+ seq_page_cost
+---------------
+ 1
+(1 row)
+
+-- هزینه خواندن یک صفحه ۸ کیلوبایتی به صورت تصادفی از دیسک
+postgres=# SHOW random_page_cost ;
+ random_page_cost
+------------------
+ 4
+(1 row)
+
+-- هزینه بررسی یک سطر جدول
+postgres=# SHOW cpu_tuple_cost ;
+ cpu_tuple_cost
+----------------
+ 0.01
+
+-- هزینه بررسی یک ورودی ایندکس
+postgres=# SHOW cpu_index_tuple_cost ;
+ cpu_index_tuple_cost
+----------------------
+ 0.005</code></pre>
+
+<p><strong>تخمین هزینه کل.</strong> با استفاده از مدل داخلی و این متغیرها، هزینه به ازای هر سطر تخمین زده می‌شود و ضرب در تخمین تعداد سطرها می‌شود و کل هزینه تخمین زده می‌شود.</p>
+  <footer>
+    <script type="text/javascript">
+      !function(d,s,id){
+          var js,fjs=d.getElementsByTagName(s)[0];
+          if(!d.getElementById(id)){
+              js=d.createElement(s);
+              js.id=id;
+              js.src="//platform.twitter.com/widgets.js";
+              fjs.parentNode.insertBefore(js,fjs);
+          }
+      }(document,"script","twitter-wjs");
+    </script>
+    <a href="https://twitter.com/share"
+       class="twitter-share-button"
+       data-url="http://pykello.github.com/fa//fa/2021/06/%D8%A8%D9%87%DB%8C%D9%86%D9%87-%D8%B3%D8%A7%D8%B2-%D9%BE%D8%B3%D8%AA%DA%AF%D8%B1%D8%B3-%D8%A8%D8%AE%D8%B4-%DB%8C%DA%A9%D9%85.html"
+       data-dnt="true">
+      "Tweet"</a>
+    <div id="disqus_thread"></div>
+    <script type="text/javascript">
+      var disqus_config = function () {
+        this.page.identifier = undefined;
+        this.page.url = undefined;
+        this.page.title = undefined;
+        this.page.category_id = undefined;
+      };
+      var disqus_shortname = 'pykello';
+      (function() {
+          var dsq = document.createElement('script');
+          dsq.type = 'text/javascript';
+          dsq.async = true;
+          dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+          dsq.setAttribute('data-timestamp', +new Date());
+          (document.head || document.body).appendChild(dsq);
+      })();
+    </script>
+    <noscript>
+      Please enable JavaScript to view the
+      <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+    </noscript>
+  </footer>
+</article>
+        </main>
+        <footer>
+            <hr />
+            <p><a href="https://twitter.com/pykello"
+                  class="twitter-follow-button"
+                  data-show-count="false"
+                  data-lang="en">
+                 "Follow Hadi Moshayedi"
+               </a>
+               <script type="text/javascript">
+                 !function(d,s,id){
+                     var js,fjs=d.getElementsByTagName(s)[0];
+                     if(!d.getElementById(id)){
+                         js=d.createElement(s);
+                         js.id=id;
+                         js.src="//platform.twitter.com/widgets.js";
+                         fjs.parentNode.insertBefore(js,fjs);
+                     }
+                 }(document,"script","twitter-wjs");
+               </script></p>
+          </footer>
+    </div>
+  </body>
+</html>
